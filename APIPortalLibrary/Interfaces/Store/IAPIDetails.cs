@@ -9,9 +9,10 @@ namespace APIPortalLibrary.Interfaces.Store
 {
     interface IAPIDetails
     {
+        [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/apis/{apiId}")]
         Task<APIDetails> GetAllApis(
-            [AliasAs("apiId")] string apiId,
-            [Header("Accept")] string accept);
+            [AliasAs("apiId")] string apiId
+            );
     }
 }

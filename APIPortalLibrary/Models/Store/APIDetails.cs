@@ -45,7 +45,7 @@ namespace APIPortalLibrary.Models.Store
 
     public class BusinessInformation
     {
-        public string tecgnicalOwnerEmail { get; set; }
+        public string technicalOwnerEmail { get; set; }
         public string businessOwnerEmail { get; set; }
         public string businessOwner { get; set; }
         public string technicalOwner { get; set; }

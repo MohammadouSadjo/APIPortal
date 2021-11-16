@@ -1,6 +1,7 @@
 ﻿using System;
 using APIPortalLibrary;
 using APIPortalLibrary.Models.Store;
+using APIPortalLibrary.Models.Authentication;
 
 
 namespace APIPortalConsole
@@ -9,6 +10,23 @@ namespace APIPortalConsole
     {
         static void Main(string[] args)
         {
+            //** GET CLIENTID AND SECRET ID
+            var taskClientIDSecret = Go.ClientIDSecret();
+
+            ClientIDSecret clientIDSecret;
+            clientIDSecret = taskClientIDSecret.Result;
+
+            Console.WriteLine("ClientId : " + clientIDSecret.clientId);
+            Console.WriteLine("ClientSecret : " + clientIDSecret.clientSecret);
+
+            //** GET ACCESS TOKEN
+            var taskAccessToken = Go.AccessToken("admin", "admin");
+
+            AccessToken accessToken;
+            accessToken = taskAccessToken.Result;
+
+            Console.WriteLine("Access token : " + accessToken.access_token);
+
             //**  GET ALL APIS
             var limit = 25;
             var offset = 0;

@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace APIPortalLibrary.Models.Store
+{
+    public class ApplicationDetails
+    {
+        public string groupId { get; set; }
+        public string callbackUrl { get; set; }
+        public string subscriber { get; set; }
+        public string throttlingTier { get; set; }
+        public string applicationId { get; set; }
+        public string description { get; set; }
+        public string status { get; set; }
+        public string name { get; set; }
+        public List<Key> keys { get; set; }
+    }
+
+    public class Key
+    {
+        public string consumerKey { get; set; }
+        public string consumerSecret { get; set; }
+        public string keyState { get; set; }
+        public string keyType { get; set; }
+        public string supportedGrantTypes { get; set; }
+        public Token token { get; set; }
+    }
+
+    public class Token
+    {
+        public int validityTime { get; set; }
+        public string accessToken { get; set; }
+        public List<string> tokenScopes { get; set; }
+    }
+}
