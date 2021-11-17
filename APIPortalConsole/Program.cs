@@ -26,9 +26,30 @@ namespace APIPortalConsole
             accessToken = taskAccessToken.Result;
 
             Console.WriteLine("Access token : " + accessToken.access_token);
+            Console.WriteLine("92039863-1de5-3364-9b5b-b4f51466c71e");
+            //Console.ReadLine();
+
+            //**GET APPLICATION DETAILS
+            var taskApplicationDetails = Go.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
+
+            ApplicationDetails applicationDetails;
+            applicationDetails = taskApplicationDetails.Result;
+
+            Console.WriteLine("Application ID : " + applicationDetails.applicationId);
+            Console.WriteLine("Description : " + applicationDetails.description);
+
+            //**GENERATE APPLICATION KEYS 
+            /*var taskApplicationKeys = Go.ApplicationKeys("cb76761d-4d45-4231-8578-6f5592571c11");
+
+            ApplicationKeys applicationKeys;
+            applicationKeys = taskApplicationKeys.Result;
+
+            Console.WriteLine("Consumer Key : " + applicationKeys.consumerKey);
+            Console.WriteLine("Consumer Secret : " + applicationKeys.consumerSecret);
+            Console.WriteLine("Access Token : " + applicationKeys.token.accessToken);*/
 
             //**  GET ALL APIS
-            var limit = 25;
+            /*var limit = 25;
             var offset = 0;
             var query = "";
             var taskAllApis = Go.AllApis(limit,offset,query);
@@ -44,10 +65,10 @@ namespace APIPortalConsole
             Console.WriteLine("Previous : " + allApis.previous);
             Console.WriteLine("Pagination limit : " + allApis.pagination.limit);
             Console.WriteLine("Pagination offset : " + allApis.pagination.offset);
-            Console.WriteLine("Pagination total : " + allApis.pagination.total);
+            Console.WriteLine("Pagination total : " + allApis.pagination.total);*/
 
             //** GET API DETAILS
-            var apiId = "7d601720-3a59-467b-8595-afbbbce6d12a";
+            /*var apiId = "7d601720-3a59-467b-8595-afbbbce6d12a";
             var taskApiDetails = Go.APIDetails(apiId);
 
             APIDetails apiDetails;
@@ -70,7 +91,7 @@ namespace APIPortalConsole
                 ));
             apiDetails.environmentList.ForEach(c => Console.WriteLine(c));
             Console.WriteLine(apiDetails.lastUpdatedTime);
-            Console.WriteLine(apiDetails.createdTTime);
+            Console.WriteLine(apiDetails.createdTTime);*/
         }
     }
 }

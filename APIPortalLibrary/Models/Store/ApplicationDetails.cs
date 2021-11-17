@@ -14,6 +14,7 @@ namespace APIPortalLibrary.Models.Store
         public string description { get; set; }
         public string status { get; set; }
         public string name { get; set; }
+        public string tokenType { get; set; }
         public List<Key> keys { get; set; }
     }
 
@@ -23,13 +24,14 @@ namespace APIPortalLibrary.Models.Store
         public string consumerSecret { get; set; }
         public string keyState { get; set; }
         public string keyType { get; set; }
-        public string supportedGrantTypes { get; set; }
+        public List<string> supportedGrantTypes { get; set; }
+        public string callbackUrl { get; set; }
         public Token token { get; set; }
     }
 
     public class Token
     {
-        public int validityTime { get; set; }
+        //public int validityTime { get; set; }
         public string accessToken { get; set; }
         public List<string> tokenScopes { get; set; }
     }

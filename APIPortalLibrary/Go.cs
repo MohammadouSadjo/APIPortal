@@ -49,10 +49,10 @@ namespace APIPortalLibrary
             var authorization = "Basic " + base64;
             var grant_type = "password";
             var scope = "apim:subscribe";
-
-            Config.UserInfos.accessToken = authorization;
  
             var accessToken = await _restApiService.GetAccessToken(authorization, grant_type, username, password, scope);
+
+            Config.UserInfos.accessToken = accessToken.access_token;
 
             return accessToken;
         }
@@ -117,7 +117,7 @@ namespace APIPortalLibrary
             var authorization = "Bearer " + Config.UserInfos.accessToken;
             var body = Config.bodyRequestGenerateKeys;
             IApplicationKeys _restApiService = RestService.For<IApplicationKeys>(_client);
-
+            
             var applicationKeys = await _restApiService.GetApplicationKeys(applicationId, authorization, body);
 
             return applicationKeys;
