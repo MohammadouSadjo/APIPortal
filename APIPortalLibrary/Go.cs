@@ -12,7 +12,7 @@ namespace APIPortalLibrary
 {
     public class Go
     { 
-        public static async Task<ClientIDSecret> ClientIDSecret()
+        public static async Task<ClientIDAndSecret> ClientIDSecret()
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -21,7 +21,7 @@ namespace APIPortalLibrary
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
-            IClientIDSecret _restApiService = RestService.For<IClientIDSecret>(_client);
+            ILogin _restApiService = RestService.For<ILogin>(_client);
             
             var clientIDSecret = await _restApiService.GetClientIDSecret(Config.bodyRequestLogin);
             Config.UserInfos.clientId = clientIDSecret.clientId;   
@@ -39,7 +39,7 @@ namespace APIPortalLibrary
             {
                 BaseAddress = new Uri("https://localhost:8243")
             };
-            IAccessToken _restApiService = RestService.For<IAccessToken>(_client);
+            ILogin _restApiService = RestService.For<ILogin>(_client);
 
             var clientId = Config.UserInfos.clientId;
             var clientSecret = Config.UserInfos.clientSecret;
@@ -65,7 +65,7 @@ namespace APIPortalLibrary
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
-            IAllApis _restApiService = RestService.For<IAllApis>(_client);
+            IAPI _restApiService = RestService.For<IAPI>(_client);
 
             var allApis = await _restApiService.GetAllApis(limit, offset, query);
        
@@ -81,7 +81,7 @@ namespace APIPortalLibrary
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
-            IAPIDetails _restApiService = RestService.For<IAPIDetails>(_client);
+            IAPI _restApiService = RestService.For<IAPI>(_client);
 
             var apiDetails = await _restApiService.GetAllApis(apiId);
 
@@ -98,14 +98,14 @@ namespace APIPortalLibrary
                 BaseAddress = new Uri(Config.baseUrl)
             };
             var authorization = "Bearer " + Config.UserInfos.accessToken;
-            IApplicationDetails _restApiService = RestService.For<IApplicationDetails>(_client);
+            IApplication _restApiService = RestService.For<IApplication>(_client);
 
             var applicationDetails = await _restApiService.GetApplicationDetails(applicationId, authorization);
-
+            
             return applicationDetails;
         }
 
-        public static async Task<ApplicationKeys> ApplicationKeys(string applicationId)
+        public static async Task<GenerateApplicationKeys> ApplicationKeys(string applicationId)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -116,9 +116,9 @@ namespace APIPortalLibrary
             };
             var authorization = "Bearer " + Config.UserInfos.accessToken;
             var body = Config.bodyRequestGenerateKeys;
-            IApplicationKeys _restApiService = RestService.For<IApplicationKeys>(_client);
+            IApplication _restApiService = RestService.For<IApplication>(_client);
             
-            var applicationKeys = await _restApiService.GetApplicationKeys(applicationId, authorization, body);
+            var applicationKeys = await _restApiService.GenerateApplicationKeys(applicationId, authorization, body);
 
             return applicationKeys;
         }

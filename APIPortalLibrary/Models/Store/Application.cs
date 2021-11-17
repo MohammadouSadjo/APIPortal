@@ -4,6 +4,11 @@ using System.Text;
 
 namespace APIPortalLibrary.Models.Store
 {
+    public class Application
+    {
+
+    }
+
     public class ApplicationDetails
     {
         public string groupId { get; set; }
@@ -32,6 +37,23 @@ namespace APIPortalLibrary.Models.Store
     public class Token
     {
         //public int validityTime { get; set; }
+        public string accessToken { get; set; }
+        public List<string> tokenScopes { get; set; }
+    }
+
+    public class GenerateApplicationKeys
+    {
+        public string consumerSecret { get; set; }
+        public string consumerKey { get; set; }
+        public string keystate { get; set; }
+        public string keyType { get; set; }
+        public List<string> supportedGrantTypes { get; set; }
+        public AToken token { get; set; }
+    }
+
+    public class AToken
+    {
+        public int validityTime { get; set; }
         public string accessToken { get; set; }
         public List<string> tokenScopes { get; set; }
     }

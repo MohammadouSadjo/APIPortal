@@ -13,7 +13,7 @@ namespace APIPortalConsole
             //** GET CLIENTID AND SECRET ID
             var taskClientIDSecret = Go.ClientIDSecret();
 
-            ClientIDSecret clientIDSecret;
+            ClientIDAndSecret clientIDSecret;
             clientIDSecret = taskClientIDSecret.Result;
 
             Console.WriteLine("ClientId : " + clientIDSecret.clientId);
@@ -26,22 +26,20 @@ namespace APIPortalConsole
             accessToken = taskAccessToken.Result;
 
             Console.WriteLine("Access token : " + accessToken.access_token);
-            Console.WriteLine("92039863-1de5-3364-9b5b-b4f51466c71e");
-            //Console.ReadLine();
 
             //**GET APPLICATION DETAILS
-            var taskApplicationDetails = Go.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
+            /*var taskApplicationDetails = Go.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
 
             ApplicationDetails applicationDetails;
             applicationDetails = taskApplicationDetails.Result;
 
             Console.WriteLine("Application ID : " + applicationDetails.applicationId);
-            Console.WriteLine("Description : " + applicationDetails.description);
+            Console.WriteLine("Description : " + applicationDetails.description);*/
 
             //**GENERATE APPLICATION KEYS 
             /*var taskApplicationKeys = Go.ApplicationKeys("cb76761d-4d45-4231-8578-6f5592571c11");
 
-            ApplicationKeys applicationKeys;
+            GenerateApplicationKeys applicationKeys;
             applicationKeys = taskApplicationKeys.Result;
 
             Console.WriteLine("Consumer Key : " + applicationKeys.consumerKey);

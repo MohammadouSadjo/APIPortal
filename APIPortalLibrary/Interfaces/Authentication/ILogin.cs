@@ -7,7 +7,7 @@ using APIPortalLibrary.Models.Authentication;
 
 namespace APIPortalLibrary.Interfaces.Authentication
 {
-    interface IAccessToken
+    interface ILogin
     {
         [Headers("Content-Type: application/x-www-form-urlencoded")]
         [Post("/token")]
@@ -17,7 +17,12 @@ namespace APIPortalLibrary.Interfaces.Authentication
             [AliasAs("username")] string username,
             [AliasAs("password")] string password,
             [AliasAs("scope")] string scope
-            
+            );
+
+        [Headers("Content-Type: application/json", "Authorization: Basic YWRtaW46YWRtaW4=")]
+        [Post("/client-registration/v0.14/register")]
+        Task<ClientIDAndSecret> GetClientIDSecret(
+            [Body] string body
             );
     }
 }

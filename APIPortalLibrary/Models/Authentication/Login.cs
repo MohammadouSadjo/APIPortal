@@ -4,6 +4,16 @@ using System.Text;
 
 namespace APIPortalLibrary.Models.Authentication
 {
+    public class Login
+    {
+    }
+
+    public class ClientIDAndSecret
+    {
+        public string clientId { get; set; }
+        public string clientSecret { get; set; }
+    }
+
     public class AccessToken
     {
         public string access_token { get; set; }
