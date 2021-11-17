@@ -105,7 +105,7 @@ namespace APIPortalLibrary
             return applicationDetails;
         }
 
-        public static async Task<GenerateApplicationKeys> ApplicationKeys(string applicationId)
+        public static async Task<GenerateApplicationKeys> GenerateApplicationKeys(string applicationId)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -121,6 +121,23 @@ namespace APIPortalLibrary
             var applicationKeys = await _restApiService.GenerateApplicationKeys(applicationId, authorization, body);
 
             return applicationKeys;
+        }
+
+        public static async Task<AllSubscriptions> AllSubscriptions(string applicationId, int offset, int limit)
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            HttpClient _client = new HttpClient(clientHandler)
+            {
+                BaseAddress = new Uri(Config.baseUrl)
+            };
+            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            ISubscription _restApiService = RestService.For<ISubscription>(_client);
+
+            var allSubscriptions = await _restApiService.GetAllSubscriptions(applicationId, limit, offset, authorization);
+
+            return allSubscriptions;
         }
 
     }

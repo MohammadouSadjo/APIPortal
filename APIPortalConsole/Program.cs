@@ -37,7 +37,7 @@ namespace APIPortalConsole
             Console.WriteLine("Description : " + applicationDetails.description);*/
 
             //**GENERATE APPLICATION KEYS 
-            /*var taskApplicationKeys = Go.ApplicationKeys("cb76761d-4d45-4231-8578-6f5592571c11");
+            /*var taskApplicationKeys = Go.GenerateApplicationKeys("cb76761d-4d45-4231-8578-6f5592571c11");
 
             GenerateApplicationKeys applicationKeys;
             applicationKeys = taskApplicationKeys.Result;
@@ -90,6 +90,24 @@ namespace APIPortalConsole
             apiDetails.environmentList.ForEach(c => Console.WriteLine(c));
             Console.WriteLine(apiDetails.lastUpdatedTime);
             Console.WriteLine(apiDetails.createdTTime);*/
+
+            //** GET ALL SUBSCRIPTIONS
+
+            var taskAllSubscriptions = Go.AllSubscriptions("aa2a068c-a007-498a-93a9-036d73c04281", 25,0);
+
+            AllSubscriptions allSubscriptions;
+
+            allSubscriptions = taskAllSubscriptions.Result;
+
+            Console.WriteLine("Count : " + allSubscriptions.count);
+            Console.WriteLine("next : " + allSubscriptions.next);
+            Console.WriteLine("previous : " + allSubscriptions.previous);
+            allSubscriptions.list.ForEach(c => Console.WriteLine(
+                "API Identifier : " + c.apiIdentifier +
+                "Application Id : " + c.applicationId +
+                "tier : " + c.tier +
+                "Status : " + c.status
+                ));
         }
     }
 }
