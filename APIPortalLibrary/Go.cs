@@ -67,9 +67,7 @@ namespace APIPortalLibrary
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
-            var test = await _client.GetAsync(Config.baseUrl);
-            //Console.WriteLine(test);
-            //Console.ReadLine();
+            
             IAPI _restApiService = RestService.For<IAPI>(_client);
 
             var allApis = await _restApiService.GetAllApis(limit, offset, query);
@@ -77,7 +75,7 @@ namespace APIPortalLibrary
             return allApis;
         }
 
-        public static async Task<API> APIDetails(string apiId)
+        public static async Task<ApiResponse<API>> APIDetails(string apiId)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -88,12 +86,12 @@ namespace APIPortalLibrary
             };
             IAPI _restApiService = RestService.For<IAPI>(_client);
 
-            var apiDetails = await _restApiService.GetAllApis(apiId);
+            var apiDetails = await _restApiService.GetApiDetails(apiId);
 
             return apiDetails;
         }
 
-        public static async Task<Application> ApplicationDetails(string applicationId)
+        public static async Task<ApiResponse<Application>> ApplicationDetails(string applicationId)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -110,7 +108,7 @@ namespace APIPortalLibrary
             return applicationDetails;
         }
 
-        public static async Task<GenerateApplicationKeys> GenerateApplicationKeys(string applicationId)
+        public static async Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string applicationId)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -128,7 +126,7 @@ namespace APIPortalLibrary
             return applicationKeys;
         }
 
-        public static async Task<AllSubscriptions> AllSubscriptions(string applicationId, int offset, int limit)
+        public static async Task<ApiResponse<AllSubscriptions>> AllSubscriptions(string applicationId, int offset, int limit)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -145,7 +143,7 @@ namespace APIPortalLibrary
             return allSubscriptions;
         }
 
-        public static async Task<Subscription> SubscriptionDetails(string subsciptionId)
+        public static async Task<ApiResponse<Subscription>> SubscriptionDetails(string subsciptionId)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -162,7 +160,7 @@ namespace APIPortalLibrary
             return subscriptionsDetails;
         }
 
-        public static async Task<Subscription> AddSubscription(string tier, string apiIdentifier, string applicationId)
+        public static async Task<ApiResponse<Subscription>> AddSubscription(string tier, string apiIdentifier, string applicationId)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -183,7 +181,7 @@ namespace APIPortalLibrary
             return addSubscription;
         }
 
-        public static async Task<Subscription> DeleteSubscription(string subscriptionId)
+        public static async Task<ApiResponse<Subscription>> DeleteSubscription(string subscriptionId)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };

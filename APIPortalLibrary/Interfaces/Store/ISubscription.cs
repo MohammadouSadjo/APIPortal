@@ -11,7 +11,7 @@ namespace APIPortalLibrary.Interfaces.Store
     {
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/subscriptions")]
-        Task<AllSubscriptions> GetAllSubscriptions(
+        Task<ApiResponse<AllSubscriptions>> GetAllSubscriptions(
             [AliasAs("applicationId")] string applicationId,
             [AliasAs("offset")] int offset,
             [AliasAs("limit")] int limit,
@@ -20,20 +20,20 @@ namespace APIPortalLibrary.Interfaces.Store
 
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/subscriptions/{subscriptionId}")]
-        Task<Subscription> GetSubscriptionsDetails(
+        Task<ApiResponse<Subscription>> GetSubscriptionsDetails(
             [AliasAs("subscriptionId")] string subscriptionId,
             [Header("Authorization")] string authorization
             );
 
         [Headers("Content-Type:application/json")]
         [Post("/api/am/store/v0.14/subscriptions")]
-        Task<Subscription> AddSubscription(
+        Task<ApiResponse<Subscription>> AddSubscription(
             [Body] string body,
             [Header("Authorization")] string authorization
             );
 
         [Delete("/api/am/store/v0.14/subscriptions/{subscriptionId}")]
-        Task<Subscription> DeleteSubscription(
+        Task<ApiResponse<Subscription>> DeleteSubscription(
             [AliasAs("subscriptionId")] string subscriptionId,
             [Header("Authorization")] string authorization
             );

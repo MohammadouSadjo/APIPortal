@@ -11,14 +11,14 @@ namespace APIPortalLibrary.Interfaces.Store
     {
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/applications/{applicationId}")]
-        Task<Application> GetApplicationDetails(
+        Task<ApiResponse<Application>> GetApplicationDetails(
             [AliasAs("applicationId")] string applicationId,
             [Header("Authorization")] string authorization
             );
 
         [Headers("Content-Type: application/json")]
         [Post("/api/am/store/v0.14/applications/generate-keys")]
-        Task<GenerateApplicationKeys> GenerateApplicationKeys(
+        Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(
             [AliasAs("applicationId")] string applicationId,
             [Header("Authorization")] string authorization,
             [Body] string body

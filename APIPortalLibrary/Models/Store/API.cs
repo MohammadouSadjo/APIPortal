@@ -30,7 +30,7 @@ namespace APIPortalLibrary.Models.Store
         public List<EndpointURL> endpointURLs { get; set; }
         public List<string> environmentList { get; set; }
         public string lastUpdatedTime { get; set; }
-        public string createdTTime { get; set; }
+        public string createdTime { get; set; }
         public List<string> scopes { get; set; }
     }
 
