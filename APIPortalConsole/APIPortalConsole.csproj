@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Refit" Version="6.1.15" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\APIPortalLibrary\APIPortalLibrary.csproj" />
   </ItemGroup>
 

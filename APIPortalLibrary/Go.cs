@@ -7,6 +7,7 @@ using APIPortalLibrary.Interfaces.Authentication;
 using APIPortalLibrary.Models.Authentication;
 using System.Threading.Tasks;
 using APIPortalLibrary.Configuration;
+//using Grpc.Core;
 
 namespace APIPortalLibrary
 {
@@ -21,12 +22,13 @@ namespace APIPortalLibrary
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
+
             ILogin _restApiService = RestService.For<ILogin>(_client);
             
             var clientIDSecret = await _restApiService.GetClientIDSecret(Config.bodyRequestLogin);
+            
             Config.UserInfos.clientId = clientIDSecret.clientId;   
             Config.UserInfos.clientSecret = clientIDSecret.clientSecret;
-            
             return clientIDSecret;
         }
 
@@ -56,7 +58,7 @@ namespace APIPortalLibrary
 
             return accessToken;
         }
-        public static async Task<AllApis> AllApis(int limit, int offset, string query)
+        public static async Task<ApiResponse<AllApis>> AllApis(int limit, int offset, string query)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -65,6 +67,9 @@ namespace APIPortalLibrary
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
+            var test = await _client.GetAsync(Config.baseUrl);
+            //Console.WriteLine(test);
+            //Console.ReadLine();
             IAPI _restApiService = RestService.For<IAPI>(_client);
 
             var allApis = await _restApiService.GetAllApis(limit, offset, query);
@@ -138,6 +143,61 @@ namespace APIPortalLibrary
             var allSubscriptions = await _restApiService.GetAllSubscriptions(applicationId, limit, offset, authorization);
 
             return allSubscriptions;
+        }
+
+        public static async Task<Subscription> SubscriptionDetails(string subsciptionId)
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            HttpClient _client = new HttpClient(clientHandler)
+            {
+                BaseAddress = new Uri(Config.baseUrl)
+            };
+            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            ISubscription _restApiService = RestService.For<ISubscription>(_client);
+
+            var subscriptionsDetails = await _restApiService.GetSubscriptionsDetails(subsciptionId, authorization);
+
+            return subscriptionsDetails;
+        }
+
+        public static async Task<Subscription> AddSubscription(string tier, string apiIdentifier, string applicationId)
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            HttpClient _client = new HttpClient(clientHandler)
+            {
+                BaseAddress = new Uri(Config.baseUrl)
+            };
+            
+            var body = "{\"tier\": \""+ tier + "\","+
+                       "\"apiIdentifier\": \"" + apiIdentifier + "\"," +
+                       "\"applicationId\": \"" + applicationId + "\"}";
+            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            ISubscription _restApiService = RestService.For<ISubscription>(_client);
+            
+            var addSubscription = await _restApiService.AddSubscription(body, authorization);
+
+            return addSubscription;
+        }
+
+        public static async Task<Subscription> DeleteSubscription(string subscriptionId)
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            HttpClient _client = new HttpClient(clientHandler)
+            {
+                BaseAddress = new Uri(Config.baseUrl)
+            };
+            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            ISubscription _restApiService = RestService.For<ISubscription>(_client);
+
+            var deleteSubscription = await _restApiService.DeleteSubscription(subscriptionId, authorization);
+
+            return deleteSubscription;
         }
 
     }

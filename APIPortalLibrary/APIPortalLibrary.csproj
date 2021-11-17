@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Grpc.Core.Api" Version="2.41.1" />
     <PackageReference Include="Refit" Version="6.1.15" />
   </ItemGroup>
 
