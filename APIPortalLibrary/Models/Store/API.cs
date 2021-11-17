@@ -21,33 +21,17 @@ namespace APIPortalLibrary.Models.Store
         public string version { get; set; }
         public string provider { get; set; }
         public string status { get; set; }
-        public string thumbnailUri { get; set; }
-        public List<string> scopes { get; set; }
-    }
-
-    public class APIDetails
-    {
-        public string id { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public string context { get; set; }
-        public string version { get; set; }
-        public string provider { get; set; }
-        public string apiDefinition { get; set; }
-        public string wsdlUri { get; set; }
-        public string status { get; set; }
         public bool isDefaultVersion { get; set; }
+        public string thumbnailUri { get; set; }
         public List<string> transport { get; set; }
         public string authorizationHeader { get; set; }
         public List<string> tags { get; set; }
         public List<string> tiers { get; set; }
-        public string thumbnailUrl { get; set; }
         public List<EndpointURL> endpointURLs { get; set; }
-        public BusinessInformation businessInformation { get; set; }
-        public List<string> labels { get; set; }
         public List<string> environmentList { get; set; }
         public string lastUpdatedTime { get; set; }
         public string createdTTime { get; set; }
+        public List<string> scopes { get; set; }
     }
 
     public class Pagination

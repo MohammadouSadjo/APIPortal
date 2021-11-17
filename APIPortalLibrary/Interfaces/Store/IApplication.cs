@@ -11,7 +11,7 @@ namespace APIPortalLibrary.Interfaces.Store
     {
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/applications/{applicationId}")]
-        Task<ApplicationDetails> GetApplicationDetails(
+        Task<Application> GetApplicationDetails(
             [AliasAs("applicationId")] string applicationId,
             [Header("Authorization")] string authorization
             );

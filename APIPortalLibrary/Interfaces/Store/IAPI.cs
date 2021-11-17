@@ -19,7 +19,7 @@ namespace APIPortalLibrary.Interfaces.Store
 
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/apis/{apiId}")]
-        Task<APIDetails> GetAllApis(
+        Task<API> GetAllApis(
             [AliasAs("apiId")] string apiId
             );
     }

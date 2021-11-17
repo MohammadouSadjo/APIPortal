@@ -30,7 +30,7 @@ namespace APIPortalConsole
             //**GET APPLICATION DETAILS
             /*var taskApplicationDetails = Go.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
 
-            ApplicationDetails applicationDetails;
+            Application applicationDetails;
             applicationDetails = taskApplicationDetails.Result;
 
             Console.WriteLine("Application ID : " + applicationDetails.applicationId);
@@ -69,7 +69,7 @@ namespace APIPortalConsole
             /*var apiId = "7d601720-3a59-467b-8595-afbbbce6d12a";
             var taskApiDetails = Go.APIDetails(apiId);
 
-            APIDetails apiDetails;
+            API apiDetails;
 
             apiDetails = taskApiDetails.Result;
 

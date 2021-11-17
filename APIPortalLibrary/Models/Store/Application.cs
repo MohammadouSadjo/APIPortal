@@ -6,11 +6,6 @@ namespace APIPortalLibrary.Models.Store
 {
     public class Application
     {
-
-    }
-
-    public class ApplicationDetails
-    {
         public string groupId { get; set; }
         public string callbackUrl { get; set; }
         public string subscriber { get; set; }

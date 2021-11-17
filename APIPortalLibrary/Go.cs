@@ -72,7 +72,7 @@ namespace APIPortalLibrary
             return allApis;
         }
 
-        public static async Task<APIDetails> APIDetails(string apiId)
+        public static async Task<API> APIDetails(string apiId)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -88,7 +88,7 @@ namespace APIPortalLibrary
             return apiDetails;
         }
 
-        public static async Task<ApplicationDetails> ApplicationDetails(string applicationId)
+        public static async Task<Application> ApplicationDetails(string applicationId)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
