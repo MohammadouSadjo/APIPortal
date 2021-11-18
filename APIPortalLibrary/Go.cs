@@ -149,6 +149,29 @@ namespace APIPortalLibrary
             return addApplication;
         }
 
+        public static async Task<ApiResponse<Application>> UpdateApplication(string applicationId, string throttlingTier, string description, string name, string callbackUrl, string groupId)
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            HttpClient _client = new HttpClient(clientHandler)
+            {
+                BaseAddress = new Uri(Config.baseUrl)
+            };
+            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            var body = "{\"throttlingTier\": \"" + throttlingTier + "\"," +
+                       "\"description\": \"" + description + "\"," +
+                       "\"name\": \"" + name + "\"," +
+                       "\"callbackUrl\": \"" + callbackUrl + "\"," +
+                       "\"groupId\": \"" + groupId + "\"}";
+
+            IApplication _restApiService = RestService.For<IApplication>(_client);
+
+            var updateApplication = await _restApiService.UpdateApplication(applicationId, authorization, body);
+
+            return updateApplication;
+        }
+
         public static async Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string applicationId)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();

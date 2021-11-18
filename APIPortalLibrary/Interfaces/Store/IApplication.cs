@@ -33,6 +33,14 @@ namespace APIPortalLibrary.Interfaces.Store
             );
 
         [Headers("Content-Type: application/json")]
+        [Put("/api/am/store/v0.14/applications/{applicationId}")]
+        Task<ApiResponse<Application>> UpdateApplication(
+            [AliasAs("applicationId")] string applicationId,
+            [Header("Authorization")] string authorization,
+            [Body] string body
+            );
+
+        [Headers("Content-Type: application/json")]
         [Post("/api/am/store/v0.14/applications/generate-keys")]
         Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(
             [AliasAs("applicationId")] string applicationId,
