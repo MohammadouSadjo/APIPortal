@@ -56,6 +56,22 @@ namespace APIPortalConsole
             Console.WriteLine("Application ID : " + applicationDetails.Content.applicationId);
             Console.WriteLine("Description : " + applicationDetails.Content.description);*/
 
+            //** ADD APPLICATION
+            /*var throttlingTier = "Unlimited";
+            var description = "sample app description";
+            var name = "sampleapp";
+            var callbackUrl = "";
+            var groupId = "";
+            var taskAddApplication = Go.AddApplication(throttlingTier, description, name, callbackUrl, groupId);
+            ApiResponse<Application> addApplication;
+            addApplication = taskAddApplication.Result;
+
+            Console.WriteLine("Add application");
+            Console.WriteLine("Statuscode : " + addApplication.StatusCode);
+            Console.WriteLine("app id : " + addApplication.Content.applicationId);
+            Console.WriteLine("name : " + addApplication.Content.name);
+            Console.WriteLine("subscriber : " + addApplication.Content.subscriber);*/
+
             //**GENERATE APPLICATION KEYS 
             /*var taskApplicationKeys = Go.GenerateApplicationKeys("cb76761d-4d45-4231-8578-6f5592571c11");
 
