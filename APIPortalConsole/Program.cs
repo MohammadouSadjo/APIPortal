@@ -88,6 +88,14 @@ namespace APIPortalConsole
             Console.WriteLine("name : " + updateApplication.Content.name);
             Console.WriteLine("subscriber : " + updateApplication.Content.subscriber);*/
 
+            //DELETE APPLICATION
+            /*var taskDeleteApplication = Go.DeleteApplication("e69f94f8-9bbe-42b4-a0c1-a9f36a150853");
+            ApiResponse<Application> deleteApplication;
+            deleteApplication = taskDeleteApplication.Result;
+
+            Console.WriteLine("Delete application");
+            Console.WriteLine("StatusCode: " + deleteApplication.StatusCode);*/
+
             //**GENERATE APPLICATION KEYS 
             /*var taskApplicationKeys = Go.GenerateApplicationKeys("cb76761d-4d45-4231-8578-6f5592571c11");
 

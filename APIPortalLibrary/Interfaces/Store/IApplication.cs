@@ -40,6 +40,12 @@ namespace APIPortalLibrary.Interfaces.Store
             [Body] string body
             );
 
+        [Delete("/api/am/store/v0.14/applications/{applicationId}")]
+        Task<ApiResponse<Application>> DeleteApplication(
+            [AliasAs("applicationId")] string applicationId,
+            [Header("Authorization")] string authorization
+            );
+
         [Headers("Content-Type: application/json")]
         [Post("/api/am/store/v0.14/applications/generate-keys")]
         Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(

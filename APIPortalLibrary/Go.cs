@@ -172,6 +172,23 @@ namespace APIPortalLibrary
             return updateApplication;
         }
 
+        public static async Task<ApiResponse<Application>> DeleteApplication(string applicationId)
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            HttpClient _client = new HttpClient(clientHandler)
+            {
+                BaseAddress = new Uri(Config.baseUrl)
+            };
+            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            IApplication _restApiService = RestService.For<IApplication>(_client);
+
+            var deleteApplication = await _restApiService.DeleteApplication(applicationId, authorization);
+
+            return deleteApplication;
+        }
+
         public static async Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string applicationId)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
