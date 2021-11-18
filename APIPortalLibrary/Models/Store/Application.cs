@@ -18,6 +18,14 @@ namespace APIPortalLibrary.Models.Store
         public List<Key> keys { get; set; }
     }
 
+    public class AllApplications
+    {
+        public int count { get; set; }
+        public string next { get; set; }
+        public string previous { get; set; }
+        public List<Application> list { get; set; }
+    }
+
     public class Key
     {
         public string consumerKey { get; set; }

@@ -27,6 +27,25 @@ namespace APIPortalConsole
 
             Console.WriteLine("Access token : " + accessToken.access_token);
 
+            //** GET ALL APPLICATIONS
+            var query = "";
+            var limit = 25;
+            var offset = 0;
+
+            var taskAllApplications = Go.AllApplications(limit, offset, query);
+
+            ApiResponse<AllApplications> allApplications;
+            allApplications = taskAllApplications.Result;
+
+            Console.WriteLine("ALL APPLICATIONS");
+            Console.WriteLine("Status code : " + allApplications.StatusCode);
+            Console.WriteLine("count : " + allApplications.Content.count);
+            Console.WriteLine("next : " + allApplications.Content.next);
+            allApplications.Content.list.ForEach(c => {
+                Console.WriteLine("App Id : " + c.applicationId);
+                Console.WriteLine("App name : " + c.name);
+            });
+
             //**GET APPLICATION DETAILS
             /*var taskApplicationDetails = Go.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
 

@@ -10,6 +10,15 @@ namespace APIPortalLibrary.Interfaces.Store
     interface IApplication
     {
         [Headers("Accept:application/json")]
+        [Get("/api/am/store/v0.14/applications")]
+        Task<ApiResponse<AllApplications>> GetAllApplications(
+            [AliasAs("query")] string query,
+            [AliasAs("limit")] int limit,
+            [AliasAs("offset")] int offset,
+            [Header("Authorization")] string authorization
+            );
+
+        [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/applications/{applicationId}")]
         Task<ApiResponse<Application>> GetApplicationDetails(
             [AliasAs("applicationId")] string applicationId,
