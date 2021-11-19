@@ -58,7 +58,7 @@ namespace APIPortalConsole
             Console.WriteLine("Description : " + applicationDetails.Content.description);*/
 
             //**GET APPLICATION KEY DETAILS OF A GIVEN TYPE
-            var taskApplicationKeyDetailsOfGivenType = Go.ApplicationKeyDetailsOfGivenType("cb76761d-4d45-4231-8578-6f5592571c11", "PRODUCTION");
+            /*var taskApplicationKeyDetailsOfGivenType = Go.ApplicationKeyDetailsOfGivenType("cb76761d-4d45-4231-8578-6f5592571c11", "PRODUCTION");
 
             ApiResponse<Key> applicationKeyDetailsOfGivenType;
             applicationKeyDetailsOfGivenType = taskApplicationKeyDetailsOfGivenType.Result;
@@ -66,7 +66,7 @@ namespace APIPortalConsole
             Console.WriteLine("Status code: " + applicationKeyDetailsOfGivenType.StatusCode);
             Console.WriteLine("Consumerkey : " + applicationKeyDetailsOfGivenType.Content.consumerKey);
             Console.WriteLine("consumersecret : " + applicationKeyDetailsOfGivenType.Content.consumerSecret);
-            Console.WriteLine("keytype : " + applicationKeyDetailsOfGivenType.Content.keyType);
+            Console.WriteLine("keytype : " + applicationKeyDetailsOfGivenType.Content.keyType);*/
 
             //** ADD APPLICATION
             /*var throttlingTier = "Unlimited";
@@ -100,6 +100,27 @@ namespace APIPortalConsole
             Console.WriteLine("name : " + updateApplication.Content.name);
             Console.WriteLine("subscriber : " + updateApplication.Content.subscriber);*/
 
+            //** UPDATE GRANTTYPES AND CALLBACK URL
+            var refresh_token = "refresh_token";
+            var oauth = "urn:ietf:params:oauth:grant-type:saml2-bearer";
+            var password = "password";
+            var client_credentials = "client_credentials";
+            var iwa = "iwa:ntlm";
+            List<string> supportedGrantTypes = new List<string>();
+            supportedGrantTypes.Add(refresh_token);
+            supportedGrantTypes.Add(oauth);
+            supportedGrantTypes.Add(password);
+            supportedGrantTypes.Add(client_credentials);
+            supportedGrantTypes.Add(iwa);
+            var callbackUrl = "http://sample/com/callback";
+            var taskUpdateGrantTypesAndCallbackUrl = Go.UpdateGrantTypesAndCallbackUrl("cb76761d-4d45-4231-8578-6f5592571c11", "SANDBOX", supportedGrantTypes, callbackUrl);
+            ApiResponse<Key> updateGrantTypesAndUrl;
+            updateGrantTypesAndUrl = taskUpdateGrantTypesAndCallbackUrl.Result;
+
+            Console.WriteLine("Update grantTypes and CallbackUrl");
+            Console.WriteLine("statuscode : " + updateGrantTypesAndUrl.StatusCode);
+            Console.WriteLine("Consumerkey : " + updateGrantTypesAndUrl.Content.consumerKey);
+            Console.WriteLine("ConsumerSecret : " + updateGrantTypesAndUrl.Content.consumerSecret);
             //DELETE APPLICATION
             /*var taskDeleteApplication = Go.DeleteApplication("e69f94f8-9bbe-42b4-a0c1-a9f36a150853");
             ApiResponse<Application> deleteApplication;
@@ -186,7 +207,7 @@ namespace APIPortalConsole
 
             //** GET SUBSCRIPTION DETAILS 
 
-            var taskSubscriptionDetails = Go.SubscriptionDetails("a60d695c-0251-48dc-8417-710ab304fcdb");
+            /*var taskSubscriptionDetails = Go.SubscriptionDetails("a60d695c-0251-48dc-8417-710ab304fcdb");
 
             ApiResponse<Subscription> subscriptionDetails;
 
@@ -197,7 +218,7 @@ namespace APIPortalConsole
             Console.WriteLine("App ID : " + subscriptionDetails.Content.applicationId);
             Console.WriteLine("SubscriptionId : " + subscriptionDetails.Content.subscriptionId);
             Console.WriteLine("tier : " + subscriptionDetails.Content.tier);
-            Console.WriteLine("Status : " + subscriptionDetails.Content.status);
+            Console.WriteLine("Status : " + subscriptionDetails.Content.status);*/
 
             //** ADD SUBSCRIPTION
 

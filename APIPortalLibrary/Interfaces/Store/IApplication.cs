@@ -62,5 +62,14 @@ namespace APIPortalLibrary.Interfaces.Store
             [Header("Authorization")] string authorization,
             [Body] string body
             );
+
+        [Headers("Content-Type: application/json")]
+        [Put("/api/am/store/v0.14/applications/{applicationId}/keys/{keyType}")]
+        Task<ApiResponse<Key>> UpdateGrantTypesAndCallbackUrl(
+            [AliasAs("applicationId")] string applicationId,
+            [AliasAs("keyType")] string keyType,
+            [Body] string body,
+            [Header("Authorization")] string authorization
+            );
     }
 }

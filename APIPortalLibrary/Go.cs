@@ -190,6 +190,38 @@ namespace APIPortalLibrary
             return updateApplication;
         }
 
+        public static async Task<ApiResponse<Key>> UpdateGrantTypesAndCallbackUrl(string applicationId, string keyType, List<string> supportedGrantTypes, string callbackUrl)
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            HttpClient _client = new HttpClient(clientHandler)
+            {
+                BaseAddress = new Uri(Config.baseUrl)
+            };
+            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            var body = "{ \"supportedGrantTypes\" : [";
+            var count = 1;
+            supportedGrantTypes.ForEach(c => {
+                if (count != supportedGrantTypes.Count){
+                    body = body + "\"" + c + "\",";
+                    count = count + 1;
+                }
+                else
+                {
+                    body = body + "\"" + c + "\"";
+                }
+                
+            } );
+            body = body + "],\"callbackUrl\": \"" + callbackUrl +"\"}";
+
+            IApplication _restApiService = RestService.For<IApplication>(_client);
+
+            var updateGrantTypesAndCallbackUrl = await _restApiService.UpdateGrantTypesAndCallbackUrl(applicationId, keyType, body, authorization);
+
+            return updateGrantTypesAndCallbackUrl;
+        }
+
         public static async Task<ApiResponse<Application>> DeleteApplication(string applicationId)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
