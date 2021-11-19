@@ -32,6 +32,13 @@ namespace APIPortalLibrary.Interfaces.Store
             [Header("Authorization")] string authorization
             );
 
+        [Headers("Content-Type:application/json")]
+        [Post("/api/am/store/v0.14/subscriptions/multiple")]
+        Task<ApiResponse<List<Subscription>>> AddSubscriptionMultiple(
+            [Body] List<Subscription> body,
+            [Header("Authorization")] string authorization
+            );
+
         [Delete("/api/am/store/v0.14/subscriptions/{subscriptionId}")]
         Task<ApiResponse<Subscription>> DeleteSubscription(
             [AliasAs("subscriptionId")] string subscriptionId,

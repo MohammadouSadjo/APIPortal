@@ -3,6 +3,7 @@ using APIPortalLibrary;
 using APIPortalLibrary.Models.Store;
 using APIPortalLibrary.Models.Authentication;
 using Refit;
+using System.Collections.Generic;
 
 namespace APIPortalConsole
 {
@@ -205,6 +206,27 @@ namespace APIPortalConsole
             Console.WriteLine("tier : " + addSubscription.Content.subscriptionId);
             Console.WriteLine("status : " + addSubscription.Content.subscriptionId);*/
 
+            //** ADD SUBSCRIPTIONS MULTIPLE
+            Subscription sub = new Subscription();
+            List<Subscription> listSub = new List<Subscription>();
+            sub.apiIdentifier = "7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071";
+            sub.applicationId = "aa2a068c-a007-498a-93a9-036d73c04281";
+            sub.tier = "Gold";
+            listSub.Add(sub);
+            
+            var taskAddSubscriptionMultiple = Go.AddSubscriptionMultiple(listSub);
+
+            ApiResponse<List<Subscription>> addSubscriptionMultiple;
+            addSubscriptionMultiple = taskAddSubscriptionMultiple.Result;
+            Console.WriteLine("Addsubscription Multiple");
+            Console.WriteLine("StatusCode : " + addSubscriptionMultiple.StatusCode);
+            addSubscriptionMultiple.Content.ForEach(c =>
+            {
+                Console.WriteLine("subsId : " + c.apiIdentifier);
+                Console.WriteLine("appId : " + c.applicationId);
+                Console.WriteLine("appIden : " + c.apiIdentifier);
+            }
+            );
             //** DELETE SUBSCRIPTION
 
             /*var taskDeleteSubscription = Go.DeleteSubscription("fd28dc40-cb7c-4035-a44c-5b5cec8b49d3");

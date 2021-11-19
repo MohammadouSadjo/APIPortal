@@ -7,6 +7,7 @@ using APIPortalLibrary.Interfaces.Authentication;
 using APIPortalLibrary.Models.Authentication;
 using System.Threading.Tasks;
 using APIPortalLibrary.Configuration;
+using System.Collections.Generic;
 //using Grpc.Core;
 
 namespace APIPortalLibrary
@@ -260,6 +261,24 @@ namespace APIPortalLibrary
             var addSubscription = await _restApiService.AddSubscription(body, authorization);
 
             return addSubscription;
+        }
+
+        public static async Task<ApiResponse<List<Subscription>>> AddSubscriptionMultiple(List<Subscription> Subscriptions)
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            HttpClient _client = new HttpClient(clientHandler)
+            {
+                BaseAddress = new Uri(Config.baseUrl)
+            };
+            
+            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            ISubscription _restApiService = RestService.For<ISubscription>(_client);
+
+            var addSubscriptionMultiple = await _restApiService.AddSubscriptionMultiple(Subscriptions, authorization);
+
+            return addSubscriptionMultiple;
         }
 
         public static async Task<ApiResponse<Subscription>> DeleteSubscription(string subscriptionId)
