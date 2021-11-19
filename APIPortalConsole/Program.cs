@@ -233,6 +233,21 @@ namespace APIPortalConsole
                 Console.WriteLine("summary : " + c.summary);
             }
             );
+
+            //** GET A DOCUMENT FOR AN API
+            var taskDocument = Go.GetDocument("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071", "ea2b5ca8-c601-4377-9d79-e8d42b314743");
+
+            ApiResponse<Document> document;
+
+            document = taskDocument.Result;
+
+            Console.WriteLine("Get Document");
+            Console.WriteLine("Status code : " + document.StatusCode);
+            Console.WriteLine("documentId : " + document.Content.documentId);
+            Console.WriteLine("name : " + document.Content.name);
+            Console.WriteLine("type : " + document.Content.type);
+            Console.WriteLine("summary : " + document.Content.summary);
+            
         }
     }
 }

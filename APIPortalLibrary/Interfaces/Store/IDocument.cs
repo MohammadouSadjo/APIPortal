@@ -17,5 +17,13 @@ namespace APIPortalLibrary.Interfaces.Store
             [AliasAs("offset")] int offset = 0,
             [Header("X-WSO2-Tenant")] string tenant = ""
             );
+
+        [Headers("Accept:application/json")]
+        [Get("/api/am/store/v0.14/apis/{apiId}/documents/{documentId}")]
+        Task<ApiResponse<Document>> GetDocument(
+            [AliasAs("apiId")] string apiId,
+            [AliasAs("documentId")] string documentId,
+            [Header("X-WSO2-Tenant")] string tenant = ""
+            );
     }
 }

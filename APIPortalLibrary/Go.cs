@@ -294,6 +294,23 @@ namespace APIPortalLibrary
             var allDocuments = await _restApiService.GetAllDocuments(apiId, limit, offset, tenant);
 
             return allDocuments;
-        }   
+        }
+
+        public static async Task<ApiResponse<Document>> GetDocument(string apiId, string documentId, string tenant = "")
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            HttpClient _client = new HttpClient(clientHandler)
+            {
+                BaseAddress = new Uri(Config.baseUrl)
+            };
+
+            IDocument _restApiService = RestService.For<IDocument>(_client);
+
+            var document = await _restApiService.GetDocument(apiId, documentId, tenant);
+
+            return document;
+        }
     }
 }
