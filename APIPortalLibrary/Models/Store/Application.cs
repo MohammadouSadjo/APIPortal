@@ -34,6 +34,7 @@ namespace APIPortalLibrary.Models.Store
         public string keyType { get; set; }
         public List<string> supportedGrantTypes { get; set; }
         public string callbackUrl { get; set; }
+        public string groupId { get; set; }
         public Token token { get; set; }
     }
 

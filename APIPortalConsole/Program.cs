@@ -57,6 +57,17 @@ namespace APIPortalConsole
             Console.WriteLine("Application ID : " + applicationDetails.Content.applicationId);
             Console.WriteLine("Description : " + applicationDetails.Content.description);*/
 
+            //**GET APPLICATION KEY DETAILS OF A GIVEN TYPE
+            var taskApplicationKeyDetailsOfGivenType = Go.ApplicationKeyDetailsOfGivenType("cb76761d-4d45-4231-8578-6f5592571c11", "PRODUCTION");
+
+            ApiResponse<Key> applicationKeyDetailsOfGivenType;
+            applicationKeyDetailsOfGivenType = taskApplicationKeyDetailsOfGivenType.Result;
+            ;
+            Console.WriteLine("Status code: " + applicationKeyDetailsOfGivenType.StatusCode);
+            Console.WriteLine("Consumerkey : " + applicationKeyDetailsOfGivenType.Content.consumerKey);
+            Console.WriteLine("consumersecret : " + applicationKeyDetailsOfGivenType.Content.consumerSecret);
+            Console.WriteLine("keytype : " + applicationKeyDetailsOfGivenType.Content.keyType);
+
             //** ADD APPLICATION
             /*var throttlingTier = "Unlimited";
             var description = "sample app description";
@@ -207,7 +218,7 @@ namespace APIPortalConsole
             Console.WriteLine("status : " + addSubscription.Content.subscriptionId);*/
 
             //** ADD SUBSCRIPTIONS MULTIPLE
-            Subscription sub = new Subscription();
+            /*Subscription sub = new Subscription();
             List<Subscription> listSub = new List<Subscription>();
             sub.apiIdentifier = "7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071";
             sub.applicationId = "aa2a068c-a007-498a-93a9-036d73c04281";
@@ -226,7 +237,7 @@ namespace APIPortalConsole
                 Console.WriteLine("appId : " + c.applicationId);
                 Console.WriteLine("appIden : " + c.apiIdentifier);
             }
-            );
+            );*/
             //** DELETE SUBSCRIPTION
 
             /*var taskDeleteSubscription = Go.DeleteSubscription("fd28dc40-cb7c-4035-a44c-5b5cec8b49d3");

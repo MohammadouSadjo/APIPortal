@@ -127,6 +127,23 @@ namespace APIPortalLibrary
             return applicationDetails;
         }
 
+        public static async Task<ApiResponse<Key>> ApplicationKeyDetailsOfGivenType(string applicationId, string keyType, string groupId="")
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            HttpClient _client = new HttpClient(clientHandler)
+            {
+                BaseAddress = new Uri(Config.baseUrl)
+            };
+            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            IApplication _restApiService = RestService.For<IApplication>(_client);
+
+            var applicationKeyDetailsOfGivenType = await _restApiService.GetApplicationKeyDetailsOfGivenType(applicationId, keyType, authorization, groupId);
+
+            return applicationKeyDetailsOfGivenType;
+        }
+
         public static async Task<ApiResponse<Application>> AddApplication(string throttlingTier, string description, string name, string callbackUrl, string groupId)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();

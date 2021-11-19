@@ -25,6 +25,15 @@ namespace APIPortalLibrary.Interfaces.Store
             [Header("Authorization")] string authorization
             );
 
+        [Headers("Accept:application/json")]
+        [Get("/api/am/store/v0.14/applications/{applicationId}/keys/{keyType}")]
+        Task<ApiResponse<Key>> GetApplicationKeyDetailsOfGivenType(
+            [AliasAs("applicationId")] string applicationId,
+            [AliasAs("keyType")] string keyType,
+            [Header("Authorization")] string authorization,
+            [AliasAs("groupId")] string group_id = ""
+            );
+
         [Headers("Content-Type: application/json")]
         [Post("/api/am/store/v0.14/applications")]
         Task<ApiResponse<Application>> AddApplication(
