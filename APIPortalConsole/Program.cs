@@ -213,6 +213,26 @@ namespace APIPortalConsole
             deleteSubscription = taskDeleteSubscription.Result;
             Console.WriteLine("DELETE SUBS");
             Console.WriteLine(deleteSubscription.StatusCode);*/
+
+            //** ALL DOCUMENTS
+            var taskAllDocuments = Go.AllDocuments("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071");
+
+            ApiResponse<AllDocuments> allDocuments;
+
+            allDocuments = taskAllDocuments.Result;
+
+            Console.WriteLine("Get All Documents:");
+            Console.WriteLine("Status code : " + allDocuments.StatusCode);
+            Console.WriteLine("count : " + allDocuments.Content.count);
+            Console.WriteLine("next : " + allDocuments.Content.next);
+            allDocuments.Content.list.ForEach(c =>
+            {
+                Console.WriteLine("documentId : " + c.documentId);
+                Console.WriteLine("name : " + c.name);
+                Console.WriteLine("type : " + c.type);
+                Console.WriteLine("summary : " + c.summary);
+            }
+            );
         }
     }
 }

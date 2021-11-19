@@ -279,5 +279,21 @@ namespace APIPortalLibrary
             return deleteSubscription;
         }
 
+        public static async Task<ApiResponse<AllDocuments>> AllDocuments(string apiId, int limit = 25, int offset = 0, string tenant = "")
+        {
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            HttpClient _client = new HttpClient(clientHandler)
+            {
+                BaseAddress = new Uri(Config.baseUrl)
+            };
+
+            IDocument _restApiService = RestService.For<IDocument>(_client);
+
+            var allDocuments = await _restApiService.GetAllDocuments(apiId, limit, offset, tenant);
+
+            return allDocuments;
+        }   
     }
 }
