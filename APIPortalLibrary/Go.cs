@@ -24,13 +24,26 @@ namespace APIPortalLibrary
                 BaseAddress = new Uri(Config.baseUrl)
             };
 
-            ILogin _restApiService = RestService.For<ILogin>(_client);
+            try
+            {
+                ILogin _restApiService = RestService.For<ILogin>(_client);
+
+                var clientIDSecret = await _restApiService.GetClientIDSecret(Config.bodyRequestLogin);
+
+                Config.UserInfos.clientId = clientIDSecret.clientId;
+                Config.UserInfos.clientSecret = clientIDSecret.clientSecret;
+                return clientIDSecret;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
             
-            var clientIDSecret = await _restApiService.GetClientIDSecret(Config.bodyRequestLogin);
-            
-            Config.UserInfos.clientId = clientIDSecret.clientId;   
-            Config.UserInfos.clientSecret = clientIDSecret.clientSecret;
-            return clientIDSecret;
         }
 
         public static async Task<AccessToken> AccessToken(string username, string password)
@@ -52,12 +65,24 @@ namespace APIPortalLibrary
             var authorization = "Basic " + base64;
             var grant_type = "password";
             var scope = "apim:subscribe";
- 
-            var accessToken = await _restApiService.GetAccessToken(authorization, grant_type, username, password, scope);
+            try
+            {
+                var accessToken = await _restApiService.GetAccessToken(authorization, grant_type, username, password, scope);
 
-            Config.UserInfos.accessToken = accessToken.access_token;
+                Config.UserInfos.accessToken = accessToken.access_token;
 
-            return accessToken;
+                return accessToken;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
         public static async Task<ApiResponse<AllApis>> AllApis(int limit, int offset, string query)
         {
@@ -68,12 +93,24 @@ namespace APIPortalLibrary
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
-            
-            IAPI _restApiService = RestService.For<IAPI>(_client);
+            try
+            {
+                IAPI _restApiService = RestService.For<IAPI>(_client);
 
-            var allApis = await _restApiService.GetAllApis(limit, offset, query);
-       
-            return allApis;
+                var allApis = await _restApiService.GetAllApis(limit, offset, query);
+
+                return allApis;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
 
         public static async Task<ApiResponse<API>> APIDetails(string apiId)
@@ -85,11 +122,25 @@ namespace APIPortalLibrary
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
-            IAPI _restApiService = RestService.For<IAPI>(_client);
 
-            var apiDetails = await _restApiService.GetApiDetails(apiId);
+            try
+            {
+                IAPI _restApiService = RestService.For<IAPI>(_client);
 
-            return apiDetails;
+                var apiDetails = await _restApiService.GetApiDetails(apiId);
+
+                return apiDetails;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
 
         public static async Task<ApiResponse<AllApplications>> AllApplications(int limit, int offset, string query)
@@ -103,11 +154,25 @@ namespace APIPortalLibrary
             };
             
             var authorization = "Bearer " + Config.UserInfos.accessToken;
-            IApplication _restApiService = RestService.For<IApplication>(_client);
 
-            var applicationDetails = await _restApiService.GetAllApplications(query, limit, offset, authorization);
+            try
+            {
+                IApplication _restApiService = RestService.For<IApplication>(_client);
 
-            return applicationDetails;
+                var applicationDetails = await _restApiService.GetAllApplications(query, limit, offset, authorization);
+
+                return applicationDetails;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
 
         public static async Task<ApiResponse<Application>> ApplicationDetails(string applicationId)
@@ -120,11 +185,25 @@ namespace APIPortalLibrary
                 BaseAddress = new Uri(Config.baseUrl)
             };
             var authorization = "Bearer " + Config.UserInfos.accessToken;
-            IApplication _restApiService = RestService.For<IApplication>(_client);
 
-            var applicationDetails = await _restApiService.GetApplicationDetails(applicationId, authorization);
+            try
+            {
+                IApplication _restApiService = RestService.For<IApplication>(_client);
+
+                var applicationDetails = await _restApiService.GetApplicationDetails(applicationId, authorization);
+
+                return applicationDetails;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
             
-            return applicationDetails;
         }
 
         public static async Task<ApiResponse<Key>> ApplicationKeyDetailsOfGivenType(string applicationId, string keyType, string groupId="")
@@ -137,11 +216,25 @@ namespace APIPortalLibrary
                 BaseAddress = new Uri(Config.baseUrl)
             };
             var authorization = "Bearer " + Config.UserInfos.accessToken;
-            IApplication _restApiService = RestService.For<IApplication>(_client);
 
-            var applicationKeyDetailsOfGivenType = await _restApiService.GetApplicationKeyDetailsOfGivenType(applicationId, keyType, authorization, groupId);
+            try
+            {
+                IApplication _restApiService = RestService.For<IApplication>(_client);
 
-            return applicationKeyDetailsOfGivenType;
+                var applicationKeyDetailsOfGivenType = await _restApiService.GetApplicationKeyDetailsOfGivenType(applicationId, keyType, authorization, groupId);
+
+                return applicationKeyDetailsOfGivenType;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
 
         public static async Task<ApiResponse<Application>> AddApplication(string throttlingTier, string description, string name, string callbackUrl, string groupId)
@@ -159,12 +252,24 @@ namespace APIPortalLibrary
                        "\"name\": \"" + name + "\"," +
                        "\"callbackUrl\": \"" + callbackUrl + "\"," +
                        "\"groupId\": \"" + groupId + "\"}";
+            try
+            {
+                IApplication _restApiService = RestService.For<IApplication>(_client);
+
+                var addApplication = await _restApiService.AddApplication(authorization, body);
+
+                return addApplication;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
             
-            IApplication _restApiService = RestService.For<IApplication>(_client);
-
-            var addApplication = await _restApiService.AddApplication(authorization, body);
-
-            return addApplication;
         }
 
         public static async Task<ApiResponse<Application>> UpdateApplication(string applicationId, string throttlingTier, string description, string name, string callbackUrl, string groupId)
@@ -182,12 +287,24 @@ namespace APIPortalLibrary
                        "\"name\": \"" + name + "\"," +
                        "\"callbackUrl\": \"" + callbackUrl + "\"," +
                        "\"groupId\": \"" + groupId + "\"}";
+            try
+            {
+                IApplication _restApiService = RestService.For<IApplication>(_client);
 
-            IApplication _restApiService = RestService.For<IApplication>(_client);
+                var updateApplication = await _restApiService.UpdateApplication(applicationId, authorization, body);
 
-            var updateApplication = await _restApiService.UpdateApplication(applicationId, authorization, body);
-
-            return updateApplication;
+                return updateApplication;
+            }
+            catch (ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
 
         public static async Task<ApiResponse<Key>> UpdateGrantTypesAndCallbackUrl(string applicationId, string keyType, List<string> supportedGrantTypes, string callbackUrl)
@@ -215,11 +332,24 @@ namespace APIPortalLibrary
             } );
             body = body + "],\"callbackUrl\": \"" + callbackUrl +"\"}";
 
-            IApplication _restApiService = RestService.For<IApplication>(_client);
+            try
+            {
+                IApplication _restApiService = RestService.For<IApplication>(_client);
 
-            var updateGrantTypesAndCallbackUrl = await _restApiService.UpdateGrantTypesAndCallbackUrl(applicationId, keyType, body, authorization);
+                var updateGrantTypesAndCallbackUrl = await _restApiService.UpdateGrantTypesAndCallbackUrl(applicationId, keyType, body, authorization);
 
-            return updateGrantTypesAndCallbackUrl;
+                return updateGrantTypesAndCallbackUrl;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
 
         public static async Task<ApiResponse<Application>> DeleteApplication(string applicationId)
@@ -232,11 +362,25 @@ namespace APIPortalLibrary
                 BaseAddress = new Uri(Config.baseUrl)
             };
             var authorization = "Bearer " + Config.UserInfos.accessToken;
-            IApplication _restApiService = RestService.For<IApplication>(_client);
 
-            var deleteApplication = await _restApiService.DeleteApplication(applicationId, authorization);
+            try
+            {
+                IApplication _restApiService = RestService.For<IApplication>(_client);
 
-            return deleteApplication;
+                var deleteApplication = await _restApiService.DeleteApplication(applicationId, authorization);
+
+                return deleteApplication;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
 
         public static async Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string applicationId)
@@ -250,11 +394,21 @@ namespace APIPortalLibrary
             };
             var authorization = "Bearer " + Config.UserInfos.accessToken;
             var body = Config.bodyRequestGenerateKeys;
-            IApplication _restApiService = RestService.For<IApplication>(_client);
-            
-            var applicationKeys = await _restApiService.GenerateApplicationKeys(applicationId, authorization, body);
+            try
+            {
+                IApplication _restApiService = RestService.For<IApplication>(_client);
 
-            return applicationKeys;
+                var applicationKeys = await _restApiService.GenerateApplicationKeys(applicationId, authorization, body);
+
+                return applicationKeys;
+            }
+            catch(ApiException ex)
+            {
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                var message = string.Join("; ", errors.Values);
+
+                throw new Exception(message);
+            }
         }
 
         public static async Task<ApiResponse<AllSubscriptions>> AllSubscriptions(string applicationId, int offset, int limit)
@@ -267,11 +421,25 @@ namespace APIPortalLibrary
                 BaseAddress = new Uri(Config.baseUrl)
             };
             var authorization = "Bearer " + Config.UserInfos.accessToken;
-            ISubscription _restApiService = RestService.For<ISubscription>(_client);
 
-            var allSubscriptions = await _restApiService.GetAllSubscriptions(applicationId, limit, offset, authorization);
+            try
+            {
+                ISubscription _restApiService = RestService.For<ISubscription>(_client);
 
-            return allSubscriptions;
+                var allSubscriptions = await _restApiService.GetAllSubscriptions(applicationId, limit, offset, authorization);
+
+                return allSubscriptions;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
 
         public static async Task<ApiResponse<Subscription>> SubscriptionDetails(string subsciptionId)
@@ -284,11 +452,25 @@ namespace APIPortalLibrary
                 BaseAddress = new Uri(Config.baseUrl)
             };
             var authorization = "Bearer " + Config.UserInfos.accessToken;
-            ISubscription _restApiService = RestService.For<ISubscription>(_client);
 
-            var subscriptionsDetails = await _restApiService.GetSubscriptionsDetails(subsciptionId, authorization);
+            try
+            {
+                ISubscription _restApiService = RestService.For<ISubscription>(_client);
 
-            return subscriptionsDetails;
+                var subscriptionsDetails = await _restApiService.GetSubscriptionsDetails(subsciptionId, authorization);
+
+                return subscriptionsDetails;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
 
         public static async Task<ApiResponse<Subscription>> AddSubscription(string tier, string apiIdentifier, string applicationId)
@@ -305,11 +487,25 @@ namespace APIPortalLibrary
                        "\"apiIdentifier\": \"" + apiIdentifier + "\"," +
                        "\"applicationId\": \"" + applicationId + "\"}";
             var authorization = "Bearer " + Config.UserInfos.accessToken;
-            ISubscription _restApiService = RestService.For<ISubscription>(_client);
-            
-            var addSubscription = await _restApiService.AddSubscription(body, authorization);
 
-            return addSubscription;
+            try
+            {
+                ISubscription _restApiService = RestService.For<ISubscription>(_client);
+
+                var addSubscription = await _restApiService.AddSubscription(body, authorization);
+
+                return addSubscription;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
 
         public static async Task<ApiResponse<List<Subscription>>> AddSubscriptionMultiple(List<Subscription> Subscriptions)
@@ -323,11 +519,25 @@ namespace APIPortalLibrary
             };
             
             var authorization = "Bearer " + Config.UserInfos.accessToken;
-            ISubscription _restApiService = RestService.For<ISubscription>(_client);
 
-            var addSubscriptionMultiple = await _restApiService.AddSubscriptionMultiple(Subscriptions, authorization);
+            try
+            {
+                ISubscription _restApiService = RestService.For<ISubscription>(_client);
 
-            return addSubscriptionMultiple;
+                var addSubscriptionMultiple = await _restApiService.AddSubscriptionMultiple(Subscriptions, authorization);
+
+                return addSubscriptionMultiple;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
 
         public static async Task<ApiResponse<Subscription>> DeleteSubscription(string subscriptionId)
@@ -340,11 +550,25 @@ namespace APIPortalLibrary
                 BaseAddress = new Uri(Config.baseUrl)
             };
             var authorization = "Bearer " + Config.UserInfos.accessToken;
-            ISubscription _restApiService = RestService.For<ISubscription>(_client);
 
-            var deleteSubscription = await _restApiService.DeleteSubscription(subscriptionId, authorization);
+            try
+            {
+                ISubscription _restApiService = RestService.For<ISubscription>(_client);
 
-            return deleteSubscription;
+                var deleteSubscription = await _restApiService.DeleteSubscription(subscriptionId, authorization);
+
+                return deleteSubscription;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
 
         public static async Task<ApiResponse<AllDocuments>> AllDocuments(string apiId, int limit = 25, int offset = 0, string tenant = "")
@@ -357,11 +581,24 @@ namespace APIPortalLibrary
                 BaseAddress = new Uri(Config.baseUrl)
             };
 
-            IDocument _restApiService = RestService.For<IDocument>(_client);
+            try
+            {
+                IDocument _restApiService = RestService.For<IDocument>(_client);
 
-            var allDocuments = await _restApiService.GetAllDocuments(apiId, limit, offset, tenant);
+                var allDocuments = await _restApiService.GetAllDocuments(apiId, limit, offset, tenant);
 
-            return allDocuments;
+                return allDocuments;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
 
         public static async Task<ApiResponse<Document>> GetDocument(string apiId, string documentId, string tenant = "")
@@ -374,11 +611,24 @@ namespace APIPortalLibrary
                 BaseAddress = new Uri(Config.baseUrl)
             };
 
-            IDocument _restApiService = RestService.For<IDocument>(_client);
+            try
+            {
+                IDocument _restApiService = RestService.For<IDocument>(_client);
 
-            var document = await _restApiService.GetDocument(apiId, documentId, tenant);
+                var document = await _restApiService.GetDocument(apiId, documentId, tenant);
 
-            return document;
+                return document;
+            }
+            catch(ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
 
         public static async Task<ApiResponse<string>> GetDocumentContent(string apiId, string documentId, string tenant = "")
@@ -391,11 +641,24 @@ namespace APIPortalLibrary
                 BaseAddress = new Uri(Config.baseUrl)
             };
 
-            IDocument _restApiService = RestService.For<IDocument>(_client);
+            try
+            {
+                IDocument _restApiService = RestService.For<IDocument>(_client);
 
-            var documentContent = await _restApiService.GetDocumentContent(apiId, documentId, tenant);
+                var documentContent = await _restApiService.GetDocumentContent(apiId, documentId, tenant);
 
-            return documentContent;
+                return documentContent;
+            }
+            catch (ApiException ex)
+            {
+                // Extract the details of the error
+                var errors = await ex.GetContentAsAsync<Dictionary<string, string>>();
+                // Combine the errors into a string
+                var message = string.Join("; ", errors.Values);
+                // Throw a normal exception
+                throw new Exception(message);
+            }
+            
         }
     }
 }

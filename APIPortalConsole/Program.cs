@@ -101,7 +101,7 @@ namespace APIPortalConsole
             Console.WriteLine("subscriber : " + updateApplication.Content.subscriber);*/
 
             //** UPDATE GRANTTYPES AND CALLBACK URL
-            var refresh_token = "refresh_token";
+            /*var refresh_token = "refresh_token";
             var oauth = "urn:ietf:params:oauth:grant-type:saml2-bearer";
             var password = "password";
             var client_credentials = "client_credentials";
@@ -120,7 +120,7 @@ namespace APIPortalConsole
             Console.WriteLine("Update grantTypes and CallbackUrl");
             Console.WriteLine("statuscode : " + updateGrantTypesAndUrl.StatusCode);
             Console.WriteLine("Consumerkey : " + updateGrantTypesAndUrl.Content.consumerKey);
-            Console.WriteLine("ConsumerSecret : " + updateGrantTypesAndUrl.Content.consumerSecret);
+            Console.WriteLine("ConsumerSecret : " + updateGrantTypesAndUrl.Content.consumerSecret);*/
             //DELETE APPLICATION
             /*var taskDeleteApplication = Go.DeleteApplication("e69f94f8-9bbe-42b4-a0c1-a9f36a150853");
             ApiResponse<Application> deleteApplication;
@@ -269,7 +269,7 @@ namespace APIPortalConsole
             Console.WriteLine(deleteSubscription.StatusCode);*/
 
             //** ALL DOCUMENTS
-            var taskAllDocuments = Go.AllDocuments("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071");
+            /*var taskAllDocuments = Go.AllDocuments("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071");
 
             ApiResponse<AllDocuments> allDocuments;
 
@@ -286,10 +286,10 @@ namespace APIPortalConsole
                 Console.WriteLine("type : " + c.type);
                 Console.WriteLine("summary : " + c.summary);
             }
-            );
+            );*/
 
             //** GET A DOCUMENT FOR AN API
-            var taskDocument = Go.GetDocument("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071", "ea2b5ca8-c601-4377-9d79-e8d42b314743");
+            /*var taskDocument = Go.GetDocument("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071", "ea2b5ca8-c601-4377-9d79-e8d42b314743");
 
             ApiResponse<Document> document;
 
@@ -300,10 +300,10 @@ namespace APIPortalConsole
             Console.WriteLine("documentId : " + document.Content.documentId);
             Console.WriteLine("name : " + document.Content.name);
             Console.WriteLine("type : " + document.Content.type);
-            Console.WriteLine("summary : " + document.Content.summary);
+            Console.WriteLine("summary : " + document.Content.summary);*/
 
             //** GET A DOCUMENT Content FOR AN API
-            var taskDocumentContent = Go.GetDocumentContent("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071", "ea2b5ca8-c601-4377-9d79-e8d42b314743");
+            /*var taskDocumentContent = Go.GetDocumentContent("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071", "ea2b5ca8-c601-4377-9d79-e8d42b314743");
 
             ApiResponse<string> documentContent;
 
@@ -311,7 +311,7 @@ namespace APIPortalConsole
 
             Console.WriteLine("Get Document Content");
             Console.WriteLine("Status code : " + documentContent.StatusCode);
-            Console.WriteLine("Content : " + documentContent.Content);
+            Console.WriteLine("Content : " + documentContent.Content);*/
         }
     }
 }
