@@ -13,10 +13,10 @@ namespace APIPortalLibrary.Interfaces.Authentication
         [Post("/token")]
         Task<AccessToken> GetAccessToken(
             [Header("Authorization")] string authorization,
-            [AliasAs("grant_type")] string grant_type,
             [AliasAs("username")] string username,
             [AliasAs("password")] string password,
-            [AliasAs("scope")] string scope
+            [AliasAs("grant_type")] string grant_type = "password",
+            [AliasAs("scope")] string scope = "apim:subscribe"
             );
 
         [Headers("Content-Type: application/json", "Authorization: Basic YWRtaW46YWRtaW4=")]

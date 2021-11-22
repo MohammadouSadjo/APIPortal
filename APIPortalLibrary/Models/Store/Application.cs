@@ -40,7 +40,7 @@ namespace APIPortalLibrary.Models.Store
 
     public class Token
     {
-        //public int validityTime { get; set; }
+        public long validityTime { get; set; }
         public string accessToken { get; set; }
         public List<string> tokenScopes { get; set; }
     }

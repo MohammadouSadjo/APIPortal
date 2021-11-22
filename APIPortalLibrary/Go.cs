@@ -63,11 +63,9 @@ namespace APIPortalLibrary
             var base64 = Convert.ToBase64String(textBytes);
 
             var authorization = "Basic " + base64;
-            var grant_type = "password";
-            var scope = "apim:subscribe";
             try
             {
-                var accessToken = await _restApiService.GetAccessToken(authorization, grant_type, username, password, scope);
+                var accessToken = await _restApiService.GetAccessToken(authorization,username, password);
 
                 Config.UserInfos.accessToken = accessToken.access_token;
 
@@ -84,7 +82,7 @@ namespace APIPortalLibrary
             }
             
         }
-        public static async Task<ApiResponse<AllApis>> AllApis(int limit, int offset, string query)
+        public static async Task<ApiResponse<AllApis>> AllApis(int limit = 25, int offset = 0, string query = "")
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -143,7 +141,7 @@ namespace APIPortalLibrary
             
         }
 
-        public static async Task<ApiResponse<AllApplications>> AllApplications(int limit, int offset, string query)
+        public static async Task<ApiResponse<AllApplications>> AllApplications(int limit = 25, int offset = 0, string query ="")
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -159,7 +157,7 @@ namespace APIPortalLibrary
             {
                 IApplication _restApiService = RestService.For<IApplication>(_client);
 
-                var applicationDetails = await _restApiService.GetAllApplications(query, limit, offset, authorization);
+                var applicationDetails = await _restApiService.GetAllApplications(authorization, query, limit, offset);
 
                 return applicationDetails;
             }
@@ -411,7 +409,7 @@ namespace APIPortalLibrary
             }
         }
 
-        public static async Task<ApiResponse<AllSubscriptions>> AllSubscriptions(string applicationId, int offset, int limit)
+        public static async Task<ApiResponse<AllSubscriptions>> AllSubscriptions(string applicationId, int offset=0, int limit=0)
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
@@ -426,7 +424,7 @@ namespace APIPortalLibrary
             {
                 ISubscription _restApiService = RestService.For<ISubscription>(_client);
 
-                var allSubscriptions = await _restApiService.GetAllSubscriptions(applicationId, limit, offset, authorization);
+                var allSubscriptions = await _restApiService.GetAllSubscriptions(applicationId, authorization, limit, offset);
 
                 return allSubscriptions;
             }

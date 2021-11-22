@@ -48,14 +48,14 @@ namespace APIPortalConsole
             });
 
             //**GET APPLICATION DETAILS
-            /*var taskApplicationDetails = Go.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
+            var taskApplicationDetails = Go.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
 
             ApiResponse<Application> applicationDetails;
             applicationDetails = taskApplicationDetails.Result;
             ;
             Console.WriteLine("Status code: " + applicationDetails.StatusCode);
             Console.WriteLine("Application ID : " + applicationDetails.Content.applicationId);
-            Console.WriteLine("Description : " + applicationDetails.Content.description);*/
+            Console.WriteLine("Description : " + applicationDetails.Content.description);
 
             //**GET APPLICATION KEY DETAILS OF A GIVEN TYPE
             /*var taskApplicationKeyDetailsOfGivenType = Go.ApplicationKeyDetailsOfGivenType("cb76761d-4d45-4231-8578-6f5592571c11", "PRODUCTION");

@@ -12,10 +12,10 @@ namespace APIPortalLibrary.Interfaces.Store
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/applications")]
         Task<ApiResponse<AllApplications>> GetAllApplications(
-            [AliasAs("query")] string query,
-            [AliasAs("limit")] int limit,
-            [AliasAs("offset")] int offset,
-            [Header("Authorization")] string authorization
+            [Header("Authorization")] string authorization,
+            [AliasAs("query")] string query = "",
+            [AliasAs("limit")] int limit = 25,
+            [AliasAs("offset")] int offset = 0
             );
 
         [Headers("Accept:application/json")]

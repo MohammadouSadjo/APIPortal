@@ -13,9 +13,9 @@ namespace APIPortalLibrary.Interfaces.Store
         [Get("/api/am/store/v0.14/subscriptions")]
         Task<ApiResponse<AllSubscriptions>> GetAllSubscriptions(
             [AliasAs("applicationId")] string applicationId,
-            [AliasAs("offset")] int offset,
-            [AliasAs("limit")] int limit,
-            [Header("Authorization")] string authorization
+            [Header("Authorization")] string authorization,
+            [AliasAs("offset")] int offset = 0,
+            [AliasAs("limit")] int limit = 0
             );
 
         [Headers("Accept:application/json")]
