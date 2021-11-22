@@ -4,6 +4,7 @@ using APIPortalLibrary.Models.Store;
 using APIPortalLibrary.Models.Authentication;
 using Refit;
 using System.Collections.Generic;
+using APIPortalLibrary.Controllers;
 
 namespace APIPortalConsole
 {
@@ -12,28 +13,28 @@ namespace APIPortalConsole
         static void Main(string[] args)
         {
             //** GET CLIENTID AND SECRET ID
-            var taskClientIDSecret = Go.ClientIDSecret();
+            var taskClientIDSecret = LoginController.ClientIDSecret();
 
-            ClientIDAndSecret clientIDSecret;
+            ApiResponse<ClientIDAndSecret> clientIDSecret;
             clientIDSecret = taskClientIDSecret.Result;
 
-            Console.WriteLine("ClientId : " + clientIDSecret.clientId);
-            Console.WriteLine("ClientSecret : " + clientIDSecret.clientSecret);
+            Console.WriteLine("ClientId : " + clientIDSecret.Content.clientId);
+            Console.WriteLine("ClientSecret : " + clientIDSecret.Content.clientSecret);
 
             //** GET ACCESS TOKEN
-            var taskAccessToken = Go.AccessToken("admin", "admin");
+            var taskAccessToken = LoginController.AccessToken("admin", "admin");
 
-            AccessToken accessToken;
+            ApiResponse<AccessToken> accessToken;
             accessToken = taskAccessToken.Result;
 
-            Console.WriteLine("Access token : " + accessToken.access_token);
+            Console.WriteLine("Access token : " + accessToken.Content.access_token);
 
             //** GET ALL APPLICATIONS
             var query = "";
             var limit = 25;
             var offset = 0;
 
-            var taskAllApplications = Go.AllApplications(limit, offset, query);
+            var taskAllApplications = ApplicationController.AllApplications(limit, offset, query);
 
             ApiResponse<AllApplications> allApplications;
             allApplications = taskAllApplications.Result;
@@ -48,7 +49,7 @@ namespace APIPortalConsole
             });
 
             //**GET APPLICATION DETAILS
-            var taskApplicationDetails = Go.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
+            var taskApplicationDetails = ApplicationController.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
 
             ApiResponse<Application> applicationDetails;
             applicationDetails = taskApplicationDetails.Result;
@@ -58,7 +59,7 @@ namespace APIPortalConsole
             Console.WriteLine("Description : " + applicationDetails.Content.description);
 
             //**GET APPLICATION KEY DETAILS OF A GIVEN TYPE
-            /*var taskApplicationKeyDetailsOfGivenType = Go.ApplicationKeyDetailsOfGivenType("cb76761d-4d45-4231-8578-6f5592571c11", "PRODUCTION");
+            /*var taskApplicationKeyDetailsOfGivenType = ApplicationController.ApplicationKeyDetailsOfGivenType("cb76761d-4d45-4231-8578-6f5592571c11", "PRODUCTION");
 
             ApiResponse<Key> applicationKeyDetailsOfGivenType;
             applicationKeyDetailsOfGivenType = taskApplicationKeyDetailsOfGivenType.Result;
@@ -74,7 +75,7 @@ namespace APIPortalConsole
             var name = "sampleapp";
             var callbackUrl = "";
             var groupId = "";
-            var taskAddApplication = Go.AddApplication(throttlingTier, description, name, callbackUrl, groupId);
+            var taskAddApplication = ApplicationController.AddApplication(throttlingTier, description, name, callbackUrl, groupId);
             ApiResponse<Application> addApplication;
             addApplication = taskAddApplication.Result;
 
@@ -90,7 +91,7 @@ namespace APIPortalConsole
             var name = "sampleappUpdated";
             var callbackUrl = "";
             var groupId = "";
-            var taskAddApplication = Go.UpdateApplication("bea5e191-0a51-4bb0-a91f-bd8987f68268", throttlingTier, description, name, callbackUrl, groupId);
+            var taskAddApplication = ApplicationController.UpdateApplication("bea5e191-0a51-4bb0-a91f-bd8987f68268", throttlingTier, description, name, callbackUrl, groupId);
             ApiResponse<Application> updateApplication;
             updateApplication = taskAddApplication.Result;
 
@@ -113,7 +114,7 @@ namespace APIPortalConsole
             supportedGrantTypes.Add(client_credentials);
             supportedGrantTypes.Add(iwa);
             var callbackUrl = "http://sample/com/callback";
-            var taskUpdateGrantTypesAndCallbackUrl = Go.UpdateGrantTypesAndCallbackUrl("cb76761d-4d45-4231-8578-6f5592571c11", "SANDBOX", supportedGrantTypes, callbackUrl);
+            var taskUpdateGrantTypesAndCallbackUrl = ApplicationController.UpdateGrantTypesAndCallbackUrl("cb76761d-4d45-4231-8578-6f5592571c11", "SANDBOX", supportedGrantTypes, callbackUrl);
             ApiResponse<Key> updateGrantTypesAndUrl;
             updateGrantTypesAndUrl = taskUpdateGrantTypesAndCallbackUrl.Result;
 
@@ -122,7 +123,7 @@ namespace APIPortalConsole
             Console.WriteLine("Consumerkey : " + updateGrantTypesAndUrl.Content.consumerKey);
             Console.WriteLine("ConsumerSecret : " + updateGrantTypesAndUrl.Content.consumerSecret);*/
             //DELETE APPLICATION
-            /*var taskDeleteApplication = Go.DeleteApplication("e69f94f8-9bbe-42b4-a0c1-a9f36a150853");
+            /*var taskDeleteApplication = ApplicationController.DeleteApplication("e69f94f8-9bbe-42b4-a0c1-a9f36a150853");
             ApiResponse<Application> deleteApplication;
             deleteApplication = taskDeleteApplication.Result;
 
@@ -130,7 +131,7 @@ namespace APIPortalConsole
             Console.WriteLine("StatusCode: " + deleteApplication.StatusCode);*/
 
             //**GENERATE APPLICATION KEYS 
-            /*var taskApplicationKeys = Go.GenerateApplicationKeys("cb76761d-4d45-4231-8578-6f5592571c11");
+            /*var taskApplicationKeys = ApplicationController.GenerateApplicationKeys("cb76761d-4d45-4231-8578-6f5592571c11");
 
             ApiResponse<GenerateApplicationKeys> applicationKeys;
             applicationKeys = taskApplicationKeys.Result;
@@ -144,7 +145,7 @@ namespace APIPortalConsole
             /*var limit = 25;
             var offset = 0;
             var query = "";
-            var taskAllApis = Go.AllApis(limit,offset,query);
+            var taskAllApis = APIController.AllApis(limit,offset,query);
 
             ApiResponse<AllApis> allApis;
 
@@ -162,7 +163,7 @@ namespace APIPortalConsole
 
             //** GET API DETAILS
             /*var apiId = "7d601720-3a59-467b-8595-afbbbce6d12a";
-            var taskApiDetails = Go.APIDetails(apiId);
+            var taskApiDetails = APIController.APIDetails(apiId);
 
             ApiResponse<API> apiDetails;
 
@@ -189,7 +190,7 @@ namespace APIPortalConsole
 
             //** GET ALL SUBSCRIPTIONS
 
-            /*var taskAllSubscriptions = Go.AllSubscriptions("aa2a068c-a007-498a-93a9-036d73c04281", 25,0);
+            /*var taskAllSubscriptions = SubscriptionController.AllSubscriptions("aa2a068c-a007-498a-93a9-036d73c04281", 25,0);
 
             AllSubscriptions allSubscriptions;
 
@@ -207,7 +208,7 @@ namespace APIPortalConsole
 
             //** GET SUBSCRIPTION DETAILS 
 
-            /*var taskSubscriptionDetails = Go.SubscriptionDetails("a60d695c-0251-48dc-8417-710ab304fcdb");
+            /*var taskSubscriptionDetails = SubscriptionController.SubscriptionDetails("a60d695c-0251-48dc-8417-710ab304fcdb");
 
             ApiResponse<Subscription> subscriptionDetails;
 
@@ -225,7 +226,7 @@ namespace APIPortalConsole
             /*var tier = "Gold";
             var apiIdentifier = "7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071";
             var applicationId = "aa2a068c-a007-498a-93a9-036d73c04281";
-            var taskAddSubscription = Go.AddSubscription(tier, apiIdentifier, applicationId);
+            var taskAddSubscription = SubscriptionController.AddSubscription(tier, apiIdentifier, applicationId);
 
             ApiResponse<Subscription> addSubscription;
             addSubscription = taskAddSubscription.Result;
@@ -246,7 +247,7 @@ namespace APIPortalConsole
             sub.tier = "Gold";
             listSub.Add(sub);
             
-            var taskAddSubscriptionMultiple = Go.AddSubscriptionMultiple(listSub);
+            var taskAddSubscriptionMultiple = SubscriptionController.AddSubscriptionMultiple(listSub);
 
             ApiResponse<List<Subscription>> addSubscriptionMultiple;
             addSubscriptionMultiple = taskAddSubscriptionMultiple.Result;
@@ -261,7 +262,7 @@ namespace APIPortalConsole
             );*/
             //** DELETE SUBSCRIPTION
 
-            /*var taskDeleteSubscription = Go.DeleteSubscription("fd28dc40-cb7c-4035-a44c-5b5cec8b49d3");
+            /*var taskDeleteSubscription = SubscriptionController.DeleteSubscription("fd28dc40-cb7c-4035-a44c-5b5cec8b49d3");
             
             ApiResponse<Subscription> deleteSubscription;
             deleteSubscription = taskDeleteSubscription.Result;
@@ -269,7 +270,7 @@ namespace APIPortalConsole
             Console.WriteLine(deleteSubscription.StatusCode);*/
 
             //** ALL DOCUMENTS
-            /*var taskAllDocuments = Go.AllDocuments("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071");
+            /*var taskAllDocuments = DocumentController.AllDocuments("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071");
 
             ApiResponse<AllDocuments> allDocuments;
 
@@ -289,7 +290,7 @@ namespace APIPortalConsole
             );*/
 
             //** GET A DOCUMENT FOR AN API
-            /*var taskDocument = Go.GetDocument("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071", "ea2b5ca8-c601-4377-9d79-e8d42b314743");
+            /*var taskDocument = DocumentController.GetDocument("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071", "ea2b5ca8-c601-4377-9d79-e8d42b314743");
 
             ApiResponse<Document> document;
 
@@ -303,7 +304,7 @@ namespace APIPortalConsole
             Console.WriteLine("summary : " + document.Content.summary);*/
 
             //** GET A DOCUMENT Content FOR AN API
-            /*var taskDocumentContent = Go.GetDocumentContent("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071", "ea2b5ca8-c601-4377-9d79-e8d42b314743");
+            /*var taskDocumentContent = DocumentController.GetDocumentContent("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071", "ea2b5ca8-c601-4377-9d79-e8d42b314743");
 
             ApiResponse<string> documentContent;
 
