@@ -12,8 +12,9 @@ namespace APIPortalLibrary.Controllers
 {
     public class SubscriptionController
     {
-        public static async Task<ApiResponse<AllSubscriptions>> AllSubscriptions(string applicationId, int offset = 0, int limit = 0)
+        public static async Task<ApiResponse<AllSubscriptions>> AllSubscriptions(string applicationId, int offset = 0, int limit = 0)//Get list of all subscription of an application
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -21,6 +22,7 @@ namespace APIPortalLibrary.Controllers
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
+            //Set user's authorization
             var authorization = "Bearer " + Config.UserInfos.accessToken;
 
             try
@@ -43,8 +45,9 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<Subscription>> SubscriptionDetails(string subsciptionId)
+        public static async Task<ApiResponse<Subscription>> SubscriptionDetails(string subsciptionId)// Get details of a given subscription
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -52,6 +55,7 @@ namespace APIPortalLibrary.Controllers
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
+            //Set user's authorization
             var authorization = "Bearer " + Config.UserInfos.accessToken;
 
             try
@@ -74,8 +78,9 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<Subscription>> AddSubscription(string tier, string apiIdentifier, string applicationId)
+        public static async Task<ApiResponse<Subscription>> AddSubscription(string tier, string apiIdentifier, string applicationId) //Add a new subscription
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -83,10 +88,11 @@ namespace APIPortalLibrary.Controllers
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
-
+            //body request
             var body = "{\"tier\": \"" + tier + "\"," +
                        "\"apiIdentifier\": \"" + apiIdentifier + "\"," +
                        "\"applicationId\": \"" + applicationId + "\"}";
+            //Set user's authorization
             var authorization = "Bearer " + Config.UserInfos.accessToken;
 
             try
@@ -109,8 +115,9 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<List<Subscription>>> AddSubscriptionMultiple(List<Subscription> Subscriptions)
+        public static async Task<ApiResponse<List<Subscription>>> AddSubscriptionMultiple(List<Subscription> Subscriptions) // Add Multiple subscription
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -118,7 +125,7 @@ namespace APIPortalLibrary.Controllers
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
-
+            //set user's authorization
             var authorization = "Bearer " + Config.UserInfos.accessToken;
 
             try
@@ -141,8 +148,9 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<Subscription>> DeleteSubscription(string subscriptionId)
+        public static async Task<ApiResponse<Subscription>> DeleteSubscription(string subscriptionId)// Delete a subscription
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -150,6 +158,7 @@ namespace APIPortalLibrary.Controllers
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
+            //set user's authorization
             var authorization = "Bearer " + Config.UserInfos.accessToken;
 
             try

@@ -12,8 +12,9 @@ namespace APIPortalLibrary.Controllers
 {
     public class LoginController
     {
-        public static async Task<ApiResponse<ClientIDAndSecret>> ClientIDSecret()
+        public static async Task<ApiResponse<ClientIDAndSecret>> ClientIDSecret()// Get clientId and SecretID of the user
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -28,8 +29,10 @@ namespace APIPortalLibrary.Controllers
 
                 var clientIDSecret = await _restApiService.GetClientIDSecret(Config.bodyRequestLogin);
 
+                //set user's clientId and SecretId
                 Config.UserInfos.clientId = clientIDSecret.Content.clientId;
                 Config.UserInfos.clientSecret = clientIDSecret.Content.clientSecret;
+
                 return clientIDSecret;
             }
             catch (ApiException ex)
@@ -44,8 +47,9 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<AccessToken>> AccessToken(string username, string password)
+        public static async Task<ApiResponse<AccessToken>> AccessToken(string username, string password)//Get access token ofa user by passing his clientId and SecretId
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -54,17 +58,19 @@ namespace APIPortalLibrary.Controllers
                 BaseAddress = new Uri("https://localhost:8243")
             };
             ILogin _restApiService = RestService.For<ILogin>(_client);
-
+            //Get user's clientId and SecretId
             var clientId = Config.UserInfos.clientId;
             var clientSecret = Config.UserInfos.clientSecret;
+            //Encoding to Bytes
             var textBytes = System.Text.Encoding.UTF8.GetBytes(clientId + ":" + clientSecret);
+            //Convert the Obtained Bytes to base64
             var base64 = Convert.ToBase64String(textBytes);
 
             var authorization = "Basic " + base64;
             try
             {
                 var accessToken = await _restApiService.GetAccessToken(authorization, username, password);
-
+                //set user's access token
                 Config.UserInfos.accessToken = accessToken.Content.access_token;
 
                 return accessToken;

@@ -9,6 +9,7 @@ namespace APIPortalLibrary.Interfaces.Store
 {
     interface IApplication
     {
+        //Get all applications
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/applications")]
         Task<ApiResponse<AllApplications>> GetAllApplications(
@@ -18,6 +19,7 @@ namespace APIPortalLibrary.Interfaces.Store
             [AliasAs("offset")] int offset = 0
             );
 
+        //Get details of an application
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/applications/{applicationId}")]
         Task<ApiResponse<Application>> GetApplicationDetails(
@@ -25,6 +27,7 @@ namespace APIPortalLibrary.Interfaces.Store
             [Header("Authorization")] string authorization
             );
 
+        //Get application key details of a given type(key type)
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/applications/{applicationId}/keys/{keyType}")]
         Task<ApiResponse<Key>> GetApplicationKeyDetailsOfGivenType(
@@ -34,6 +37,7 @@ namespace APIPortalLibrary.Interfaces.Store
             [AliasAs("groupId")] string group_id = ""
             );
 
+        //Add a new application
         [Headers("Content-Type: application/json")]
         [Post("/api/am/store/v0.14/applications")]
         Task<ApiResponse<Application>> AddApplication(
@@ -41,6 +45,7 @@ namespace APIPortalLibrary.Interfaces.Store
             [Body] string body
             );
 
+        //Update an application
         [Headers("Content-Type: application/json")]
         [Put("/api/am/store/v0.14/applications/{applicationId}")]
         Task<ApiResponse<Application>> UpdateApplication(
@@ -49,12 +54,14 @@ namespace APIPortalLibrary.Interfaces.Store
             [Body] string body
             );
 
+        //Delete an application
         [Delete("/api/am/store/v0.14/applications/{applicationId}")]
         Task<ApiResponse<Application>> DeleteApplication(
             [AliasAs("applicationId")] string applicationId,
             [Header("Authorization")] string authorization
             );
 
+        //Generate application keys
         [Headers("Content-Type: application/json")]
         [Post("/api/am/store/v0.14/applications/generate-keys")]
         Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(
@@ -63,6 +70,7 @@ namespace APIPortalLibrary.Interfaces.Store
             [Body] string body
             );
 
+        //Update grantTypes and call back url of an application
         [Headers("Content-Type: application/json")]
         [Put("/api/am/store/v0.14/applications/{applicationId}/keys/{keyType}")]
         Task<ApiResponse<Key>> UpdateGrantTypesAndCallbackUrl(

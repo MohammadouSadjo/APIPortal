@@ -9,6 +9,7 @@ namespace APIPortalLibrary.Interfaces.Authentication
 {
     interface ILogin
     {
+        //Get access token
         [Headers("Content-Type: application/x-www-form-urlencoded")]
         [Post("/token")]
         Task<ApiResponse<AccessToken>> GetAccessToken(
@@ -19,6 +20,7 @@ namespace APIPortalLibrary.Interfaces.Authentication
             [AliasAs("scope")] string scope = "apim:subscribe"
             );
 
+        //Get clienId and secretId
         [Headers("Content-Type: application/json", "Authorization: Basic YWRtaW46YWRtaW4=")]
         [Post("/client-registration/v0.14/register")]
         Task<ApiResponse<ClientIDAndSecret>> GetClientIDSecret(

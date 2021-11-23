@@ -9,6 +9,7 @@ namespace APIPortalLibrary.Interfaces.Store
 {
     interface IDocument
     {
+        //Get all documents
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/apis/{apiId}/documents")]
         Task<ApiResponse<AllDocuments>> GetAllDocuments(
@@ -18,6 +19,7 @@ namespace APIPortalLibrary.Interfaces.Store
             [Header("X-WSO2-Tenant")] string tenant = ""
             );
 
+        //Get a document
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/apis/{apiId}/documents/{documentId}")]
         Task<ApiResponse<Document>> GetDocument(
@@ -26,6 +28,7 @@ namespace APIPortalLibrary.Interfaces.Store
             [Header("X-WSO2-Tenant")] string tenant = ""
             );
 
+        //Get the content of a document
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/apis/{apiId}/documents/{documentId}/content")]
         Task<ApiResponse<string>> GetDocumentContent(

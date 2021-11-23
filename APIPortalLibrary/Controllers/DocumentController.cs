@@ -12,8 +12,9 @@ namespace APIPortalLibrary.Controllers
 {
     public class DocumentController
     {
-        public static async Task<ApiResponse<AllDocuments>> AllDocuments(string apiId, int limit = 25, int offset = 0, string tenant = "")
+        public static async Task<ApiResponse<AllDocuments>> AllDocuments(string apiId, int limit = 25, int offset = 0, string tenant = "")//Get all documents of a given API
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -42,8 +43,9 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<Document>> GetDocument(string apiId, string documentId, string tenant = "")
+        public static async Task<ApiResponse<Document>> GetDocument(string apiId, string documentId, string tenant = "")//Get a document
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -72,8 +74,9 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<string>> GetDocumentContent(string apiId, string documentId, string tenant = "")
+        public static async Task<ApiResponse<string>> GetDocumentContent(string apiId, string documentId, string tenant = "")//Get the content of a given document
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 

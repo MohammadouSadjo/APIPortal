@@ -9,6 +9,7 @@ namespace APIPortalLibrary.Interfaces.Store
 {
     interface ISubscription
     {
+        //Get all subscriptions
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/subscriptions")]
         Task<ApiResponse<AllSubscriptions>> GetAllSubscriptions(
@@ -18,6 +19,7 @@ namespace APIPortalLibrary.Interfaces.Store
             [AliasAs("limit")] int limit = 0
             );
 
+        //Get details of a subscription
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/subscriptions/{subscriptionId}")]
         Task<ApiResponse<Subscription>> GetSubscriptionsDetails(
@@ -25,6 +27,7 @@ namespace APIPortalLibrary.Interfaces.Store
             [Header("Authorization")] string authorization
             );
 
+        //Add a new subscription
         [Headers("Content-Type:application/json")]
         [Post("/api/am/store/v0.14/subscriptions")]
         Task<ApiResponse<Subscription>> AddSubscription(
@@ -32,6 +35,7 @@ namespace APIPortalLibrary.Interfaces.Store
             [Header("Authorization")] string authorization
             );
 
+        //Add multiple subscriptions
         [Headers("Content-Type:application/json")]
         [Post("/api/am/store/v0.14/subscriptions/multiple")]
         Task<ApiResponse<List<Subscription>>> AddSubscriptionMultiple(
@@ -39,6 +43,7 @@ namespace APIPortalLibrary.Interfaces.Store
             [Header("Authorization")] string authorization
             );
 
+        //Delete subscription
         [Delete("/api/am/store/v0.14/subscriptions/{subscriptionId}")]
         Task<ApiResponse<Subscription>> DeleteSubscription(
             [AliasAs("subscriptionId")] string subscriptionId,

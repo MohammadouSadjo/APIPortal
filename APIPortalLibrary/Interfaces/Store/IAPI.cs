@@ -10,6 +10,7 @@ namespace APIPortalLibrary.Interfaces.Store
 {
     interface IAPI
     {
+        //Get all apis
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/apis")]
         Task<ApiResponse<AllApis>> GetAllApis(
@@ -17,7 +18,8 @@ namespace APIPortalLibrary.Interfaces.Store
             [AliasAs("offset")] int offset = 0,
             [AliasAs("query")] string query = ""
             );
-
+        
+        //Get details of an api
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/apis/{apiId}")]
         Task<ApiResponse<API>> GetApiDetails(

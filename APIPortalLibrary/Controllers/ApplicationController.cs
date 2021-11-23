@@ -12,8 +12,9 @@ namespace APIPortalLibrary.Controllers
 {
     public class ApplicationController
     {
-        public static async Task<ApiResponse<AllApplications>> AllApplications(int limit = 25, int offset = 0, string query = "")
+        public static async Task<ApiResponse<AllApplications>> AllApplications(int limit = 25, int offset = 0, string query = "")//Get list of all Applications
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -44,8 +45,9 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<Application>> ApplicationDetails(string applicationId)
+        public static async Task<ApiResponse<Application>> ApplicationDetails(string applicationId)// Get details of a given application
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -53,6 +55,7 @@ namespace APIPortalLibrary.Controllers
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
+            //Set user's authorization
             var authorization = "Bearer " + Config.UserInfos.accessToken;
 
             try
@@ -75,8 +78,9 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<Key>> ApplicationKeyDetailsOfGivenType(string applicationId, string keyType, string groupId = "")
+        public static async Task<ApiResponse<Key>> ApplicationKeyDetailsOfGivenType(string applicationId, string keyType, string groupId = "")//Get application key detals of a given type(Type of key: PRODUCTION or SANDBOX)
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -84,6 +88,7 @@ namespace APIPortalLibrary.Controllers
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
+            //Set user's authorization
             var authorization = "Bearer " + Config.UserInfos.accessToken;
 
             try
@@ -106,8 +111,9 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<Application>> AddApplication(string throttlingTier, string description, string name, string callbackUrl, string groupId)
+        public static async Task<ApiResponse<Application>> AddApplication(string throttlingTier, string description, string name, string callbackUrl, string groupId)//Add a new application
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -115,7 +121,9 @@ namespace APIPortalLibrary.Controllers
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
+            //Set user's authorization
             var authorization = "Bearer " + Config.UserInfos.accessToken;
+            //set body request
             var body = "{\"throttlingTier\": \"" + throttlingTier + "\"," +
                        "\"description\": \"" + description + "\"," +
                        "\"name\": \"" + name + "\"," +
@@ -141,8 +149,9 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<Application>> UpdateApplication(string applicationId, string throttlingTier, string description, string name, string callbackUrl, string groupId)
+        public static async Task<ApiResponse<Application>> UpdateApplication(string applicationId, string throttlingTier, string description, string name, string callbackUrl, string groupId)//Update a given application
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -150,7 +159,9 @@ namespace APIPortalLibrary.Controllers
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
+            //set user's authorization
             var authorization = "Bearer " + Config.UserInfos.accessToken;
+            //set body request
             var body = "{\"throttlingTier\": \"" + throttlingTier + "\"," +
                        "\"description\": \"" + description + "\"," +
                        "\"name\": \"" + name + "\"," +
@@ -176,8 +187,9 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<Key>> UpdateGrantTypesAndCallbackUrl(string applicationId, string keyType, List<string> supportedGrantTypes, string callbackUrl)
+        public static async Task<ApiResponse<Key>> UpdateGrantTypesAndCallbackUrl(string applicationId, string keyType, List<string> supportedGrantTypes, string callbackUrl)//Update grantTypes and callback url of an application
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -185,7 +197,9 @@ namespace APIPortalLibrary.Controllers
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
+            //set user's authorization
             var authorization = "Bearer " + Config.UserInfos.accessToken;
+            //set body request
             var body = "{ \"supportedGrantTypes\" : [";
             var count = 1;
             supportedGrantTypes.ForEach(c => {
@@ -222,8 +236,9 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<Application>> DeleteApplication(string applicationId)
+        public static async Task<ApiResponse<Application>> DeleteApplication(string applicationId)//Delete an application
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -231,6 +246,7 @@ namespace APIPortalLibrary.Controllers
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
+            //set user's authorization
             var authorization = "Bearer " + Config.UserInfos.accessToken;
 
             try
@@ -253,8 +269,9 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string applicationId)
+        public static async Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string applicationId)//Generate application's Keys
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -262,7 +279,9 @@ namespace APIPortalLibrary.Controllers
             {
                 BaseAddress = new Uri(Config.baseUrl)
             };
+            //Set user's authorization'
             var authorization = "Bearer " + Config.UserInfos.accessToken;
+            //set body request
             var body = Config.bodyRequestGenerateKeys;
             try
             {

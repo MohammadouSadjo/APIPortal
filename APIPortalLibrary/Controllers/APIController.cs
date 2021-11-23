@@ -12,8 +12,10 @@ namespace APIPortalLibrary.Controllers
 {
     public class APIController
     {
-        public static async Task<ApiResponse<AllApis>> AllApis(int limit = 25, int offset = 0, string query = "")
+        
+        public static async Task<ApiResponse<AllApis>> AllApis(int limit = 25, int offset = 0, string query = "")//Get List of all APIs
         {
+            //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
@@ -41,8 +43,9 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<API>> APIDetails(string apiId)
+        public static async Task<ApiResponse<API>> APIDetails(string apiId)//Get Details of a given API
         {
+            //ByPass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
 
