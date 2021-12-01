@@ -5,6 +5,7 @@ using APIPortalLibrary.Models.Authentication;
 using Refit;
 using System.Collections.Generic;
 using APIPortalLibrary.Controllers;
+using System.Net.Http;
 
 namespace APIPortalConsole
 {
@@ -187,6 +188,18 @@ namespace APIPortalConsole
             apiDetails.Content.environmentList.ForEach(c => Console.WriteLine(c));
             Console.WriteLine(apiDetails.Content.lastUpdatedTime);
             Console.WriteLine(apiDetails.Content.createdTime);*/
+
+            //** GET SWAGGER DEFINITION
+            /**var apiId = "7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071";
+            var taskSwaggerDefinition = APIController.SwaggerDefinition(apiId);
+
+            ApiResponse<string> swaggerDefinition;
+
+            swaggerDefinition = taskSwaggerDefinition.Result;
+
+            Console.WriteLine("Get Swagger definition:");
+            Console.WriteLine("Status code : " + swaggerDefinition.StatusCode);
+            Console.WriteLine("Content : " + swaggerDefinition.Content);*/
 
             //** GET ALL SUBSCRIPTIONS
 
