@@ -55,7 +55,7 @@ namespace APIPortalLibrary.Controllers
 
             HttpClient _client = new HttpClient(clientHandler)
             {
-                BaseAddress = new Uri("https://localhost:8243")
+                BaseAddress = new Uri("http://localhost:8280")
             };
             ILogin _restApiService = RestService.For<ILogin>(_client);
             //Get user's clientId and SecretId
