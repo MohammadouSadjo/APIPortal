@@ -1,6 +1,6 @@
 ﻿using APIPortalLibrary.Configuration;
-using APIPortalLibrary.Interfaces.Authentication;
-using APIPortalLibrary.Models.Authentication;
+using APIPortalLibrary.Interfaces.Store;
+using APIPortalLibrary.Models.Store;
 using Refit;
 using System;
 using System.Collections.Generic;

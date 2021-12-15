@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using APIPortalLibrary.Models.Authentication;
+using APIPortalLibrary.Models.Store;
 
-namespace APIPortalLibrary.Interfaces.Authentication
+namespace APIPortalLibrary.Interfaces.Store
 {
     interface ILogin
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace APIPortalLibrary.Models.Authentication
+namespace APIPortalLibrary.Models.Store
 {
     public class Login
     {
