@@ -47,7 +47,7 @@ namespace APIPortalLibrary.Services
 
         }
 
-        public static async Task<ApiResponse<AccessToken>> AccessToken(string username, string password, string scope)//Get access token ofa user by passing his clientId and SecretId
+        public static async Task<ApiResponse<AccessToken>> AccessToken(string username, string password)//Get access token ofa user by passing his clientId and SecretId
         {
             //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
@@ -70,7 +70,7 @@ namespace APIPortalLibrary.Services
 
             try
             {
-                var accessToken = await _restApiService.GetAccessToken(authorization, username, password, scope);
+                var accessToken = await _restApiService.GetAccessToken(authorization, username, password);
                 //set user's access token
 
                 Config.UserInfos.accessToken = accessToken.Content.access_token;

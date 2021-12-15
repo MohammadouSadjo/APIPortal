@@ -24,7 +24,7 @@ namespace APIPortalConsole
             Console.WriteLine("ClientSecret : " + clientIDSecret.Content.clientSecret);
 
             //** GET ACCESS TOKEN
-            var taskAccessToken = LoginService.AccessToken("admin", "admin", "apim:subscribe");
+            var taskAccessToken = LoginService.AccessToken("admin", "admin");
 
             ApiResponse<AccessToken> accessToken;
             accessToken = taskAccessToken.Result;
