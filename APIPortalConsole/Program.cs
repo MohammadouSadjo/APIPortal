@@ -1,9 +1,9 @@
 ﻿using System;
 using APIPortalLibrary;
-using APIPortalLibrary.Models.Store;
+using APIPortalLibrary.Models;
 using Refit;
 using System.Collections.Generic;
-using APIPortalLibrary.Controllers;
+using APIPortalLibrary.Services;
 using System.Net.Http;
 
 namespace APIPortalConsole
@@ -12,8 +12,10 @@ namespace APIPortalConsole
     {
         static void Main(string[] args)
         {
+            //STORE
+
             //** GET CLIENTID AND SECRET ID
-            var taskClientIDSecret = LoginController.ClientIDSecret();
+            var taskClientIDSecret = LoginService.ClientIDSecret();
 
             ApiResponse<ClientIDAndSecret> clientIDSecret;
             clientIDSecret = taskClientIDSecret.Result;
@@ -22,7 +24,7 @@ namespace APIPortalConsole
             Console.WriteLine("ClientSecret : " + clientIDSecret.Content.clientSecret);
 
             //** GET ACCESS TOKEN
-            var taskAccessToken = LoginController.AccessToken("admin", "admin");
+            var taskAccessToken = LoginService.AccessToken("admin", "admin", "apim:subscribe");
 
             ApiResponse<AccessToken> accessToken;
             accessToken = taskAccessToken.Result;
@@ -30,7 +32,7 @@ namespace APIPortalConsole
             Console.WriteLine("Access token : " + accessToken.Content.access_token);
 
             //** GET ALL APPLICATIONS
-            var query = "";
+            /*var query = "";
             var limit = 25;
             var offset = 0;
 
@@ -46,17 +48,17 @@ namespace APIPortalConsole
             allApplications.Content.list.ForEach(c => {
                 Console.WriteLine("App Id : " + c.applicationId);
                 Console.WriteLine("App name : " + c.name);
-            });
+            });*/
 
             //**GET APPLICATION DETAILS
-            var taskApplicationDetails = ApplicationController.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
+            /*var taskApplicationDetails = ApplicationController.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
 
             ApiResponse<Application> applicationDetails;
             applicationDetails = taskApplicationDetails.Result;
             ;
             Console.WriteLine("Status code: " + applicationDetails.StatusCode);
             Console.WriteLine("Application ID : " + applicationDetails.Content.applicationId);
-            Console.WriteLine("Description : " + applicationDetails.Content.description);
+            Console.WriteLine("Description : " + applicationDetails.Content.description);*/
 
             //**GET APPLICATION KEY DETAILS OF A GIVEN TYPE
             /*var taskApplicationKeyDetailsOfGivenType = ApplicationController.ApplicationKeyDetailsOfGivenType("cb76761d-4d45-4231-8578-6f5592571c11", "PRODUCTION");
@@ -325,6 +327,7 @@ namespace APIPortalConsole
             Console.WriteLine("Get Document Content");
             Console.WriteLine("Status code : " + documentContent.StatusCode);
             Console.WriteLine("Content : " + documentContent.Content);*/
+
         }
     }
 }

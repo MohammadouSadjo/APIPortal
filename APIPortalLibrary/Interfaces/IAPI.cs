@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using APIPortalLibrary.Models.Store;
+using APIPortalLibrary.Models;
 using System.Net.Http;
 
-namespace APIPortalLibrary.Interfaces.Store
+namespace APIPortalLibrary.Interfaces
 {
     interface IAPI
     {
@@ -18,7 +18,7 @@ namespace APIPortalLibrary.Interfaces.Store
             [AliasAs("offset")] int offset = 0,
             [AliasAs("query")] string query = ""
             );
-        
+
         //Get details of an api
         [Headers("Accept:application/json")]
         [Get("/api/am/store/v0.14/apis/{apiId}")]

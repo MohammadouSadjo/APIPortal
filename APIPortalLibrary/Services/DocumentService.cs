@@ -1,6 +1,6 @@
 ﻿using APIPortalLibrary.Configuration;
-using APIPortalLibrary.Interfaces.Store;
-using APIPortalLibrary.Models.Store;
+using APIPortalLibrary.Interfaces;
+using APIPortalLibrary.Models;
 using Refit;
 using System;
 using System.Collections.Generic;
@@ -8,9 +8,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIPortalLibrary.Controllers
+namespace APIPortalLibrary.Services
 {
-    public class DocumentController
+    public class DocumentService
     {
         public static async Task<ApiResponse<AllDocuments>> AllDocuments(string apiId, int limit = 25, int offset = 0, string tenant = "")//Get all documents of a given API
         {

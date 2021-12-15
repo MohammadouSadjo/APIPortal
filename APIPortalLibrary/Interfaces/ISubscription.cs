@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using APIPortalLibrary.Models.Store;
+using APIPortalLibrary.Models;
 
-namespace APIPortalLibrary.Interfaces.Store
+namespace APIPortalLibrary.Interfaces
 {
     interface ISubscription
     {

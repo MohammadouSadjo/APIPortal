@@ -1,6 +1,6 @@
 ﻿using APIPortalLibrary.Configuration;
-using APIPortalLibrary.Interfaces.Store;
-using APIPortalLibrary.Models.Store;
+using APIPortalLibrary.Interfaces;
+using APIPortalLibrary.Models;
 using Refit;
 using System;
 using System.Collections.Generic;
@@ -8,9 +8,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIPortalLibrary.Controllers
+namespace APIPortalLibrary.Services
 {
-    public class SubscriptionController
+    public class SubscriptionService
     {
         public static async Task<ApiResponse<AllSubscriptions>> AllSubscriptions(string applicationId, int offset = 0, int limit = 0)//Get list of all subscription of an application
         {

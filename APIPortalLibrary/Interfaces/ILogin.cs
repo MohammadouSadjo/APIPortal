@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using APIPortalLibrary.Models.Store;
+using APIPortalLibrary.Models;
 
-namespace APIPortalLibrary.Interfaces.Store
+namespace APIPortalLibrary.Interfaces
 {
     interface ILogin
     {
@@ -16,8 +16,8 @@ namespace APIPortalLibrary.Interfaces.Store
             [Header("Authorization")] string authorization,
             [AliasAs("username")] string username,
             [AliasAs("password")] string password,
-            [AliasAs("grant_type")] string grant_type = "password",
-            [AliasAs("scope")] string scope = "apim:subscribe"
+            [AliasAs("scope")] string scope,
+            [AliasAs("grant_type")] string grant_type = "password"
             );
 
         //Get clienId and secretId

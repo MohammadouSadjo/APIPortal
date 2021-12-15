@@ -1,6 +1,6 @@
 ﻿using APIPortalLibrary.Configuration;
-using APIPortalLibrary.Interfaces.Store;
-using APIPortalLibrary.Models.Store;
+using APIPortalLibrary.Interfaces;
+using APIPortalLibrary.Models;
 using Refit;
 using System;
 using System.Collections.Generic;
@@ -8,9 +8,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIPortalLibrary.Controllers
+namespace APIPortalLibrary.Services
 {
-    public class LoginController
+    public class LoginService
     {
         public static async Task<ApiResponse<ClientIDAndSecret>> ClientIDSecret()// Get clientId and SecretID of the user
         {
@@ -47,7 +47,7 @@ namespace APIPortalLibrary.Controllers
 
         }
 
-        public static async Task<ApiResponse<AccessToken>> AccessToken(string username, string password)//Get access token ofa user by passing his clientId and SecretId
+        public static async Task<ApiResponse<AccessToken>> AccessToken(string username, string password, string scope)//Get access token ofa user by passing his clientId and SecretId
         {
             //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
@@ -67,10 +67,12 @@ namespace APIPortalLibrary.Controllers
             var base64 = Convert.ToBase64String(textBytes);
 
             var authorization = "Basic " + base64;
+
             try
             {
-                var accessToken = await _restApiService.GetAccessToken(authorization, username, password);
+                var accessToken = await _restApiService.GetAccessToken(authorization, username, password, scope);
                 //set user's access token
+
                 Config.UserInfos.accessToken = accessToken.Content.access_token;
 
                 return accessToken;

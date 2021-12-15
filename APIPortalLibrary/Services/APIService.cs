@@ -1,6 +1,6 @@
 ﻿using APIPortalLibrary.Configuration;
-using APIPortalLibrary.Interfaces.Store;
-using APIPortalLibrary.Models.Store;
+using APIPortalLibrary.Interfaces;
+using APIPortalLibrary.Models;
 using Refit;
 using System;
 using System.Collections.Generic;
@@ -8,9 +8,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIPortalLibrary.Controllers
+namespace APIPortalLibrary.Services
 {
-    public class APIController
+    public class APIService
     {
         
         public static async Task<ApiResponse<AllApis>> AllApis(int limit = 25, int offset = 0, string query = "")//Get List of all APIs
