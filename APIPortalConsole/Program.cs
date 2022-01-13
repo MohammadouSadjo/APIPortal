@@ -4,7 +4,12 @@ using APIPortalLibrary.Models;
 using Refit;
 using System.Collections.Generic;
 using APIPortalLibrary.Services;
+using Microsoft.Extensions.Http;
 using System.Net.Http;
+using Microsoft.Extensions.DependencyInjection;
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
 
 namespace APIPortalConsole
 {
@@ -31,45 +36,69 @@ namespace APIPortalConsole
 
             Console.WriteLine("Access token : " + accessToken.Content.access_token);
 
+            //APPLICATIONS
+            IServiceCollection services = new ServiceCollection();
+            services.AddHttpClient<IApplicationService, ApplicationService>(c =>
+            {
+                c.BaseAddress = new Uri("https://localhost:9443");
+
+            }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+            });
+
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            var _service = serviceProvider.GetRequiredService<IApplicationService>();
+
+            //GetAllApplications();
+            //GetApplicationDetails();
+            GetApplicationKeyDetailsOfAGivenType();
+
             //** GET ALL APPLICATIONS
-            /*var query = "";
-            var limit = 25;
-            var offset = 0;
+            void GetAllApplications()
+            {
+                var query = "";
+                var limit = 25;
+                var offset = 0;
+                
+                var taskAllApplications = _service.AllApplications(limit, offset, query);
+                ApiResponse<AllApplications> allApplications = taskAllApplications.Result;
 
-            var taskAllApplications = ApplicationController.AllApplications(limit, offset, query);
-
-            ApiResponse<AllApplications> allApplications;
-            allApplications = taskAllApplications.Result;
-
-            Console.WriteLine("ALL APPLICATIONS");
-            Console.WriteLine("Status code : " + allApplications.StatusCode);
-            Console.WriteLine("count : " + allApplications.Content.count);
-            Console.WriteLine("next : " + allApplications.Content.next);
-            allApplications.Content.list.ForEach(c => {
-                Console.WriteLine("App Id : " + c.applicationId);
-                Console.WriteLine("App name : " + c.name);
-            });*/
+                Console.WriteLine("ALL APPLICATIONS");
+                Console.WriteLine("Status code : " + allApplications.StatusCode);
+                Console.WriteLine("count : " + allApplications.Content.count);
+                Console.WriteLine("next : " + allApplications.Content.next);
+                allApplications.Content.list.ForEach(c => {
+                    Console.WriteLine("App Id : " + c.applicationId);
+                    Console.WriteLine("App name : " + c.name);
+                });
+            }
 
             //**GET APPLICATION DETAILS
-            /*var taskApplicationDetails = ApplicationController.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
+            void GetApplicationDetails()
+            {
+                var taskApplicationDetails = _service.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
+                ApiResponse<Application> applicationDetails = taskApplicationDetails.Result;
 
-            ApiResponse<Application> applicationDetails;
-            applicationDetails = taskApplicationDetails.Result;
-            ;
-            Console.WriteLine("Status code: " + applicationDetails.StatusCode);
-            Console.WriteLine("Application ID : " + applicationDetails.Content.applicationId);
-            Console.WriteLine("Description : " + applicationDetails.Content.description);*/
+                Console.WriteLine("Status code: " + applicationDetails.StatusCode);
+                Console.WriteLine("Application ID : " + applicationDetails.Content.applicationId);
+                Console.WriteLine("Description : " + applicationDetails.Content.description);
+            }
+
 
             //**GET APPLICATION KEY DETAILS OF A GIVEN TYPE
-            /*var taskApplicationKeyDetailsOfGivenType = ApplicationController.ApplicationKeyDetailsOfGivenType("cb76761d-4d45-4231-8578-6f5592571c11", "PRODUCTION");
+            void GetApplicationKeyDetailsOfAGivenType()
+            {
+                var taskApplicationKeyDetailsOfGivenType = _service.ApplicationKeyDetailsOfGivenType("cb76761d-4d45-4231-8578-6f5592571c11", "PRODUCTION");
 
-            ApiResponse<Key> applicationKeyDetailsOfGivenType;
-            applicationKeyDetailsOfGivenType = taskApplicationKeyDetailsOfGivenType.Result;
-            ;
-            Console.WriteLine("Status code: " + applicationKeyDetailsOfGivenType.StatusCode);
-            Console.WriteLine("Consumerkey : " + applicationKeyDetailsOfGivenType.Content.consumerKey);
-            Console.WriteLine("consumersecret : " + applicationKeyDetailsOfGivenType.Content.consumerSecret);
-            Console.WriteLine("keytype : " + applicationKeyDetailsOfGivenType.Content.keyType);*/
+                ApiResponse<Key> applicationKeyDetailsOfGivenType;
+                applicationKeyDetailsOfGivenType = taskApplicationKeyDetailsOfGivenType.Result;
+                ;
+                Console.WriteLine("Status code: " + applicationKeyDetailsOfGivenType.StatusCode);
+                Console.WriteLine("Consumerkey : " + applicationKeyDetailsOfGivenType.Content.consumerKey);
+                Console.WriteLine("consumersecret : " + applicationKeyDetailsOfGivenType.Content.consumerSecret);
+                Console.WriteLine("keytype : " + applicationKeyDetailsOfGivenType.Content.keyType);
+            }
 
             //** ADD APPLICATION
             /*var throttlingTier = "Unlimited";

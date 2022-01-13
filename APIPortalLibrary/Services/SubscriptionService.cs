@@ -50,7 +50,7 @@ namespace APIPortalLibrary.Services
             //Bypass SSL Certificate
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-
+           
             HttpClient _client = new HttpClient(clientHandler)
             {
                 BaseAddress = new Uri(Config.baseUrl)
