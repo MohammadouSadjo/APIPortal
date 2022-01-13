@@ -50,9 +50,14 @@ namespace APIPortalConsole
             ServiceProvider serviceProvider = services.BuildServiceProvider();
             var _service = serviceProvider.GetRequiredService<IApplicationService>();
 
-            //GetAllApplications();
+            GetAllApplications();
             //GetApplicationDetails();
-            GetApplicationKeyDetailsOfAGivenType();
+            //GetApplicationKeyDetailsOfAGivenType();
+            //AddApplication();
+            //UpdateApplication();
+            //UpdateGrantTypesAndCallbackUrl();
+            //DeleteApplication();
+            GenerateApplicationKeys();
 
             //** GET ALL APPLICATIONS
             void GetAllApplications()
@@ -101,76 +106,93 @@ namespace APIPortalConsole
             }
 
             //** ADD APPLICATION
-            /*var throttlingTier = "Unlimited";
-            var description = "sample app description";
-            var name = "sampleapp";
-            var callbackUrl = "";
-            var groupId = "";
-            var taskAddApplication = ApplicationController.AddApplication(throttlingTier, description, name, callbackUrl, groupId);
-            ApiResponse<Application> addApplication;
-            addApplication = taskAddApplication.Result;
+            void AddApplication()
+            {
+                var throttlingTier = "Unlimited";
+                var description = "sample app description";
+                var name = "sampleapp";
+                var callbackUrl = "";
+                var groupId = "";
+                var taskAddApplication = _service.AddApplication(throttlingTier, description, name, callbackUrl, groupId);
+                ApiResponse<Application> addApplication;
+                addApplication = taskAddApplication.Result;
 
-            Console.WriteLine("Add application");
-            Console.WriteLine("Statuscode : " + addApplication.StatusCode);
-            Console.WriteLine("app id : " + addApplication.Content.applicationId);
-            Console.WriteLine("name : " + addApplication.Content.name);
-            Console.WriteLine("subscriber : " + addApplication.Content.subscriber);*/
+                Console.WriteLine("Add application");
+                Console.WriteLine("Statuscode : " + addApplication.StatusCode);
+                Console.WriteLine("app id : " + addApplication.Content.applicationId);
+                Console.WriteLine("name : " + addApplication.Content.name);
+                Console.WriteLine("subscriber : " + addApplication.Content.subscriber);
+            }
+            /**/
 
             //**UPDATE APPLICATION
-            /*var throttlingTier = "Unlimited";
-            var description = "sample app description";
-            var name = "sampleappUpdated";
-            var callbackUrl = "";
-            var groupId = "";
-            var taskAddApplication = ApplicationController.UpdateApplication("bea5e191-0a51-4bb0-a91f-bd8987f68268", throttlingTier, description, name, callbackUrl, groupId);
-            ApiResponse<Application> updateApplication;
-            updateApplication = taskAddApplication.Result;
+            void UpdateApplication()
+            {
+                var throttlingTier = "Unlimited";
+                var description = "sample app description";
+                var name = "sampleappUpdated";
+                var callbackUrl = "";
+                var groupId = "";
+                var taskAddApplication = _service.UpdateApplication("4da09cfb-c05c-400e-bc53-343f76727ad6", throttlingTier, description, name, callbackUrl, groupId);
+                ApiResponse<Application> updateApplication;
+                updateApplication = taskAddApplication.Result;
 
-            Console.WriteLine("Update application");
-            Console.WriteLine("Statuscode : " + updateApplication.StatusCode);
-            Console.WriteLine("app id : " + updateApplication.Content.applicationId);
-            Console.WriteLine("name : " + updateApplication.Content.name);
-            Console.WriteLine("subscriber : " + updateApplication.Content.subscriber);*/
+                Console.WriteLine("Update application");
+                Console.WriteLine("Statuscode : " + updateApplication.StatusCode);
+                Console.WriteLine("app id : " + updateApplication.Content.applicationId);
+                Console.WriteLine("name : " + updateApplication.Content.name);
+                Console.WriteLine("subscriber : " + updateApplication.Content.subscriber);
+            }
 
             //** UPDATE GRANTTYPES AND CALLBACK URL
-            /*var refresh_token = "refresh_token";
-            var oauth = "urn:ietf:params:oauth:grant-type:saml2-bearer";
-            var password = "password";
-            var client_credentials = "client_credentials";
-            var iwa = "iwa:ntlm";
-            List<string> supportedGrantTypes = new List<string>();
-            supportedGrantTypes.Add(refresh_token);
-            supportedGrantTypes.Add(oauth);
-            supportedGrantTypes.Add(password);
-            supportedGrantTypes.Add(client_credentials);
-            supportedGrantTypes.Add(iwa);
-            var callbackUrl = "http://sample/com/callback";
-            var taskUpdateGrantTypesAndCallbackUrl = ApplicationController.UpdateGrantTypesAndCallbackUrl("cb76761d-4d45-4231-8578-6f5592571c11", "SANDBOX", supportedGrantTypes, callbackUrl);
-            ApiResponse<Key> updateGrantTypesAndUrl;
-            updateGrantTypesAndUrl = taskUpdateGrantTypesAndCallbackUrl.Result;
+            void UpdateGrantTypesAndCallbackUrl()
+            {
+                var refresh_token = "refresh_token";
+                var oauth = "urn:ietf:params:oauth:grant-type:saml2-bearer";
+                var password = "password";
+                var client_credentials = "client_credentials";
+                var iwa = "iwa:ntlm";
+                List<string> supportedGrantTypes = new List<string>();
+                supportedGrantTypes.Add(refresh_token);
+                supportedGrantTypes.Add(oauth);
+                supportedGrantTypes.Add(password);
+                supportedGrantTypes.Add(client_credentials);
+                supportedGrantTypes.Add(iwa);
+                var callbackUrl = "http://sample/com/callback";
+                var taskUpdateGrantTypesAndCallbackUrl = _service.UpdateGrantTypesAndCallbackUrl("cb76761d-4d45-4231-8578-6f5592571c11", "SANDBOX", supportedGrantTypes, callbackUrl);
+                ApiResponse<Key> updateGrantTypesAndUrl;
+                updateGrantTypesAndUrl = taskUpdateGrantTypesAndCallbackUrl.Result;
 
-            Console.WriteLine("Update grantTypes and CallbackUrl");
-            Console.WriteLine("statuscode : " + updateGrantTypesAndUrl.StatusCode);
-            Console.WriteLine("Consumerkey : " + updateGrantTypesAndUrl.Content.consumerKey);
-            Console.WriteLine("ConsumerSecret : " + updateGrantTypesAndUrl.Content.consumerSecret);*/
+                Console.WriteLine("Update grantTypes and CallbackUrl");
+                Console.WriteLine("statuscode : " + updateGrantTypesAndUrl.StatusCode);
+                Console.WriteLine("Consumerkey : " + updateGrantTypesAndUrl.Content.consumerKey);
+                Console.WriteLine("ConsumerSecret : " + updateGrantTypesAndUrl.Content.consumerSecret);
+            }
+            
             //DELETE APPLICATION
-            /*var taskDeleteApplication = ApplicationController.DeleteApplication("e69f94f8-9bbe-42b4-a0c1-a9f36a150853");
-            ApiResponse<Application> deleteApplication;
-            deleteApplication = taskDeleteApplication.Result;
+            void DeleteApplication()
+            {
+                var taskDeleteApplication = _service.DeleteApplication("4da09cfb-c05c-400e-bc53-343f76727ad6");
+                ApiResponse<Application> deleteApplication;
+                deleteApplication = taskDeleteApplication.Result;
 
-            Console.WriteLine("Delete application");
-            Console.WriteLine("StatusCode: " + deleteApplication.StatusCode);*/
+                Console.WriteLine("Delete application");
+                Console.WriteLine("StatusCode: " + deleteApplication.StatusCode);
+            }
 
             //**GENERATE APPLICATION KEYS 
-            /*var taskApplicationKeys = ApplicationController.GenerateApplicationKeys("cb76761d-4d45-4231-8578-6f5592571c11");
+            void GenerateApplicationKeys()
+            {
+                var taskApplicationKeys = _service.GenerateApplicationKeys("aa2a068c-a007-498a-93a9-036d73c04281");
 
-            ApiResponse<GenerateApplicationKeys> applicationKeys;
-            applicationKeys = taskApplicationKeys.Result;
+                ApiResponse<GenerateApplicationKeys> applicationKeys;
+                applicationKeys = taskApplicationKeys.Result;
 
-            Console.WriteLine("Status code : " + applicationKeys.StatusCode);
-            Console.WriteLine("Consumer Key : " + applicationKeys.Content.consumerKey);
-            Console.WriteLine("Consumer Secret : " + applicationKeys.Content.consumerSecret);
-            Console.WriteLine("Access Token : " + applicationKeys.Content.token.accessToken);*/
+                Console.WriteLine("Status code : " + applicationKeys.StatusCode);
+                Console.WriteLine("Consumer Key : " + applicationKeys.Content.consumerKey);
+                Console.WriteLine("Consumer Secret : " + applicationKeys.Content.consumerSecret);
+                Console.WriteLine("Access Token : " + applicationKeys.Content.token.accessToken);
+            }
 
             //**  GET ALL APIS
             /*var limit = 25;

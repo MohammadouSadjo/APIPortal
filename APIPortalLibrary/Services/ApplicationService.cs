@@ -94,14 +94,6 @@ namespace APIPortalLibrary.Services
 
         public async Task<ApiResponse<Application>> AddApplication(string throttlingTier, string description, string name, string callbackUrl, string groupId)//Add a new application
         {
-            //Bypass SSL Certificate
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-
-            HttpClient _client = new HttpClient(clientHandler)
-            {
-                BaseAddress = new Uri(Config.baseUrl)
-            };
             //Set user's authorization
             var authorization = "Bearer " + Config.UserInfos.accessToken;
             //set body request
@@ -132,14 +124,6 @@ namespace APIPortalLibrary.Services
 
         public async Task<ApiResponse<Application>> UpdateApplication(string applicationId, string throttlingTier, string description, string name, string callbackUrl, string groupId)//Update a given application
         {
-            //Bypass SSL Certificate
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-
-            HttpClient _client = new HttpClient(clientHandler)
-            {
-                BaseAddress = new Uri(Config.baseUrl)
-            };
             //set user's authorization
             var authorization = "Bearer " + Config.UserInfos.accessToken;
             //set body request
@@ -170,14 +154,6 @@ namespace APIPortalLibrary.Services
 
         public async Task<ApiResponse<Key>> UpdateGrantTypesAndCallbackUrl(string applicationId, string keyType, List<string> supportedGrantTypes, string callbackUrl)//Update grantTypes and callback url of an application
         {
-            //Bypass SSL Certificate
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-
-            HttpClient _client = new HttpClient(clientHandler)
-            {
-                BaseAddress = new Uri(Config.baseUrl)
-            };
             //set user's authorization
             var authorization = "Bearer " + Config.UserInfos.accessToken;
             //set body request
@@ -219,14 +195,6 @@ namespace APIPortalLibrary.Services
 
         public async Task<ApiResponse<Application>> DeleteApplication(string applicationId)//Delete an application
         {
-            //Bypass SSL Certificate
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-
-            HttpClient _client = new HttpClient(clientHandler)
-            {
-                BaseAddress = new Uri(Config.baseUrl)
-            };
             //set user's authorization
             var authorization = "Bearer " + Config.UserInfos.accessToken;
 
@@ -252,14 +220,6 @@ namespace APIPortalLibrary.Services
 
         public async Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string applicationId)//Generate application's Keys
         {
-            //Bypass SSL Certificate
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-
-            HttpClient _client = new HttpClient(clientHandler)
-            {
-                BaseAddress = new Uri(Config.baseUrl)
-            };
             //Set user's authorization'
             var authorization = "Bearer " + Config.UserInfos.accessToken;
             //set body request
