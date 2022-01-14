@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
+using APIPortalLibrary.Services.Applications;
 
 namespace APIPortalConsole
 {
