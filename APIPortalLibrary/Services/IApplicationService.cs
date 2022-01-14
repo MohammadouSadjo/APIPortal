@@ -16,6 +16,6 @@ namespace APIPortalLibrary.Services
         Task<ApiResponse<Application>> UpdateApplication(string applicationId, string throttlingTier, string description, string name, string callbackUrl, string groupId);
         Task<ApiResponse<Key>> UpdateGrantTypesAndCallbackUrl(string applicationId, string keyType, List<string> supportedGrantTypes, string callbackUrl);
         Task<ApiResponse<Application>> DeleteApplication(string applicationId);
-        Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string applicationId);
+        Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string applicationId, int validityTime, string keyType, List<string> supportedGrantTypes);
     }
 }

@@ -183,7 +183,20 @@ namespace APIPortalConsole
             //**GENERATE APPLICATION KEYS 
             void GenerateApplicationKeys()
             {
-                var taskApplicationKeys = _service.GenerateApplicationKeys("aa2a068c-a007-498a-93a9-036d73c04281");
+                var validityTime = 3600;
+                var keyType = "PRODUCTION";
+                var refresh_token = "refresh_token";
+                var oauth = "urn:ietf:params:oauth:grant-type:saml2-bearer";
+                var password = "password";
+                var client_credentials = "client_credentials";
+                var iwa = "iwa:ntlm";
+                List<string> supportedGrantTypes = new List<string>();
+                supportedGrantTypes.Add(refresh_token);
+                supportedGrantTypes.Add(oauth);
+                supportedGrantTypes.Add(password);
+                supportedGrantTypes.Add(client_credentials);
+                supportedGrantTypes.Add(iwa);
+                var taskApplicationKeys = _service.GenerateApplicationKeys("a135e363-10b6-4171-8d18-0e8c89614692", validityTime, keyType, supportedGrantTypes);
 
                 ApiResponse<GenerateApplicationKeys> applicationKeys;
                 applicationKeys = taskApplicationKeys.Result;

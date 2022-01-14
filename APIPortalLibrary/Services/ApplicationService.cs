@@ -218,12 +218,31 @@ namespace APIPortalLibrary.Services
 
         }
 
-        public async Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string applicationId)//Generate application's Keys
+        public async Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string applicationId, int validityTime, string keyType, List<string> supportedGrantTypes)//Generate application's Keys
         {
             //Set user's authorization'
             var authorization = "Bearer " + Config.UserInfos.accessToken;
             //set body request
-            var body = Config.bodyRequestGenerateKeys;
+            var body = "{\"validityTime\": " + validityTime + "," +
+                                                        "\"keyType\": \"" + keyType + "\"," +
+                                                        "\"accessAllowDomains\": [ \"ALL\" ]," +
+                                                        "\"scopes\": [ \"am_application_scope\", \"default\" ]," +
+                                                        "\"supportedGrantTypes\": [";
+            var count = 1;
+            supportedGrantTypes.ForEach(c => {
+                if (count != supportedGrantTypes.Count)
+                {
+                    body = body + "\"" + c + "\",";
+                    count = count + 1;
+                }
+                else
+                {
+                    body = body + "\"" + c + "\"";
+                }
+
+            });
+            body = body + "]}";
+            
             try
             {
                 IApplication _restApiService = RestService.For<IApplication>(_client);
