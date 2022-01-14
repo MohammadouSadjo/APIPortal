@@ -15,13 +15,6 @@ namespace APIPortalLibrary.Configuration
                         "\"owner\": \"admin\"," +
                         "\"grantType\": \"password refresh_token\"," +
                         "\"saasApp\": true}";
-
-        //Body Request for API of Generating Keys of an application
-        public static string bodyRequestGenerateKeys = "{\"validityTime\": 3600," +
-                                                        "\"keyType\": \"PRODUCTION\"," +
-                                                        "\"accessAllowDomains\": [ \"ALL\" ]," +
-                                                        "\"scopes\": [ \"am_application_scope\", \"default\" ]," +
-                                                        "\"supportedGrantTypes\": [ \"urn:ietf:params:oauth:grant-type:saml2-bearer\", \"iwa:ntlm\", \"refresh_token\", \"client_credentials\", \"password\" ]}";
         
         // Get and Set user's data for authentification
         public static class UserInfos

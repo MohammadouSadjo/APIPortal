@@ -11,6 +11,7 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using APIPortalLibrary.Services.Applications;
+using APIPortalLibrary.Services.Login;
 
 namespace APIPortalConsole
 {
@@ -19,25 +20,6 @@ namespace APIPortalConsole
         static void Main(string[] args)
         {
             //STORE
-
-            //** GET CLIENTID AND SECRET ID
-            var taskClientIDSecret = LoginService.ClientIDSecret();
-
-            ApiResponse<ClientIDAndSecret> clientIDSecret;
-            clientIDSecret = taskClientIDSecret.Result;
-
-            Console.WriteLine("ClientId : " + clientIDSecret.Content.clientId);
-            Console.WriteLine("ClientSecret : " + clientIDSecret.Content.clientSecret);
-
-            //** GET ACCESS TOKEN
-            var taskAccessToken = LoginService.AccessToken("admin", "admin");
-
-            ApiResponse<AccessToken> accessToken;
-            accessToken = taskAccessToken.Result;
-
-            Console.WriteLine("Access token : " + accessToken.Content.access_token);
-
-            //APPLICATIONS
             IServiceCollection services = new ServiceCollection();
             services.AddHttpClient<IApplicationService, ApplicationService>(c =>
             {
@@ -48,26 +30,78 @@ namespace APIPortalConsole
                 ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
             });
 
-            ServiceProvider serviceProvider = services.BuildServiceProvider();
-            var _service = serviceProvider.GetRequiredService<IApplicationService>();
+            services.AddHttpClient<IClientIdAndSecretService, ClientIdAndSecretService>(c =>
+            {
+                c.BaseAddress = new Uri("https://localhost:9443");
 
-            GetAllApplications();
+            }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+            });
+
+            services.AddHttpClient<IAccessTokenService, AccessTokenService>(c =>
+            {
+                c.BaseAddress = new Uri("http://localhost:8280");
+
+            }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+            });
+
+
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            var _serviceApplication = serviceProvider.GetRequiredService<IApplicationService>();
+            var _serviceClientIdAndSecret = serviceProvider.GetRequiredService<IClientIdAndSecretService>();
+            var _serviceAccessToken = serviceProvider.GetRequiredService<IAccessTokenService>();
+
+            //***LOGIN
+
+            //GET CLIENTID AND SECRET ID
+            ApiResponse<ClientIDAndSecret> ClientIDAndSecret()
+            {
+                var taskClientIDSecret = _serviceClientIdAndSecret.ClientIDSecret();
+
+                ApiResponse<ClientIDAndSecret> clientIDSecret;
+                clientIDSecret = taskClientIDSecret.Result;
+
+                Console.WriteLine("ClientId : " + clientIDSecret.Content.clientId);
+                Console.WriteLine("ClientSecret : " + clientIDSecret.Content.clientSecret);
+                return clientIDSecret;
+            }
+            
+
+            //GET ACCESS TOKEN
+            ApiResponse<AccessToken> AccessToken(string clientId, string clientSecret)
+            {
+                var taskAccessToken = _serviceAccessToken.AccessToken("admin", "admin", clientId, clientSecret);
+
+                ApiResponse<AccessToken> accessToken;
+                accessToken = taskAccessToken.Result;
+
+                Console.WriteLine("Access token : " + accessToken.Content.access_token);
+                return accessToken;
+            }
+
+            //***APPLICATIONS
+            var clientidsecret = ClientIDAndSecret();
+            var accesstoken = AccessToken(clientidsecret.Content.clientId,clientidsecret.Content.clientSecret);
+            //GetAllApplications();
             //GetApplicationDetails();
             //GetApplicationKeyDetailsOfAGivenType();
             //AddApplication();
             //UpdateApplication();
             //UpdateGrantTypesAndCallbackUrl();
             //DeleteApplication();
-            GenerateApplicationKeys();
+            //GenerateApplicationKeys();
 
-            //** GET ALL APPLICATIONS
+            //GET ALL APPLICATIONS
             void GetAllApplications()
             {
                 var query = "";
                 var limit = 25;
                 var offset = 0;
                 
-                var taskAllApplications = _service.AllApplications(limit, offset, query);
+                var taskAllApplications = _serviceApplication.AllApplications(limit, offset, query);
                 ApiResponse<AllApplications> allApplications = taskAllApplications.Result;
 
                 Console.WriteLine("ALL APPLICATIONS");
@@ -80,10 +114,10 @@ namespace APIPortalConsole
                 });
             }
 
-            //**GET APPLICATION DETAILS
+            //GET APPLICATION DETAILS
             void GetApplicationDetails()
             {
-                var taskApplicationDetails = _service.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
+                var taskApplicationDetails = _serviceApplication.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
                 ApiResponse<Application> applicationDetails = taskApplicationDetails.Result;
 
                 Console.WriteLine("Status code: " + applicationDetails.StatusCode);
@@ -92,10 +126,10 @@ namespace APIPortalConsole
             }
 
 
-            //**GET APPLICATION KEY DETAILS OF A GIVEN TYPE
+            //GET APPLICATION KEY DETAILS OF A GIVEN TYPE
             void GetApplicationKeyDetailsOfAGivenType()
             {
-                var taskApplicationKeyDetailsOfGivenType = _service.ApplicationKeyDetailsOfGivenType("cb76761d-4d45-4231-8578-6f5592571c11", "PRODUCTION");
+                var taskApplicationKeyDetailsOfGivenType = _serviceApplication.ApplicationKeyDetailsOfGivenType("cb76761d-4d45-4231-8578-6f5592571c11", "PRODUCTION");
 
                 ApiResponse<Key> applicationKeyDetailsOfGivenType;
                 applicationKeyDetailsOfGivenType = taskApplicationKeyDetailsOfGivenType.Result;
@@ -106,7 +140,7 @@ namespace APIPortalConsole
                 Console.WriteLine("keytype : " + applicationKeyDetailsOfGivenType.Content.keyType);
             }
 
-            //** ADD APPLICATION
+            //ADD APPLICATION
             void AddApplication()
             {
                 var throttlingTier = "Unlimited";
@@ -114,7 +148,7 @@ namespace APIPortalConsole
                 var name = "sampleapp";
                 var callbackUrl = "";
                 var groupId = "";
-                var taskAddApplication = _service.AddApplication(throttlingTier, description, name, callbackUrl, groupId);
+                var taskAddApplication = _serviceApplication.AddApplication(throttlingTier, description, name, callbackUrl, groupId);
                 ApiResponse<Application> addApplication;
                 addApplication = taskAddApplication.Result;
 
@@ -124,9 +158,8 @@ namespace APIPortalConsole
                 Console.WriteLine("name : " + addApplication.Content.name);
                 Console.WriteLine("subscriber : " + addApplication.Content.subscriber);
             }
-            /**/
 
-            //**UPDATE APPLICATION
+            //UPDATE APPLICATION
             void UpdateApplication()
             {
                 var throttlingTier = "Unlimited";
@@ -134,7 +167,7 @@ namespace APIPortalConsole
                 var name = "sampleappUpdated";
                 var callbackUrl = "";
                 var groupId = "";
-                var taskAddApplication = _service.UpdateApplication("4da09cfb-c05c-400e-bc53-343f76727ad6", throttlingTier, description, name, callbackUrl, groupId);
+                var taskAddApplication = _serviceApplication.UpdateApplication("4da09cfb-c05c-400e-bc53-343f76727ad6", throttlingTier, description, name, callbackUrl, groupId);
                 ApiResponse<Application> updateApplication;
                 updateApplication = taskAddApplication.Result;
 
@@ -145,7 +178,7 @@ namespace APIPortalConsole
                 Console.WriteLine("subscriber : " + updateApplication.Content.subscriber);
             }
 
-            //** UPDATE GRANTTYPES AND CALLBACK URL
+            //UPDATE GRANTTYPES AND CALLBACK URL
             void UpdateGrantTypesAndCallbackUrl()
             {
                 var refresh_token = "refresh_token";
@@ -160,7 +193,7 @@ namespace APIPortalConsole
                 supportedGrantTypes.Add(client_credentials);
                 supportedGrantTypes.Add(iwa);
                 var callbackUrl = "http://sample/com/callback";
-                var taskUpdateGrantTypesAndCallbackUrl = _service.UpdateGrantTypesAndCallbackUrl("cb76761d-4d45-4231-8578-6f5592571c11", "SANDBOX", supportedGrantTypes, callbackUrl);
+                var taskUpdateGrantTypesAndCallbackUrl = _serviceApplication.UpdateGrantTypesAndCallbackUrl("cb76761d-4d45-4231-8578-6f5592571c11", "SANDBOX", supportedGrantTypes, callbackUrl);
                 ApiResponse<Key> updateGrantTypesAndUrl;
                 updateGrantTypesAndUrl = taskUpdateGrantTypesAndCallbackUrl.Result;
 
@@ -173,7 +206,7 @@ namespace APIPortalConsole
             //DELETE APPLICATION
             void DeleteApplication()
             {
-                var taskDeleteApplication = _service.DeleteApplication("4da09cfb-c05c-400e-bc53-343f76727ad6");
+                var taskDeleteApplication = _serviceApplication.DeleteApplication("4da09cfb-c05c-400e-bc53-343f76727ad6");
                 ApiResponse<Application> deleteApplication;
                 deleteApplication = taskDeleteApplication.Result;
 
@@ -181,7 +214,7 @@ namespace APIPortalConsole
                 Console.WriteLine("StatusCode: " + deleteApplication.StatusCode);
             }
 
-            //**GENERATE APPLICATION KEYS 
+            //GENERATE APPLICATION KEYS 
             void GenerateApplicationKeys()
             {
                 var validityTime = 3600;
@@ -197,7 +230,7 @@ namespace APIPortalConsole
                 supportedGrantTypes.Add(password);
                 supportedGrantTypes.Add(client_credentials);
                 supportedGrantTypes.Add(iwa);
-                var taskApplicationKeys = _service.GenerateApplicationKeys("a135e363-10b6-4171-8d18-0e8c89614692", validityTime, keyType, supportedGrantTypes);
+                var taskApplicationKeys = _serviceApplication.GenerateApplicationKeys("a135e363-10b6-4171-8d18-0e8c89614692", validityTime, keyType, supportedGrantTypes);
 
                 ApiResponse<GenerateApplicationKeys> applicationKeys;
                 applicationKeys = taskApplicationKeys.Result;
@@ -208,7 +241,7 @@ namespace APIPortalConsole
                 Console.WriteLine("Access Token : " + applicationKeys.Content.token.accessToken);
             }
 
-            //**  GET ALL APIS
+            //GET ALL APIS
             /*var limit = 25;
             var offset = 0;
             var query = "";
@@ -228,7 +261,7 @@ namespace APIPortalConsole
             Console.WriteLine("Pagination offset : " + allApis.Content.pagination.offset);
             Console.WriteLine("Pagination total : " + allApis.Content.pagination.total);*/
 
-            //** GET API DETAILS
+            //GET API DETAILS
             /*var apiId = "7d601720-3a59-467b-8595-afbbbce6d12a";
             var taskApiDetails = APIController.APIDetails(apiId);
 
