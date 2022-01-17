@@ -12,6 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using APIPortalLibrary.Services.Applications;
 using APIPortalLibrary.Services.Login;
+using APIPortalLibrary.Services.APIs;
 
 namespace APIPortalConsole
 {
@@ -48,11 +49,21 @@ namespace APIPortalConsole
                 ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
             });
 
+            services.AddHttpClient<IAPIService, APIService>(c =>
+            {
+                c.BaseAddress = new Uri("https://localhost:9443");
+
+            }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+            });
+
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();
             var _serviceApplication = serviceProvider.GetRequiredService<IApplicationService>();
             var _serviceClientIdAndSecret = serviceProvider.GetRequiredService<IClientIdAndSecretService>();
             var _serviceAccessToken = serviceProvider.GetRequiredService<IAccessTokenService>();
+            var _serviceAPI = serviceProvider.GetRequiredService<IAPIService>();
 
             //***LOGIN
 
@@ -82,10 +93,10 @@ namespace APIPortalConsole
                 return accessToken;
             }
 
-            //***APPLICATIONS
             var clientidsecret = ClientIDAndSecret();
-            var accesstoken = AccessToken(clientidsecret.Content.clientId,clientidsecret.Content.clientSecret);
-            GetAllApplications(accesstoken);
+            var accesstoken = AccessToken(clientidsecret.Content.clientId, clientidsecret.Content.clientSecret);
+            //***APPLICATIONS
+            //GetAllApplications(accesstoken);
             //GetApplicationDetails();
             //GetApplicationKeyDetailsOfAGivenType();
             //AddApplication();
@@ -93,6 +104,11 @@ namespace APIPortalConsole
             //UpdateGrantTypesAndCallbackUrl();
             //DeleteApplication();
             //GenerateApplicationKeys();
+
+            //***APIS
+            //GetAllAPIs();
+            //GetAPIDetails();
+            //GetSwaggerDefinition();
 
             //GET ALL APPLICATIONS
             void GetAllApplications(ApiResponse<AccessToken> accessToken)
@@ -242,63 +258,72 @@ namespace APIPortalConsole
             }
 
             //GET ALL APIS
-            /*var limit = 25;
-            var offset = 0;
-            var query = "";
-            var taskAllApis = APIController.AllApis(limit,offset,query);
+            void GetAllAPIs()
+            {
+                var limit = 25;
+                var offset = 0;
+                var query = "";
+                var taskAllApis = _serviceAPI.AllApis(limit, offset, query);
 
-            ApiResponse<AllApis> allApis;
+                ApiResponse<AllApis> allApis;
 
-            allApis = taskAllApis.Result;
+                allApis = taskAllApis.Result;
 
-            Console.WriteLine("Get All Apis:");
-            Console.WriteLine("Status code : " + allApis.StatusCode);
-            Console.WriteLine("List : " + allApis.Content.list);
-            Console.WriteLine("Count : " + allApis.Content.count);
-            Console.WriteLine("Next : " + allApis.Content.next);
-            Console.WriteLine("Previous : " + allApis.Content.previous);
-            Console.WriteLine("Pagination limit : " + allApis.Content.pagination.limit);
-            Console.WriteLine("Pagination offset : " + allApis.Content.pagination.offset);
-            Console.WriteLine("Pagination total : " + allApis.Content.pagination.total);*/
+                Console.WriteLine("Get All Apis:");
+                Console.WriteLine("Status code : " + allApis.StatusCode);
+                Console.WriteLine("List : " + allApis.Content.list);
+                Console.WriteLine("Count : " + allApis.Content.count);
+                Console.WriteLine("Next : " + allApis.Content.next);
+                Console.WriteLine("Previous : " + allApis.Content.previous);
+                Console.WriteLine("Pagination limit : " + allApis.Content.pagination.limit);
+                Console.WriteLine("Pagination offset : " + allApis.Content.pagination.offset);
+                Console.WriteLine("Pagination total : " + allApis.Content.pagination.total);
+            }
 
             //GET API DETAILS
-            /*var apiId = "7d601720-3a59-467b-8595-afbbbce6d12a";
-            var taskApiDetails = APIController.APIDetails(apiId);
+            void GetAPIDetails()
+            {
+                var apiId = "7d601720-3a59-467b-8595-afbbbce6d12a";
+                var taskApiDetails = _serviceAPI.APIDetails(apiId);
 
-            ApiResponse<API> apiDetails;
+                ApiResponse<API> apiDetails;
 
-            apiDetails = taskApiDetails.Result;
+                apiDetails = taskApiDetails.Result;
 
-            Console.WriteLine("Get Apis details:");
-            Console.WriteLine("Status code : " + apiDetails.StatusCode);
-            Console.WriteLine("id : " + apiDetails.Content.id);
-            Console.WriteLine("name : " + apiDetails.Content.name);
-            Console.WriteLine("description : " + apiDetails.Content.description);
-            Console.WriteLine("context : " + apiDetails.Content.context);
-            Console.WriteLine("version : " + apiDetails.Content.version);
-            Console.WriteLine("provider : " + apiDetails.Content.provider);
-            apiDetails.Content.transport.ForEach(c => Console.WriteLine($"transport : {c}"));
-            Console.WriteLine("isdefaultversion : " + apiDetails.Content.isDefaultVersion);
-            apiDetails.Content.endpointURLs.ForEach(c => Console.WriteLine(
-                "environment Name:" + c.environmentName +
-                "environment Type:" + c.environmentType +
-                "environment URLs:" + c.environmentURLs.http
-                ));
-            apiDetails.Content.environmentList.ForEach(c => Console.WriteLine(c));
-            Console.WriteLine(apiDetails.Content.lastUpdatedTime);
-            Console.WriteLine(apiDetails.Content.createdTime);*/
+                Console.WriteLine("Get Apis details:");
+                Console.WriteLine("Status code : " + apiDetails.StatusCode);
+                Console.WriteLine("id : " + apiDetails.Content.id);
+                Console.WriteLine("name : " + apiDetails.Content.name);
+                Console.WriteLine("description : " + apiDetails.Content.description);
+                Console.WriteLine("context : " + apiDetails.Content.context);
+                Console.WriteLine("version : " + apiDetails.Content.version);
+                Console.WriteLine("provider : " + apiDetails.Content.provider);
+                apiDetails.Content.transport.ForEach(c => Console.WriteLine($"transport : {c}"));
+                Console.WriteLine("isdefaultversion : " + apiDetails.Content.isDefaultVersion);
+                apiDetails.Content.endpointURLs.ForEach(c => Console.WriteLine(
+                    "environment Name:" + c.environmentName +
+                    "environment Type:" + c.environmentType +
+                    "environment URLs:" + c.environmentURLs.http
+                    ));
+                apiDetails.Content.environmentList.ForEach(c => Console.WriteLine(c));
+                Console.WriteLine(apiDetails.Content.lastUpdatedTime);
+                Console.WriteLine(apiDetails.Content.createdTime);
+            }
 
             //** GET SWAGGER DEFINITION
-            /**var apiId = "7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071";
-            var taskSwaggerDefinition = APIController.SwaggerDefinition(apiId);
+            void GetSwaggerDefinition()
+            {
+                var apiId = "7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071";
+                var taskSwaggerDefinition = _serviceAPI.SwaggerDefinition(apiId);
 
-            ApiResponse<string> swaggerDefinition;
+                ApiResponse<string> swaggerDefinition;
 
-            swaggerDefinition = taskSwaggerDefinition.Result;
+                swaggerDefinition = taskSwaggerDefinition.Result;
 
-            Console.WriteLine("Get Swagger definition:");
-            Console.WriteLine("Status code : " + swaggerDefinition.StatusCode);
-            Console.WriteLine("Content : " + swaggerDefinition.Content);*/
+                Console.WriteLine("Get Swagger definition:");
+                Console.WriteLine("Status code : " + swaggerDefinition.StatusCode);
+                Console.WriteLine("Content : " + swaggerDefinition.Content);
+            }
 
             //** GET ALL SUBSCRIPTIONS
 

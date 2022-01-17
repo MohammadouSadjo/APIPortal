@@ -10,7 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\API\" />
     <Folder Include="Services\Document\" />
     <Folder Include="Services\Subscription\" />
   </ItemGroup>

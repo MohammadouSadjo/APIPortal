@@ -8,21 +8,18 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIPortalLibrary.Services
+namespace APIPortalLibrary.Services.APIs
 {
-    public class APIService
+    public class APIService : IAPIService
     {
-        
-        public static async Task<ApiResponse<AllApis>> AllApis(int limit = 25, int offset = 0, string query = "")//Get List of all APIs
-        {
-            //Bypass SSL Certificate
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+        private HttpClient _client;
 
-            HttpClient _client = new HttpClient(clientHandler)
-            {
-                BaseAddress = new Uri(Config.baseUrl)
-            };
+        public APIService(HttpClient client)
+        {
+            _client = client;
+        }
+        public async Task<ApiResponse<AllApis>> AllApis(int limit = 25, int offset = 0, string query = "")//Get List of all APIs
+        {
             try
             {
                 IAPI _restApiService = RestService.For<IAPI>(_client);
@@ -43,17 +40,8 @@ namespace APIPortalLibrary.Services
 
         }
 
-        public static async Task<ApiResponse<API>> APIDetails(string apiId)//Get Details of a given API
+        public async Task<ApiResponse<API>> APIDetails(string apiId)//Get Details of a given API
         {
-            //ByPass SSL Certificate
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-
-            HttpClient _client = new HttpClient(clientHandler)
-            {
-                BaseAddress = new Uri(Config.baseUrl)
-            };
-
             try
             {
                 IAPI _restApiService = RestService.For<IAPI>(_client);
@@ -74,17 +62,8 @@ namespace APIPortalLibrary.Services
 
         }
 
-        public static async Task<ApiResponse<string>> SwaggerDefinition(string apiId)//Get Swagger Definition of a given API
+        public async Task<ApiResponse<string>> SwaggerDefinition(string apiId)//Get Swagger Definition of a given API
         {
-            //ByPass SSL Certificate
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-
-            HttpClient _client = new HttpClient(clientHandler)
-            {
-                BaseAddress = new Uri(Config.baseUrl)
-            };
-
             try
             {
                 IAPI _restApiService = RestService.For<IAPI>(_client);
