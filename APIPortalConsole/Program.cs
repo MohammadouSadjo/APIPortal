@@ -14,6 +14,7 @@ using APIPortalLibrary.Services.Applications;
 using APIPortalLibrary.Services.Login;
 using APIPortalLibrary.Services.APIs;
 using APIPortalLibrary.Services.Documents;
+using APIPortalLibrary.Services.Subscriptions;
 
 namespace APIPortalConsole
 {

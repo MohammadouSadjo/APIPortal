@@ -9,8 +9,4 @@
     <PackageReference Include="Refit" Version="6.1.15" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Subscription\" />
-  </ItemGroup>
-
 </Project>
