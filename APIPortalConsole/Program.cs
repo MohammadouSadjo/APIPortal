@@ -85,7 +85,7 @@ namespace APIPortalConsole
             //***APPLICATIONS
             var clientidsecret = ClientIDAndSecret();
             var accesstoken = AccessToken(clientidsecret.Content.clientId,clientidsecret.Content.clientSecret);
-            //GetAllApplications();
+            GetAllApplications(accesstoken);
             //GetApplicationDetails();
             //GetApplicationKeyDetailsOfAGivenType();
             //AddApplication();
@@ -95,13 +95,13 @@ namespace APIPortalConsole
             //GenerateApplicationKeys();
 
             //GET ALL APPLICATIONS
-            void GetAllApplications()
+            void GetAllApplications(ApiResponse<AccessToken> accessToken)
             {
                 var query = "";
                 var limit = 25;
                 var offset = 0;
                 
-                var taskAllApplications = _serviceApplication.AllApplications(limit, offset, query);
+                var taskAllApplications = _serviceApplication.AllApplications(accesstoken.Content.access_token,accesstoken.Content.token_type, limit, offset, query);
                 ApiResponse<AllApplications> allApplications = taskAllApplications.Result;
 
                 Console.WriteLine("ALL APPLICATIONS");
@@ -115,9 +115,9 @@ namespace APIPortalConsole
             }
 
             //GET APPLICATION DETAILS
-            void GetApplicationDetails()
+            void GetApplicationDetails(AccessToken accessToken)
             {
-                var taskApplicationDetails = _serviceApplication.ApplicationDetails("cb76761d-4d45-4231-8578-6f5592571c11");
+                var taskApplicationDetails = _serviceApplication.ApplicationDetails(accesstoken.Content.access_token, accesstoken.Content.token_type, "cb76761d-4d45-4231-8578-6f5592571c11");
                 ApiResponse<Application> applicationDetails = taskApplicationDetails.Result;
 
                 Console.WriteLine("Status code: " + applicationDetails.StatusCode);
@@ -127,9 +127,9 @@ namespace APIPortalConsole
 
 
             //GET APPLICATION KEY DETAILS OF A GIVEN TYPE
-            void GetApplicationKeyDetailsOfAGivenType()
+            void GetApplicationKeyDetailsOfAGivenType(AccessToken accessToken)
             {
-                var taskApplicationKeyDetailsOfGivenType = _serviceApplication.ApplicationKeyDetailsOfGivenType("cb76761d-4d45-4231-8578-6f5592571c11", "PRODUCTION");
+                var taskApplicationKeyDetailsOfGivenType = _serviceApplication.ApplicationKeyDetailsOfGivenType(accesstoken.Content.access_token, accesstoken.Content.token_type, "cb76761d-4d45-4231-8578-6f5592571c11", "PRODUCTION");
 
                 ApiResponse<Key> applicationKeyDetailsOfGivenType;
                 applicationKeyDetailsOfGivenType = taskApplicationKeyDetailsOfGivenType.Result;
@@ -141,14 +141,14 @@ namespace APIPortalConsole
             }
 
             //ADD APPLICATION
-            void AddApplication()
+            void AddApplication(AccessToken accessToken)
             {
                 var throttlingTier = "Unlimited";
                 var description = "sample app description";
                 var name = "sampleapp";
                 var callbackUrl = "";
                 var groupId = "";
-                var taskAddApplication = _serviceApplication.AddApplication(throttlingTier, description, name, callbackUrl, groupId);
+                var taskAddApplication = _serviceApplication.AddApplication(accesstoken.Content.access_token, accesstoken.Content.token_type, throttlingTier, description, name, callbackUrl, groupId);
                 ApiResponse<Application> addApplication;
                 addApplication = taskAddApplication.Result;
 
@@ -160,14 +160,14 @@ namespace APIPortalConsole
             }
 
             //UPDATE APPLICATION
-            void UpdateApplication()
+            void UpdateApplication(AccessToken accessToken)
             {
                 var throttlingTier = "Unlimited";
                 var description = "sample app description";
                 var name = "sampleappUpdated";
                 var callbackUrl = "";
                 var groupId = "";
-                var taskAddApplication = _serviceApplication.UpdateApplication("4da09cfb-c05c-400e-bc53-343f76727ad6", throttlingTier, description, name, callbackUrl, groupId);
+                var taskAddApplication = _serviceApplication.UpdateApplication(accesstoken.Content.access_token, accesstoken.Content.token_type, "4da09cfb-c05c-400e-bc53-343f76727ad6", throttlingTier, description, name, callbackUrl, groupId);
                 ApiResponse<Application> updateApplication;
                 updateApplication = taskAddApplication.Result;
 
@@ -179,7 +179,7 @@ namespace APIPortalConsole
             }
 
             //UPDATE GRANTTYPES AND CALLBACK URL
-            void UpdateGrantTypesAndCallbackUrl()
+            void UpdateGrantTypesAndCallbackUrl(AccessToken accessToken)
             {
                 var refresh_token = "refresh_token";
                 var oauth = "urn:ietf:params:oauth:grant-type:saml2-bearer";
@@ -193,7 +193,7 @@ namespace APIPortalConsole
                 supportedGrantTypes.Add(client_credentials);
                 supportedGrantTypes.Add(iwa);
                 var callbackUrl = "http://sample/com/callback";
-                var taskUpdateGrantTypesAndCallbackUrl = _serviceApplication.UpdateGrantTypesAndCallbackUrl("cb76761d-4d45-4231-8578-6f5592571c11", "SANDBOX", supportedGrantTypes, callbackUrl);
+                var taskUpdateGrantTypesAndCallbackUrl = _serviceApplication.UpdateGrantTypesAndCallbackUrl(accesstoken.Content.access_token, accesstoken.Content.token_type, "cb76761d-4d45-4231-8578-6f5592571c11", "SANDBOX", supportedGrantTypes, callbackUrl);
                 ApiResponse<Key> updateGrantTypesAndUrl;
                 updateGrantTypesAndUrl = taskUpdateGrantTypesAndCallbackUrl.Result;
 
@@ -204,9 +204,9 @@ namespace APIPortalConsole
             }
             
             //DELETE APPLICATION
-            void DeleteApplication()
+            void DeleteApplication(AccessToken accessToken)
             {
-                var taskDeleteApplication = _serviceApplication.DeleteApplication("4da09cfb-c05c-400e-bc53-343f76727ad6");
+                var taskDeleteApplication = _serviceApplication.DeleteApplication(accesstoken.Content.access_token, accesstoken.Content.token_type, "4da09cfb-c05c-400e-bc53-343f76727ad6");
                 ApiResponse<Application> deleteApplication;
                 deleteApplication = taskDeleteApplication.Result;
 
@@ -215,7 +215,7 @@ namespace APIPortalConsole
             }
 
             //GENERATE APPLICATION KEYS 
-            void GenerateApplicationKeys()
+            void GenerateApplicationKeys(AccessToken accessToken)
             {
                 var validityTime = 3600;
                 var keyType = "PRODUCTION";
@@ -230,7 +230,7 @@ namespace APIPortalConsole
                 supportedGrantTypes.Add(password);
                 supportedGrantTypes.Add(client_credentials);
                 supportedGrantTypes.Add(iwa);
-                var taskApplicationKeys = _serviceApplication.GenerateApplicationKeys("a135e363-10b6-4171-8d18-0e8c89614692", validityTime, keyType, supportedGrantTypes);
+                var taskApplicationKeys = _serviceApplication.GenerateApplicationKeys(accesstoken.Content.access_token, accesstoken.Content.token_type, "a135e363-10b6-4171-8d18-0e8c89614692", validityTime, keyType, supportedGrantTypes);
 
                 ApiResponse<GenerateApplicationKeys> applicationKeys;
                 applicationKeys = taskApplicationKeys.Result;

@@ -18,10 +18,10 @@ namespace APIPortalLibrary.Services.Applications
         {
             _client = client;
         }
-        public async Task<ApiResponse<AllApplications>> AllApplications(int limit = 25, int offset = 0, string query = "")//Get list of all Applications
+        public async Task<ApiResponse<AllApplications>> AllApplications(string accessToken, string tokenType, int limit = 25, int offset = 0, string query = "")//Get list of all Applications
         {
-            var authorization = "Bearer " + Config.UserInfos.accessToken;
-
+            var authorization = tokenType +" "+ accessToken;
+            
             try
             {
                 IApplication _restApiService = RestService.For<IApplication>(_client);
@@ -42,10 +42,10 @@ namespace APIPortalLibrary.Services.Applications
 
         }
 
-        public async Task<ApiResponse<Application>> ApplicationDetails(string applicationId)// Get details of a given application
+        public async Task<ApiResponse<Application>> ApplicationDetails(string accessToken, string tokenType, string applicationId)// Get details of a given application
         {
             //Set user's authorization
-            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            var authorization = tokenType + " " + accessToken;
 
             try
             {
@@ -67,10 +67,10 @@ namespace APIPortalLibrary.Services.Applications
 
         }
 
-        public async Task<ApiResponse<Key>> ApplicationKeyDetailsOfGivenType(string applicationId, string keyType, string groupId = "")//Get application key detals of a given type(Type of key: PRODUCTION or SANDBOX)
+        public async Task<ApiResponse<Key>> ApplicationKeyDetailsOfGivenType(string accessToken, string tokenType, string applicationId, string keyType, string groupId = "")//Get application key detals of a given type(Type of key: PRODUCTION or SANDBOX)
         {
             //Set user's authorization
-            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            var authorization = tokenType + " " + accessToken;
 
             try
             {
@@ -92,10 +92,10 @@ namespace APIPortalLibrary.Services.Applications
 
         }
 
-        public async Task<ApiResponse<Application>> AddApplication(string throttlingTier, string description, string name, string callbackUrl, string groupId)//Add a new application
+        public async Task<ApiResponse<Application>> AddApplication(string accessToken, string tokenType, string throttlingTier, string description, string name, string callbackUrl, string groupId)//Add a new application
         {
             //Set user's authorization
-            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            var authorization = tokenType + " " + accessToken;
             //set body request
             var body = "{\"throttlingTier\": \"" + throttlingTier + "\"," +
                        "\"description\": \"" + description + "\"," +
@@ -122,10 +122,10 @@ namespace APIPortalLibrary.Services.Applications
 
         }
 
-        public async Task<ApiResponse<Application>> UpdateApplication(string applicationId, string throttlingTier, string description, string name, string callbackUrl, string groupId)//Update a given application
+        public async Task<ApiResponse<Application>> UpdateApplication(string accessToken, string tokenType, string applicationId, string throttlingTier, string description, string name, string callbackUrl, string groupId)//Update a given application
         {
             //set user's authorization
-            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            var authorization = tokenType + " " + accessToken;
             //set body request
             var body = "{\"throttlingTier\": \"" + throttlingTier + "\"," +
                        "\"description\": \"" + description + "\"," +
@@ -152,10 +152,10 @@ namespace APIPortalLibrary.Services.Applications
 
         }
 
-        public async Task<ApiResponse<Key>> UpdateGrantTypesAndCallbackUrl(string applicationId, string keyType, List<string> supportedGrantTypes, string callbackUrl)//Update grantTypes and callback url of an application
+        public async Task<ApiResponse<Key>> UpdateGrantTypesAndCallbackUrl(string accessToken, string tokenType, string applicationId, string keyType, List<string> supportedGrantTypes, string callbackUrl)//Update grantTypes and callback url of an application
         {
             //set user's authorization
-            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            var authorization = tokenType + " " + accessToken;
             //set body request
             var body = "{ \"supportedGrantTypes\" : [";
             var count = 1;
@@ -193,10 +193,10 @@ namespace APIPortalLibrary.Services.Applications
 
         }
 
-        public async Task<ApiResponse<Application>> DeleteApplication(string applicationId)//Delete an application
+        public async Task<ApiResponse<Application>> DeleteApplication(string accessToken, string tokenType, string applicationId)//Delete an application
         {
             //set user's authorization
-            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            var authorization = tokenType + " " + accessToken;
 
             try
             {
@@ -218,10 +218,10 @@ namespace APIPortalLibrary.Services.Applications
 
         }
 
-        public async Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string applicationId, int validityTime, string keyType, List<string> supportedGrantTypes)//Generate application's Keys
+        public async Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string accessToken, string tokenType, string applicationId, int validityTime, string keyType, List<string> supportedGrantTypes)//Generate application's Keys
         {
             //Set user's authorization'
-            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            var authorization = tokenType + " " + accessToken;
             //set body request
             var body = "{\"validityTime\": " + validityTime + "," +
                                                         "\"keyType\": \"" + keyType + "\"," +
