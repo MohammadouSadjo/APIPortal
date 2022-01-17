@@ -58,12 +58,22 @@ namespace APIPortalConsole
                 ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
             });
 
+            services.AddHttpClient<IDocumentService, DocumentService>(c =>
+            {
+                c.BaseAddress = new Uri("https://localhost:9443");
+
+            }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+            });
+
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();
             var _serviceApplication = serviceProvider.GetRequiredService<IApplicationService>();
             var _serviceClientIdAndSecret = serviceProvider.GetRequiredService<IClientIdAndSecretService>();
             var _serviceAccessToken = serviceProvider.GetRequiredService<IAccessTokenService>();
             var _serviceAPI = serviceProvider.GetRequiredService<IAPIService>();
+            var _serviceDocument = serviceProvider.GetRequiredService<IDocumentService>();
 
             //***LOGIN
 
@@ -109,6 +119,11 @@ namespace APIPortalConsole
             //GetAllAPIs();
             //GetAPIDetails();
             //GetSwaggerDefinition();
+
+            //***DOCUMENTS
+            GetAllDocuments();
+            GetDocument();
+            GetDocumentContent();
 
             //GET ALL APPLICATIONS
             void GetAllApplications(ApiResponse<AccessToken> accessToken)
@@ -406,50 +421,59 @@ namespace APIPortalConsole
             Console.WriteLine("DELETE SUBS");
             Console.WriteLine(deleteSubscription.StatusCode);*/
 
-            //** ALL DOCUMENTS
-            /*var taskAllDocuments = DocumentController.AllDocuments("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071");
-
-            ApiResponse<AllDocuments> allDocuments;
-
-            allDocuments = taskAllDocuments.Result;
-
-            Console.WriteLine("Get All Documents:");
-            Console.WriteLine("Status code : " + allDocuments.StatusCode);
-            Console.WriteLine("count : " + allDocuments.Content.count);
-            Console.WriteLine("next : " + allDocuments.Content.next);
-            allDocuments.Content.list.ForEach(c =>
+            //** GET ALL DOCUMENTS
+            void GetAllDocuments()
             {
-                Console.WriteLine("documentId : " + c.documentId);
-                Console.WriteLine("name : " + c.name);
-                Console.WriteLine("type : " + c.type);
-                Console.WriteLine("summary : " + c.summary);
+                var taskAllDocuments = _serviceDocument.AllDocuments("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071");
+
+                ApiResponse<AllDocuments> allDocuments;
+
+                allDocuments = taskAllDocuments.Result;
+
+                Console.WriteLine("Get All Documents:");
+                Console.WriteLine("Status code : " + allDocuments.StatusCode);
+                Console.WriteLine("count : " + allDocuments.Content.count);
+                Console.WriteLine("next : " + allDocuments.Content.next);
+                allDocuments.Content.list.ForEach(c =>
+                {
+                    Console.WriteLine("documentId : " + c.documentId);
+                    Console.WriteLine("name : " + c.name);
+                    Console.WriteLine("type : " + c.type);
+                    Console.WriteLine("summary : " + c.summary);
+                }
+                );
             }
-            );*/
 
             //** GET A DOCUMENT FOR AN API
-            /*var taskDocument = DocumentController.GetDocument("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071", "ea2b5ca8-c601-4377-9d79-e8d42b314743");
+            void GetDocument()
+            {
+                var taskDocument = _serviceDocument.GetDocument("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071", "0582a0cf-e3e7-446f-a5fe-7b6774c9f16d");
 
-            ApiResponse<Document> document;
+                ApiResponse<Document> document;
 
-            document = taskDocument.Result;
+                document = taskDocument.Result;
 
-            Console.WriteLine("Get Document");
-            Console.WriteLine("Status code : " + document.StatusCode);
-            Console.WriteLine("documentId : " + document.Content.documentId);
-            Console.WriteLine("name : " + document.Content.name);
-            Console.WriteLine("type : " + document.Content.type);
-            Console.WriteLine("summary : " + document.Content.summary);*/
+                Console.WriteLine("Get Document");
+                Console.WriteLine("Status code : " + document.StatusCode);
+                Console.WriteLine("documentId : " + document.Content.documentId);
+                Console.WriteLine("name : " + document.Content.name);
+                Console.WriteLine("type : " + document.Content.type);
+                Console.WriteLine("summary : " + document.Content.summary);
+            }
 
             //** GET A DOCUMENT Content FOR AN API
-            /*var taskDocumentContent = DocumentController.GetDocumentContent("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071", "ea2b5ca8-c601-4377-9d79-e8d42b314743");
+            void GetDocumentContent()
+            {
+                var taskDocumentContent = _serviceDocument.GetDocumentContent("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071", "0582a0cf-e3e7-446f-a5fe-7b6774c9f16d");
 
-            ApiResponse<string> documentContent;
+                ApiResponse<string> documentContent;
 
-            documentContent = taskDocumentContent.Result;
+                documentContent = taskDocumentContent.Result;
 
-            Console.WriteLine("Get Document Content");
-            Console.WriteLine("Status code : " + documentContent.StatusCode);
-            Console.WriteLine("Content : " + documentContent.Content);*/
+                Console.WriteLine("Get Document Content");
+                Console.WriteLine("Status code : " + documentContent.StatusCode);
+                Console.WriteLine("Content : " + documentContent.Content);
+            }
 
         }
     }
