@@ -10,20 +10,18 @@ using System.Threading.Tasks;
 
 namespace APIPortalLibrary.Services
 {
-    public class SubscriptionService
+    public class SubscriptionService : ISubscriptionService
     {
-        public static async Task<ApiResponse<AllSubscriptions>> AllSubscriptions(string applicationId, int offset = 0, int limit = 0)//Get list of all subscription of an application
-        {
-            //Bypass SSL Certificate
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+        private HttpClient _client;
 
-            HttpClient _client = new HttpClient(clientHandler)
-            {
-                BaseAddress = new Uri(Config.baseUrl)
-            };
+        public SubscriptionService(HttpClient client)
+        {
+            _client = client;
+        }
+        public async Task<ApiResponse<AllSubscriptions>> AllSubscriptions(string accessToken, string tokenType, string applicationId, int offset = 0, int limit = 0)//Get list of all subscription of an application
+        {
             //Set user's authorization
-            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            var authorization = tokenType + " " + accessToken;
 
             try
             {
@@ -45,18 +43,10 @@ namespace APIPortalLibrary.Services
 
         }
 
-        public static async Task<ApiResponse<Subscription>> SubscriptionDetails(string subsciptionId)// Get details of a given subscription
+        public async Task<ApiResponse<Subscription>> SubscriptionDetails(string accessToken, string tokenType, string subsciptionId)// Get details of a given subscription
         {
-            //Bypass SSL Certificate
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-           
-            HttpClient _client = new HttpClient(clientHandler)
-            {
-                BaseAddress = new Uri(Config.baseUrl)
-            };
             //Set user's authorization
-            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            var authorization = tokenType + " " + accessToken;
 
             try
             {
@@ -78,22 +68,14 @@ namespace APIPortalLibrary.Services
 
         }
 
-        public static async Task<ApiResponse<Subscription>> AddSubscription(string tier, string apiIdentifier, string applicationId) //Add a new subscription
+        public async Task<ApiResponse<Subscription>> AddSubscription(string accessToken, string tokenType, string tier, string apiIdentifier, string applicationId) //Add a new subscription
         {
-            //Bypass SSL Certificate
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-
-            HttpClient _client = new HttpClient(clientHandler)
-            {
-                BaseAddress = new Uri(Config.baseUrl)
-            };
             //body request
             var body = "{\"tier\": \"" + tier + "\"," +
                        "\"apiIdentifier\": \"" + apiIdentifier + "\"," +
                        "\"applicationId\": \"" + applicationId + "\"}";
             //Set user's authorization
-            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            var authorization = tokenType + " " + accessToken;
 
             try
             {
@@ -115,18 +97,10 @@ namespace APIPortalLibrary.Services
 
         }
 
-        public static async Task<ApiResponse<List<Subscription>>> AddSubscriptionMultiple(List<Subscription> Subscriptions) // Add Multiple subscription
+        public async Task<ApiResponse<List<Subscription>>> AddSubscriptionMultiple(string accessToken, string tokenType, List<Subscription> Subscriptions) // Add Multiple subscription
         {
-            //Bypass SSL Certificate
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-
-            HttpClient _client = new HttpClient(clientHandler)
-            {
-                BaseAddress = new Uri(Config.baseUrl)
-            };
             //set user's authorization
-            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            var authorization = tokenType + " " + accessToken;
 
             try
             {
@@ -148,18 +122,10 @@ namespace APIPortalLibrary.Services
 
         }
 
-        public static async Task<ApiResponse<Subscription>> DeleteSubscription(string subscriptionId)// Delete a subscription
+        public async Task<ApiResponse<Subscription>> DeleteSubscription(string accessToken, string tokenType, string subscriptionId)// Delete a subscription
         {
-            //Bypass SSL Certificate
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-
-            HttpClient _client = new HttpClient(clientHandler)
-            {
-                BaseAddress = new Uri(Config.baseUrl)
-            };
             //set user's authorization
-            var authorization = "Bearer " + Config.UserInfos.accessToken;
+            var authorization = tokenType + " " + accessToken;
 
             try
             {
