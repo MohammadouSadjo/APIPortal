@@ -77,7 +77,6 @@ namespace APIPortalConsole
                 ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
             });
 
-
             ServiceProvider serviceProvider = services.BuildServiceProvider();
             var _serviceApplication = serviceProvider.GetRequiredService<IApplicationService>();
             var _serviceClientIdAndSecret = serviceProvider.GetRequiredService<IClientIdAndSecretService>();
@@ -101,7 +100,6 @@ namespace APIPortalConsole
                 return clientIDSecret;
             }
             
-
             //GET ACCESS TOKEN
             ApiResponse<AccessToken> AccessToken(string clientId, string clientSecret)
             {
@@ -116,6 +114,7 @@ namespace APIPortalConsole
 
             var clientidsecret = ClientIDAndSecret();
             var accesstoken = AccessToken(clientidsecret.Content.clientId, clientidsecret.Content.clientSecret);
+
             //***APPLICATIONS
             //GetAllApplications(accesstoken);
             //GetApplicationDetails();
@@ -137,11 +136,12 @@ namespace APIPortalConsole
             //GetDocumentContent();
 
             //***SUBSCRIPTIONS
-            GetAllSubscriptions(accesstoken);
-            //GetSubscriptionDetails();
-            //AddSubscription();
-            //AddSubscriptionMultiple();
-            //DeleteSubscription();
+            //GetAllSubscriptions(accesstoken);
+            //GetSubscriptionDetails(accesstoken);
+            //AddSubscription(accesstoken);
+            //AddSubscriptionMultiple(accesstoken);
+            //DeleteSubscription(accesstoken);
+
 
             //GET ALL APPLICATIONS
             void GetAllApplications(ApiResponse<AccessToken> accessToken)
