@@ -1,5 +1,4 @@
-﻿using APIPortalLibrary.Configuration;
-using APIPortalLibrary.Interfaces;
+﻿using APIPortalLibrary.Interfaces;
 using APIPortalLibrary.Models;
 using Refit;
 using System;
@@ -18,13 +17,23 @@ namespace APIPortalLibrary.Services.Login
         {
             _client = client;
         }
-        public async Task<ApiResponse<ClientIDAndSecret>> ClientIDSecret()// Get clientId and SecretID of the user
+        public async Task<ApiResponse<ClientIDAndSecret>> ClientIDSecret(string callbackUrl, string clientName, string owner, string grantType, bool saasApp)// Get clientId and SecretID of the user
         {
+            var saas = saasApp.ToString();
+            saas = saas.ToLower();
+
+            var bodyRequestLogin = "{\"callbackUrl\": \""+ callbackUrl +"\"," +
+                        "\"clientName\": \""+ clientName +"\"," +
+                        "\"owner\": \""+ owner +"\"," +
+                        "\"grantType\": \""+ grantType +"\"," +
+                        "\"saasApp\": "+ saas +"}";
+            Console.WriteLine(bodyRequestLogin);
+            Console.ReadLine();
             try
             {
                 ILogin _restApiService = RestService.For<ILogin>(_client);
 
-                var clientIDSecret = await _restApiService.GetClientIDSecret(Config.bodyRequestLogin);
+                var clientIDSecret = await _restApiService.GetClientIDSecret(bodyRequestLogin);
 
                 return clientIDSecret;
             }

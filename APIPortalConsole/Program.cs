@@ -91,7 +91,12 @@ namespace APIPortalConsole
             //GET CLIENTID AND SECRET ID
             ApiResponse<ClientIDAndSecret> ClientIDAndSecret()
             {
-                var taskClientIDSecret = _serviceClientIdAndSecret.ClientIDSecret();
+                string callbackUrl = "www.google.lk";
+                string clientName = "rest_api_store";
+                string owner = "admin";
+                string grantType = "password refresh_token";
+                bool saasApp = true;
+                var taskClientIDSecret = _serviceClientIdAndSecret.ClientIDSecret(callbackUrl,clientName,owner,grantType,saasApp);
 
                 ApiResponse<ClientIDAndSecret> clientIDSecret;
                 clientIDSecret = taskClientIDSecret.Result;

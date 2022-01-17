@@ -1,5 +1,4 @@
-﻿using APIPortalLibrary.Configuration;
-using APIPortalLibrary.Interfaces;
+﻿using APIPortalLibrary.Interfaces;
 using APIPortalLibrary.Models;
 using Refit;
 using System;
@@ -33,8 +32,6 @@ namespace APIPortalLibrary.Services.Login
             {
                 var accessToken = await _restApiService.GetAccessToken(authorization, username, password);
                 //set user's access token
-
-                Config.UserInfos.accessToken = accessToken.Content.access_token;
 
                 return accessToken;
             }

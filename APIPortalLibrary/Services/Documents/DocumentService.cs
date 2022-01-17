@@ -1,5 +1,4 @@
-﻿using APIPortalLibrary.Configuration;
-using APIPortalLibrary.Interfaces;
+﻿using APIPortalLibrary.Interfaces;
 using APIPortalLibrary.Models;
 using Refit;
 using System;
