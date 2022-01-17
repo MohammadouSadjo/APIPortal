@@ -13,6 +13,7 @@ using System.Net.Security;
 using APIPortalLibrary.Services.Applications;
 using APIPortalLibrary.Services.Login;
 using APIPortalLibrary.Services.APIs;
+using APIPortalLibrary.Services.Documents;
 
 namespace APIPortalConsole
 {
@@ -121,9 +122,9 @@ namespace APIPortalConsole
             //GetSwaggerDefinition();
 
             //***DOCUMENTS
-            GetAllDocuments();
-            GetDocument();
-            GetDocumentContent();
+            //GetAllDocuments();
+            //GetDocument();
+            //GetDocumentContent();
 
             //GET ALL APPLICATIONS
             void GetAllApplications(ApiResponse<AccessToken> accessToken)

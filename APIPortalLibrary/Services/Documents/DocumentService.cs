@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APIPortalLibrary.Services
+namespace APIPortalLibrary.Services.Documents
 {
     public class DocumentService : IDocumentService
     {
