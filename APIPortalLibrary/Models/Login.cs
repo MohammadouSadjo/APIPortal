@@ -11,6 +11,10 @@ namespace APIPortalLibrary.Models
     public class ClientIDAndSecret
     {
         public string clientId { get; set; }
+        public string clientName { get; set; }
+        public string callBackURL { get; set; }
+        public bool isSaasApplication { get; set; }
+        public string appOwner { get; set; }
         public string clientSecret { get; set; }
     }
 
