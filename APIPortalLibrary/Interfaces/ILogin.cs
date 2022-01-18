@@ -11,7 +11,7 @@ namespace APIPortalLibrary.Interfaces
     {
         //Get access token
         [Headers("Content-Type: application/x-www-form-urlencoded")]
-        [Post("/token")]
+        [Post("/oauth2/token")]
         Task<ApiResponse<AccessToken>> GetAccessToken(
             [Header("Authorization")] string authorization,
             [AliasAs("username")] string username,
@@ -22,7 +22,7 @@ namespace APIPortalLibrary.Interfaces
 
         //Get clienId and secretId
         [Headers("Content-Type: application/json", "Authorization: Basic YWRtaW46YWRtaW4=")]
-        [Post("/client-registration/v0.14/register")]
+        [Post("/client-registration/v0.17/register")]
         Task<ApiResponse<ClientIDAndSecret>> GetClientIDSecret(
             [Body] string body
             );
