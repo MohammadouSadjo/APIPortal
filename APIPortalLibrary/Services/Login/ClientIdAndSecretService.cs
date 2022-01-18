@@ -17,12 +17,19 @@ namespace APIPortalLibrary.Services.Login
         {
             _client = client;
         }
-        public async Task<ApiResponse<ClientIDAndSecret>> ClientIDSecret(string callbackUrl, string clientName, string owner, string grantType, bool saasApp)// Get clientId and SecretID of the user
+        public async Task<ApiResponse<ClientIDAndSecret>> ClientIDSecret(string username, string password, string callbackUrl, string clientName, string owner, string grantType, bool saasApp)// Get clientId and SecretID of the user
         {
             //Convert to string
             var saas = saasApp.ToString();
             
             saas = saas.ToLower();
+
+            //Encoding to Bytes
+            var textBytes = System.Text.Encoding.UTF8.GetBytes(username + ":" + password);
+            //Convert the Obtained Bytes to base64
+            var base64 = Convert.ToBase64String(textBytes);
+
+            var authorization = "Basic " + base64;
 
             var bodyRequestLogin = "{\"callbackUrl\": \""+ callbackUrl +"\"," +
                         "\"clientName\": \""+ clientName +"\"," +
@@ -34,7 +41,7 @@ namespace APIPortalLibrary.Services.Login
             {
                 ILogin _restApiService = RestService.For<ILogin>(_client);
 
-                var clientIDSecret = await _restApiService.GetClientIDSecret(bodyRequestLogin);
+                var clientIDSecret = await _restApiService.GetClientIDSecret(authorization, bodyRequestLogin);
 
                 return clientIDSecret;
             }
