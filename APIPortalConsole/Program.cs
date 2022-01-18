@@ -15,6 +15,7 @@ using APIPortalLibrary.Services.Login;
 using APIPortalLibrary.Services.APIs;
 using APIPortalLibrary.Services.Documents;
 using APIPortalLibrary.Services.Subscriptions;
+using APIPortalLibrary.Services.Tags;
 
 namespace APIPortalConsole
 {
@@ -35,7 +36,7 @@ namespace APIPortalConsole
 
             services.AddHttpClient<IClientIdAndSecretService, ClientIdAndSecretService>(c =>
             {
-                c.BaseAddress = new Uri("https://localhost:9443");
+                c.BaseAddress = new Uri("https://localhost:9446");
 
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
@@ -44,7 +45,7 @@ namespace APIPortalConsole
 
             services.AddHttpClient<IAccessTokenService, AccessTokenService>(c =>
             {
-                c.BaseAddress = new Uri("http://localhost:8280");
+                c.BaseAddress = new Uri("http://localhost:8283");
 
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
@@ -53,7 +54,7 @@ namespace APIPortalConsole
 
             services.AddHttpClient<IAPIService, APIService>(c =>
             {
-                c.BaseAddress = new Uri("https://localhost:9443");
+                c.BaseAddress = new Uri("https://localhost:9446");
 
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
@@ -62,7 +63,7 @@ namespace APIPortalConsole
 
             services.AddHttpClient<IDocumentService, DocumentService>(c =>
             {
-                c.BaseAddress = new Uri("https://localhost:9443");
+                c.BaseAddress = new Uri("https://localhost:9446");
 
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
@@ -71,7 +72,16 @@ namespace APIPortalConsole
 
             services.AddHttpClient<ISubscriptionService, SubscriptionService>(c =>
             {
-                c.BaseAddress = new Uri("https://localhost:9443");
+                c.BaseAddress = new Uri("https://localhost:9446");
+
+            }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+            });
+
+            services.AddHttpClient<ITagService, TagService>(c =>
+            {
+                c.BaseAddress = new Uri("https://localhost:9446");
 
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
@@ -85,6 +95,7 @@ namespace APIPortalConsole
             var _serviceAPI = serviceProvider.GetRequiredService<IAPIService>();
             var _serviceDocument = serviceProvider.GetRequiredService<IDocumentService>();
             var _serviceSubscription = serviceProvider.GetRequiredService<ISubscriptionService>();
+            var _serviceTag = serviceProvider.GetRequiredService<ITagService>();
 
             //***LOGIN
 
@@ -150,6 +161,8 @@ namespace APIPortalConsole
             //AddSubscriptionMultiple(accesstoken);
             //DeleteSubscription(accesstoken);
 
+            //***TAGS
+            GetAllTags();
 
             //GET ALL APPLICATIONS
             void GetAllApplications(ApiResponse<AccessToken> accessToken)
@@ -514,6 +527,26 @@ namespace APIPortalConsole
                 Console.WriteLine("Content : " + documentContent.Content);
             }
 
+            //GET ALL TAGS
+            void GetAllTags()
+            {
+                var limit = 25;
+                var offset = 0;
+                var taskAllTags = _serviceTag.Alltags(limit, offset);
+
+                ApiResponse<AllTags> allTags;
+
+                allTags = taskAllTags.Result;
+
+                Console.WriteLine("Get All Apis:");
+                Console.WriteLine("Status code : " + allTags.StatusCode);
+                Console.WriteLine("List : " + allTags.Content.list);
+                allTags.Content.list.ForEach(c => { Console.WriteLine(c.name); });
+                Console.WriteLine("Count : " + allTags.Content.count);
+                Console.WriteLine("Next : " + allTags.Content.next);
+                Console.WriteLine("Previous : " + allTags.Content.previous);
+               
+            }
         }
     }
 }
