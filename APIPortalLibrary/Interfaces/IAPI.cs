@@ -12,7 +12,7 @@ namespace APIPortalLibrary.Interfaces
     {
         //Get all apis
         [Headers("Accept:application/json")]
-        [Get("/api/am/store/v0.14/apis")]
+        [Get("/api/am/devportal/v2/apis")]
         Task<ApiResponse<AllApis>> GetAllApis(
             [AliasAs("limit")] int limit = 25,
             [AliasAs("offset")] int offset = 0,

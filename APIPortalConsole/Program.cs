@@ -134,7 +134,7 @@ namespace APIPortalConsole
             //GenerateApplicationKeys();
 
             //***APIS
-            //GetAllAPIs();
+            GetAllAPIs();
             //GetAPIDetails();
             //GetSwaggerDefinition();
 
