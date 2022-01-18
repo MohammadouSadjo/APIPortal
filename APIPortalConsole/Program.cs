@@ -44,7 +44,7 @@ namespace APIPortalConsole
 
             services.AddHttpClient<IAccessTokenService, AccessTokenService>(c =>
             {
-                c.BaseAddress = new Uri("http://localhost:9443");
+                c.BaseAddress = new Uri("https://localhost:9443");
 
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
@@ -92,9 +92,9 @@ namespace APIPortalConsole
             ApiResponse<ClientIDAndSecret> ClientIDAndSecret()
             {
                 string callbackUrl = "www.google.lk";
-                string clientName = "rest_api_store";
+                string clientName = "rest_api_devportal";
                 string owner = "admin";
-                string grantType = "password refresh_token";
+                string grantType = "client_credentials password refresh_token";
                 bool saasApp = true;
                 var taskClientIDSecret = _serviceClientIdAndSecret.ClientIDSecret(callbackUrl,clientName,owner,grantType,saasApp);
 
