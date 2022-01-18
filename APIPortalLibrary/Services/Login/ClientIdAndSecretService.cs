@@ -19,7 +19,9 @@ namespace APIPortalLibrary.Services.Login
         }
         public async Task<ApiResponse<ClientIDAndSecret>> ClientIDSecret(string callbackUrl, string clientName, string owner, string grantType, bool saasApp)// Get clientId and SecretID of the user
         {
+            //Convert to string
             var saas = saasApp.ToString();
+            
             saas = saas.ToLower();
 
             var bodyRequestLogin = "{\"callbackUrl\": \""+ callbackUrl +"\"," +
@@ -27,8 +29,7 @@ namespace APIPortalLibrary.Services.Login
                         "\"owner\": \""+ owner +"\"," +
                         "\"grantType\": \""+ grantType +"\"," +
                         "\"saasApp\": "+ saas +"}";
-            Console.WriteLine(bodyRequestLogin);
-            Console.ReadLine();
+
             try
             {
                 ILogin _restApiService = RestService.For<ILogin>(_client);

@@ -9,6 +9,6 @@ namespace APIPortalLibrary.Services.Login
 {
     public interface IAccessTokenService
     {
-        Task<ApiResponse<AccessToken>> AccessToken(string username, string password, string clientId, string clientSecret);
+        Task<ApiResponse<AccessToken>> AccessToken(string username, string password, string clientId, string clientSecret);//Get access token
     }
 }

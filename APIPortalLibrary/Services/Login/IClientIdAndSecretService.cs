@@ -9,6 +9,6 @@ namespace APIPortalLibrary.Services.Login
 {
     public interface IClientIdAndSecretService
     {
-        Task<ApiResponse<ClientIDAndSecret>> ClientIDSecret(string callbackUrl, string clientName, string owner, string grantType, bool saasApp);
+        Task<ApiResponse<ClientIDAndSecret>> ClientIDSecret(string callbackUrl, string clientName, string owner, string grantType, bool saasApp);//Get clientId and SecretId
     }
 }

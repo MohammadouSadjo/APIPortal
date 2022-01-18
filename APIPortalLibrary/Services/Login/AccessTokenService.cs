@@ -31,7 +31,6 @@ namespace APIPortalLibrary.Services.Login
             try
             {
                 var accessToken = await _restApiService.GetAccessToken(authorization, username, password);
-                //set user's access token
 
                 return accessToken;
             }
