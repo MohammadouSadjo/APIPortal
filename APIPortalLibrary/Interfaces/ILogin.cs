@@ -21,9 +21,10 @@ namespace APIPortalLibrary.Interfaces
             );
 
         //Get clienId and secretId
-        [Headers("Content-Type: application/json", "Authorization: Basic YWRtaW46YWRtaW4=")]
+        [Headers("Content-Type: application/json")]
         [Post("/client-registration/v0.14/register")]
         Task<ApiResponse<ClientIDAndSecret>> GetClientIDSecret(
+            [Header("Authorization")] string authorization,
             [Body] string body
             );
     }
