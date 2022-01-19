@@ -23,16 +23,8 @@ namespace APIPortalConsole
     {
         static void Main(string[] args)
         {
-            //STORE
+            //STORE SERVICE COLLECTION
             IServiceCollection services = new ServiceCollection();
-            services.AddHttpClient<IApplicationService, ApplicationService>(c =>
-            {
-                c.BaseAddress = new Uri("https://localhost:9443");
-
-            }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
-            });
 
             services.AddHttpClient<IClientIdAndSecretService, ClientIdAndSecretService>(c =>
             {
@@ -46,6 +38,15 @@ namespace APIPortalConsole
             services.AddHttpClient<IAccessTokenService, AccessTokenService>(c =>
             {
                 c.BaseAddress = new Uri("http://localhost:8283");
+
+            }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+            });
+
+            services.AddHttpClient<IApplicationService, ApplicationService>(c =>
+            {
+                c.BaseAddress = new Uri("https://localhost:9443");
 
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {
@@ -136,13 +137,13 @@ namespace APIPortalConsole
 
             //***APPLICATIONS
             //GetAllApplications(accesstoken);
-            //GetApplicationDetails();
-            //GetApplicationKeyDetailsOfAGivenType();
-            //AddApplication();
-            //UpdateApplication();
-            //UpdateGrantTypesAndCallbackUrl();
-            //DeleteApplication();
-            //GenerateApplicationKeys();
+            //GetApplicationDetails(accesstoken);
+            //GetApplicationKeyDetailsOfAGivenType(accesstoken);
+            //AddApplication(accesstoken);
+            //UpdateApplication(accesstoken);
+            //UpdateGrantTypesAndCallbackUrl(accesstoken);
+            //DeleteApplication(accesstoken);
+            //GenerateApplicationKeys(accesstoken);
 
             //***APIS
             //GetAllAPIs();
@@ -162,7 +163,7 @@ namespace APIPortalConsole
             //DeleteSubscription(accesstoken);
 
             //***TAGS
-            GetAllTags();
+            //GetAllTags();
 
             //GET ALL APPLICATIONS
             void GetAllApplications(ApiResponse<AccessToken> accessToken)
