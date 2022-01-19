@@ -314,8 +314,8 @@ namespace APIPortalConsole
                 Console.WriteLine("Status code : " + allApis.StatusCode);
                 Console.WriteLine("List : " + allApis.Content.list);
                 Console.WriteLine("Count : " + allApis.Content.count);
-                Console.WriteLine("Next : " + allApis.Content.next);
-                Console.WriteLine("Previous : " + allApis.Content.previous);
+                Console.WriteLine("Next : " + allApis.Content.pagination.next);
+                Console.WriteLine("Previous : " + allApis.Content.pagination.previous);
                 Console.WriteLine("Pagination limit : " + allApis.Content.pagination.limit);
                 Console.WriteLine("Pagination offset : " + allApis.Content.pagination.offset);
                 Console.WriteLine("Pagination total : " + allApis.Content.pagination.total);

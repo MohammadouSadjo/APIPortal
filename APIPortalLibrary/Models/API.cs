@@ -7,8 +7,6 @@ namespace APIPortalLibrary.Models
     public class AllApis
     {
         public int count { get; set; }
-        public string next { get; set; }
-        public string previous { get; set; }
         public List<API> list { get; set; }
         public Pagination pagination { get; set; }
     }
@@ -19,8 +17,15 @@ namespace APIPortalLibrary.Models
         public string description { get; set; }
         public string context { get; set; }
         public string version { get; set; }
+        public string type { get; set; }
         public string provider { get; set; }
-        public string status { get; set; }
+        public string lifeCycleStatus { get; set; }
+        public string avgRating { get; set; }
+        public List<string> throttlingPolicies { get; set; }
+        public AdvertiseInfo advertiseInfo { get; set; }
+        public BusinessInformation businessInformation { get; set; }
+        public bool isSubscriptionAvailable { get; set; }
+        public string monetizationLabel { get; set; }
         public bool isDefaultVersion { get; set; }
         public string thumbnailUri { get; set; }
         public List<string> transport { get; set; }
@@ -39,6 +44,8 @@ namespace APIPortalLibrary.Models
         public int total { get; set; }
         public int offset { get; set; }
         public int limit { get; set; }
+        public string next { get; set; }
+        public string previous { get; set; }
     }
 
     public class EndpointURL
@@ -60,5 +67,13 @@ namespace APIPortalLibrary.Models
         public string businessOwnerEmail { get; set; }
         public string businessOwner { get; set; }
         public string technicalOwner { get; set; }
+    }
+
+    public class AdvertiseInfo
+    {
+        public bool advertised { get; set; }
+        public string originalDevPortalUrl { get; set; }
+        public string apiOwner { get; set; }
+        public string vendor { get; set; }
     }
 }
