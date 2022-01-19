@@ -21,7 +21,7 @@ namespace APIPortalLibrary.Interfaces
 
         //Get details of an api
         [Headers("Accept:application/json")]
-        [Get("/api/am/store/v0.14/apis/{apiId}")]
+        [Get("/api/am/devportal/v2/apis/{apiId}")]
         Task<ApiResponse<API>> GetApiDetails(
             [AliasAs("apiId")] string apiId
             );
