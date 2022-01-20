@@ -11,7 +11,7 @@ namespace APIPortalLibrary.Interfaces
     {
         //Get all documents
         [Headers("Accept:application/json")]
-        [Get("/api/am/store/v0.14/apis/{apiId}/documents")]
+        [Get("/api/am/devportal/v2/apis/{apiId}/documents")]
         Task<ApiResponse<AllDocuments>> GetAllDocuments(
             [AliasAs("apiId")] string apiId,
             [AliasAs("limit")] int limit = 25,
@@ -21,7 +21,7 @@ namespace APIPortalLibrary.Interfaces
 
         //Get a document
         [Headers("Accept:application/json")]
-        [Get("/api/am/store/v0.14/apis/{apiId}/documents/{documentId}")]
+        [Get("/api/am/devportal/v2/apis/{apiId}/documents/{documentId}")]
         Task<ApiResponse<Document>> GetDocument(
             [AliasAs("apiId")] string apiId,
             [AliasAs("documentId")] string documentId,
@@ -30,7 +30,7 @@ namespace APIPortalLibrary.Interfaces
 
         //Get the content of a document
         [Headers("Accept:application/json")]
-        [Get("/api/am/store/v0.14/apis/{apiId}/documents/{documentId}/content")]
+        [Get("/api/am/devportal/v2/apis/{apiId}/documents/{documentId}/content")]
         Task<ApiResponse<string>> GetDocumentContent(
             [AliasAs("apiId")] string apiId,
             [AliasAs("documentId")] string documentId,

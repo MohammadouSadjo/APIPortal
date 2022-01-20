@@ -18,8 +18,8 @@ namespace APIPortalLibrary.Models
     public class AllDocuments
     {
         public int count { get; set; }
-        public string next { get; set; }
-        public string previous { get; set; }
         public List<Document> list { get; set; }
+        public Pagination pagination { get; set; }
     }
+
 }

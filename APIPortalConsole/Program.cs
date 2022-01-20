@@ -134,14 +134,14 @@ namespace APIPortalConsole
             //GenerateApplicationKeys();
 
             //***APIS
-            GetAllAPIs();
+            //GetAllAPIs();
             //GetAPIDetails();
             //GetSwaggerDefinition();
 
             //***DOCUMENTS
             //GetAllDocuments();
             //GetDocument();
-            //GetDocumentContent();
+            GetDocumentContent();
 
             //***SUBSCRIPTIONS
             //GetAllSubscriptions(accesstoken);
@@ -324,7 +324,7 @@ namespace APIPortalConsole
             //GET API DETAILS
             void GetAPIDetails()
             {
-                var apiId = "7d601720-3a59-467b-8595-afbbbce6d12a";
+                var apiId = "471a098b-fa90-416e-b194-51c5855e04f7";
                 var taskApiDetails = _serviceAPI.APIDetails(apiId);
 
                 ApiResponse<API> apiDetails;
@@ -343,8 +343,7 @@ namespace APIPortalConsole
                 Console.WriteLine("isdefaultversion : " + apiDetails.Content.isDefaultVersion);
                 apiDetails.Content.endpointURLs.ForEach(c => Console.WriteLine(
                     "environment Name:" + c.environmentName +
-                    "environment Type:" + c.environmentType +
-                    "environment URLs:" + c.environmentURLs.http
+                    "environment Type:" + c.environmentType 
                     ));
                 apiDetails.Content.environmentList.ForEach(c => Console.WriteLine(c));
                 Console.WriteLine(apiDetails.Content.lastUpdatedTime);
@@ -354,7 +353,7 @@ namespace APIPortalConsole
             //** GET SWAGGER DEFINITION
             void GetSwaggerDefinition()
             {
-                var apiId = "7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071";
+                var apiId = "471a098b-fa90-416e-b194-51c5855e04f7";
                 var taskSwaggerDefinition = _serviceAPI.SwaggerDefinition(apiId);
 
                 ApiResponse<string> swaggerDefinition;
@@ -463,7 +462,7 @@ namespace APIPortalConsole
             //** GET ALL DOCUMENTS
             void GetAllDocuments()
             {
-                var taskAllDocuments = _serviceDocument.AllDocuments("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071");
+                var taskAllDocuments = _serviceDocument.AllDocuments("471a098b-fa90-416e-b194-51c5855e04f7");
 
                 ApiResponse<AllDocuments> allDocuments;
 
@@ -472,7 +471,7 @@ namespace APIPortalConsole
                 Console.WriteLine("Get All Documents:");
                 Console.WriteLine("Status code : " + allDocuments.StatusCode);
                 Console.WriteLine("count : " + allDocuments.Content.count);
-                Console.WriteLine("next : " + allDocuments.Content.next);
+                Console.WriteLine("next : " + allDocuments.Content.pagination.next);
                 allDocuments.Content.list.ForEach(c =>
                 {
                     Console.WriteLine("documentId : " + c.documentId);
@@ -486,7 +485,7 @@ namespace APIPortalConsole
             //** GET A DOCUMENT FOR AN API
             void GetDocument()
             {
-                var taskDocument = _serviceDocument.GetDocument("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071", "0582a0cf-e3e7-446f-a5fe-7b6774c9f16d");
+                var taskDocument = _serviceDocument.GetDocument("471a098b-fa90-416e-b194-51c5855e04f7", "72f3b526-5cf2-497e-9b40-17b1b52533b9");
 
                 ApiResponse<Document> document;
 
@@ -503,7 +502,7 @@ namespace APIPortalConsole
             //** GET A DOCUMENT Content FOR AN API
             void GetDocumentContent()
             {
-                var taskDocumentContent = _serviceDocument.GetDocumentContent("7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071", "0582a0cf-e3e7-446f-a5fe-7b6774c9f16d");
+                var taskDocumentContent = _serviceDocument.GetDocumentContent("471a098b-fa90-416e-b194-51c5855e04f7", "72f3b526-5cf2-497e-9b40-17b1b52533b9");
 
                 ApiResponse<string> documentContent;
 

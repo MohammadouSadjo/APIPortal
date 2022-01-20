@@ -28,7 +28,7 @@ namespace APIPortalLibrary.Interfaces
 
         //Get Swagger definition
         [Headers("Accept:application/json")]
-        [Get("/api/am/store/v0.14/apis/{apiId}/swagger")]
+        [Get("/api/am/devportal/v2/apis/{apiId}/swagger")]
         Task<ApiResponse<string>> GetSwaggerDefinition(
             [AliasAs("apiId")] string apiId
             );
