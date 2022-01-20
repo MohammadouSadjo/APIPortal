@@ -20,6 +20,7 @@ namespace APIPortalLibrary.Models
         public string context { get; set; }
         public string version { get; set; }
         public string provider { get; set; }
+        public string apiDefiniton { get; set; }
         public string status { get; set; }
         public bool isDefaultVersion { get; set; }
         public string thumbnailUri { get; set; }
