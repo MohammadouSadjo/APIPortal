@@ -9,10 +9,14 @@ namespace APIPortalLibrary.Models
         public string groupId { get; set; }
         public string callbackUrl { get; set; }
         public string subscriber { get; set; }
-        public string throttlingTier { get; set; }
+        public string throttlingPolicy { get; set; }
         public string applicationId { get; set; }
         public string description { get; set; }
         public string status { get; set; }
+        public string groups { get; set; }
+        public int subscriptionCount { get; set; }
+        public string attributes { get; set; }
+        public string owner { get; set; }
         public string name { get; set; }
         public string tokenType { get; set; }
         public List<Key> keys { get; set; }
@@ -21,8 +25,7 @@ namespace APIPortalLibrary.Models
     public class AllApplications
     {
         public int count { get; set; }
-        public string next { get; set; }
-        public string previous { get; set; }
+        public Pagination pagination { get; set; }
         public List<Application> list { get; set; }
     }
 

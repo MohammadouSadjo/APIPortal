@@ -124,7 +124,7 @@ namespace APIPortalConsole
             var accesstoken = AccessToken(clientidsecret.Content.clientId, clientidsecret.Content.clientSecret);
 
             //***APPLICATIONS
-            //GetAllApplications(accesstoken);
+            GetAllApplications(accesstoken);
             //GetApplicationDetails();
             //GetApplicationKeyDetailsOfAGivenType();
             //AddApplication();
@@ -141,7 +141,7 @@ namespace APIPortalConsole
             //***DOCUMENTS
             //GetAllDocuments();
             //GetDocument();
-            GetDocumentContent();
+            //GetDocumentContent();
 
             //***SUBSCRIPTIONS
             //GetAllSubscriptions(accesstoken);
@@ -154,7 +154,7 @@ namespace APIPortalConsole
             //GET ALL APPLICATIONS
             void GetAllApplications(ApiResponse<AccessToken> accessToken)
             {
-                var query = "";
+                var query ="dep";
                 var limit = 25;
                 var offset = 0;
                 
@@ -164,7 +164,7 @@ namespace APIPortalConsole
                 Console.WriteLine("ALL APPLICATIONS");
                 Console.WriteLine("Status code : " + allApplications.StatusCode);
                 Console.WriteLine("count : " + allApplications.Content.count);
-                Console.WriteLine("next : " + allApplications.Content.next);
+                Console.WriteLine("next : " + allApplications.Content.pagination.next);
                 allApplications.Content.list.ForEach(c => {
                     Console.WriteLine("App Id : " + c.applicationId);
                     Console.WriteLine("App name : " + c.name);

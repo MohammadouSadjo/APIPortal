@@ -17,7 +17,7 @@ namespace APIPortalLibrary.Interfaces
             [AliasAs("username")] string username,
             [AliasAs("password")] string password,
             [AliasAs("grant_type")] string grant_type = "password",
-            [AliasAs("scope")] string scope = "apim:subscribe"
+            [AliasAs("scope")] string scope = "apim:subscribe apim:api_key"
             );
 
         //Get clienId and secretId

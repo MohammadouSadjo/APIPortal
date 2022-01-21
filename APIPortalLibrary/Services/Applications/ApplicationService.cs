@@ -20,6 +20,8 @@ namespace APIPortalLibrary.Services.Applications
         public async Task<ApiResponse<AllApplications>> AllApplications(string accessToken, string tokenType, int limit = 25, int offset = 0, string query = "")//Get list of all Applications
         {
             var authorization = tokenType +" "+ accessToken;
+            Console.WriteLine(authorization);
+            Console.ReadLine();
             
             try
             {

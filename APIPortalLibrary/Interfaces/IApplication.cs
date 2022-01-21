@@ -11,12 +11,12 @@ namespace APIPortalLibrary.Interfaces
     {
         //Get all applications
         [Headers("Accept:application/json")]
-        [Get("/api/am/store/v0.14/applications")]
+        [Get("/api/am/devportal/v2/applications")]
         Task<ApiResponse<AllApplications>> GetAllApplications(
             [Header("Authorization")] string authorization,
-            [AliasAs("query")] string query = "",
-            [AliasAs("limit")] int limit = 25,
-            [AliasAs("offset")] int offset = 0
+            [AliasAs("query")] string query,
+            [AliasAs("limit")] int limit,
+            [AliasAs("offset")] int offset
             );
 
         //Get details of an application
