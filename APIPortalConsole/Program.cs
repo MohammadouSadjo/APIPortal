@@ -37,7 +37,7 @@ namespace APIPortalConsole
 
             services.AddHttpClient<IAccessTokenService, AccessTokenService>(c =>
             {
-                c.BaseAddress = new Uri("http://localhost:8283");
+                c.BaseAddress = new Uri("https://localhost:9446");
 
             }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
             {

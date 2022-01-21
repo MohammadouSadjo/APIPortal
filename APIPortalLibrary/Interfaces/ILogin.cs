@@ -11,7 +11,7 @@ namespace APIPortalLibrary.Interfaces
     {
         //Get access token
         [Headers("Content-Type: application/x-www-form-urlencoded")]
-        [Post("/token")]
+        [Post("/oauth2/token")]
         Task<ApiResponse<AccessToken>> GetAccessToken(
             [Header("Authorization")] string authorization,
             [AliasAs("username")] string username,
