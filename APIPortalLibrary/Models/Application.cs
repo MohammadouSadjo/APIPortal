@@ -6,22 +6,14 @@ namespace APIPortalLibrary.Models
 {
     public class Application
     {
-        public string groupId { get; set; }
-        public string callbackUrl { get; set; }
-        public string subscriber { get; set; }
         public string throttlingPolicy { get; set; }
         public string applicationId { get; set; }
+        public string name { get; set; }
         public string description { get; set; }
         public string status { get; set; }
-        public List<string> groups { get; set; }
         public int subscriptionCount { get; set; }
-        public string attributes { get; set; }
-        public List<string> subscriptionScopes { get; set; }
         public string owner { get; set; }
-        public bool hashEnabled { get; set; }
-        public string name { get; set; }
         public string tokenType { get; set; }
-        public List<Key> keys { get; set; }
     }
 
     public class AllApplications

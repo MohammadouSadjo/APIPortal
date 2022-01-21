@@ -124,10 +124,10 @@ namespace APIPortalConsole
             var accesstoken = AccessToken(clientidsecret.Content.clientId, clientidsecret.Content.clientSecret);
 
             //***APPLICATIONS
-            GetAllApplications(accesstoken);
+            //GetAllApplications(accesstoken);
             //GetApplicationDetails();
             //GetApplicationKeyDetailsOfAGivenType();
-            //AddApplication(accesstoken);
+            AddApplication(accesstoken);
             //UpdateApplication();
             //UpdateGrantTypesAndCallbackUrl();
             //DeleteApplication();
@@ -167,7 +167,14 @@ namespace APIPortalConsole
                 Console.WriteLine("next : " + allApplications.Content.pagination.next);
                 allApplications.Content.list.ForEach(c => {
                     Console.WriteLine("App Id : " + c.applicationId);
+                    /*Console.WriteLine("Description : " + c.description);
+                    Console.WriteLine("Status : " + c.status);
+                    Console.WriteLine("SubscriptionCount : " + c.subscriptionCount);
+                    Console.WriteLine("Owner : " + c.owner);
                     Console.WriteLine("App name : " + c.name);
+                    Console.WriteLine("Token Type : " + c.tokenType);
+                    Console.WriteLine("HashEnabled : " + c.hashEnabled);*/
+                    
                 });
             }
 
@@ -179,7 +186,7 @@ namespace APIPortalConsole
 
                 Console.WriteLine("Status code: " + applicationDetails.StatusCode);
                 Console.WriteLine("Application ID : " + applicationDetails.Content.applicationId);
-                Console.WriteLine("Description : " + applicationDetails.Content.description);
+                //Console.WriteLine("Description : " + applicationDetails.Content.description);
             }
 
 
@@ -211,8 +218,7 @@ namespace APIPortalConsole
                 Console.WriteLine("Add application");
                 Console.WriteLine("Statuscode : " + addApplication.StatusCode);
                 Console.WriteLine("app id : " + addApplication.Content.applicationId);
-                Console.WriteLine("name : " + addApplication.Content.name);
-                Console.WriteLine("subscriber : " + addApplication.Content.subscriber);
+                //Console.WriteLine("name : " + addApplication.Content.name);
             }
 
             //UPDATE APPLICATION
@@ -230,8 +236,7 @@ namespace APIPortalConsole
                 Console.WriteLine("Update application");
                 Console.WriteLine("Statuscode : " + updateApplication.StatusCode);
                 Console.WriteLine("app id : " + updateApplication.Content.applicationId);
-                Console.WriteLine("name : " + updateApplication.Content.name);
-                Console.WriteLine("subscriber : " + updateApplication.Content.subscriber);
+                //Console.WriteLine("name : " + updateApplication.Content.name);
             }
 
             //UPDATE GRANTTYPES AND CALLBACK URL
