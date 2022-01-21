@@ -127,7 +127,7 @@ namespace APIPortalConsole
             GetAllApplications(accesstoken);
             //GetApplicationDetails();
             //GetApplicationKeyDetailsOfAGivenType();
-            //AddApplication();
+            //AddApplication(accesstoken);
             //UpdateApplication();
             //UpdateGrantTypesAndCallbackUrl();
             //DeleteApplication();
@@ -154,7 +154,7 @@ namespace APIPortalConsole
             //GET ALL APPLICATIONS
             void GetAllApplications(ApiResponse<AccessToken> accessToken)
             {
-                var query ="dep";
+                var query ="";
                 var limit = 25;
                 var offset = 0;
                 
@@ -200,12 +200,11 @@ namespace APIPortalConsole
             //ADD APPLICATION
             void AddApplication(ApiResponse<AccessToken> accessToken)
             {
-                var throttlingTier = "Unlimited";
+                var throttlingPolicy = "Unlimited";
                 var description = "sample app description";
                 var name = "sampleapp";
-                var callbackUrl = "";
-                var groupId = "";
-                var taskAddApplication = _serviceApplication.AddApplication(accesstoken.Content.access_token, accesstoken.Content.token_type, throttlingTier, description, name, callbackUrl, groupId);
+                var tokenType = "JWT";
+                var taskAddApplication = _serviceApplication.AddApplication(accesstoken.Content.access_token, accesstoken.Content.token_type, tokenType, throttlingPolicy, description, name);
                 ApiResponse<Application> addApplication;
                 addApplication = taskAddApplication.Result;
 

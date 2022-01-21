@@ -21,7 +21,7 @@ namespace APIPortalLibrary.Interfaces
 
         //Get details of an application
         [Headers("Accept:application/json")]
-        [Get("/api/am/store/v0.14/applications/{applicationId}")]
+        [Get("/api/am/devportal/v2/applications/{applicationId}")]
         Task<ApiResponse<Application>> GetApplicationDetails(
             [AliasAs("applicationId")] string applicationId,
             [Header("Authorization")] string authorization
@@ -39,7 +39,7 @@ namespace APIPortalLibrary.Interfaces
 
         //Add a new application
         [Headers("Content-Type: application/json")]
-        [Post("/api/am/store/v0.14/applications")]
+        [Post("/api/am/devportal/v2/applications")]
         Task<ApiResponse<Application>> AddApplication(
             [Header("Authorization")] string authorization,
             [Body] string body

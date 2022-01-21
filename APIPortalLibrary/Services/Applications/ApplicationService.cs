@@ -93,16 +93,16 @@ namespace APIPortalLibrary.Services.Applications
 
         }
 
-        public async Task<ApiResponse<Application>> AddApplication(string accessToken, string tokenType, string throttlingTier, string description, string name, string callbackUrl, string groupId)//Add a new application
+        public async Task<ApiResponse<Application>> AddApplication(string accessToken, string tokenTypeAuth, string tokenType, string throttlingPolicy, string description, string name)//Add a new application
         {
             //Set user's authorization
-            var authorization = tokenType + " " + accessToken;
+            var authorization = tokenTypeAuth + " " + accessToken;
             //set body request
-            var body = "{\"throttlingTier\": \"" + throttlingTier + "\"," +
+            var body = "{\"throttlingPolicy\": \"" + throttlingPolicy + "\"," +
                        "\"description\": \"" + description + "\"," +
                        "\"name\": \"" + name + "\"," +
-                       "\"callbackUrl\": \"" + callbackUrl + "\"," +
-                       "\"groupId\": \"" + groupId + "\"}";
+                       "\"tokenType\": \"" + tokenType + "\"" +
+                       "}";
             try
             {
                 IApplication _restApiService = RestService.For<IApplication>(_client);
