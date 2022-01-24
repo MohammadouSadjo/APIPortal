@@ -33,6 +33,7 @@ namespace APIPortalLibrary.Models
         public string lastUpdatedTime { get; set; }
         public string createdTime { get; set; }
         public List<string> scopes { get; set; }
+        public Dictionary<string, string> additionalProperties { get; set; }
     }
 
     public class Pagination

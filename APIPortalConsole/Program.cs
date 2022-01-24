@@ -147,7 +147,7 @@ namespace APIPortalConsole
 
             //***APIS
             //GetAllAPIs();
-            //GetAPIDetails();
+            GetAPIDetails();
             //GetSwaggerDefinition();
 
             //***DOCUMENTS
@@ -338,7 +338,7 @@ namespace APIPortalConsole
             //GET API DETAILS
             void GetAPIDetails()
             {
-                var apiId = "7d601720-3a59-467b-8595-afbbbce6d12a";
+                var apiId = "159c8c18-a6ee-49af-a78a-fcc4176dcffe";
                 var taskApiDetails = _serviceAPI.APIDetails(apiId);
 
                 ApiResponse<API> apiDetails;
@@ -363,6 +363,8 @@ namespace APIPortalConsole
                 apiDetails.Content.environmentList.ForEach(c => Console.WriteLine(c));
                 Console.WriteLine(apiDetails.Content.lastUpdatedTime);
                 Console.WriteLine(apiDetails.Content.createdTime);
+                Dictionary<string, string> dic = apiDetails.Content.additionalProperties;
+                Console.WriteLine(dic["PropertyOne"]);
             }
 
             //** GET SWAGGER DEFINITION
