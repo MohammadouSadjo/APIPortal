@@ -4,7 +4,6 @@ using Refit;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace APIPortalLibrary.Services.Applications
@@ -121,16 +120,16 @@ namespace APIPortalLibrary.Services.Applications
 
         }
 
-        public async Task<ApiResponse<Application>> UpdateApplication(string accessToken, string tokenType, string applicationId, string throttlingTier, string description, string name, string callbackUrl, string groupId)//Update a given application
+        public async Task<ApiResponse<Application>> UpdateApplication(string accessToken, string tokenTypeAuth, string applicationId, string tokenType, string throttlingPolicy, string description, string name)//Update a given application
         {
             //set user's authorization
-            var authorization = tokenType + " " + accessToken;
+            var authorization = tokenTypeAuth + " " + accessToken;
             //set body request
-            var body = "{\"throttlingTier\": \"" + throttlingTier + "\"," +
+            var body = "{\"throttlingPolicy\": \"" + throttlingPolicy + "\"," +
                        "\"description\": \"" + description + "\"," +
                        "\"name\": \"" + name + "\"," +
-                       "\"callbackUrl\": \"" + callbackUrl + "\"," +
-                       "\"groupId\": \"" + groupId + "\"}";
+                       "\"tokenType\": \"" + tokenType + "\"" +
+                       "}";
             try
             {
                 IApplication _restApiService = RestService.For<IApplication>(_client);
@@ -217,19 +216,33 @@ namespace APIPortalLibrary.Services.Applications
 
         }
 
-        public async Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string accessToken, string tokenType, string applicationId, int validityTime, string keyType, List<string> supportedGrantTypes)//Generate application's Keys
+        public async Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string accessToken, string tokenType, string applicationId, string keyType, string keyManager, List<string> grantTypesToBeSupported, string callbackUrl, List<string> scopes, string validityTime)//Generate application's Keys
         {
             //Set user's authorization'
             var authorization = tokenType + " " + accessToken;
             //set body request
-            var body = "{\"validityTime\": " + validityTime + "," +
+            var body = "{\"validityTime\": \"" + validityTime + "\"," +
                                                         "\"keyType\": \"" + keyType + "\"," +
-                                                        "\"accessAllowDomains\": [ \"ALL\" ]," +
-                                                        "\"scopes\": [ \"am_application_scope\", \"default\" ]," +
-                                                        "\"supportedGrantTypes\": [";
+                                                        "\"keyManager\": \"" + keyManager + "\"," +
+                                                        "\"callbackUrl\": \"" + callbackUrl + "\"," +
+                                                        "\"grantTypesToBeSupported\": [";
             var count = 1;
-            supportedGrantTypes.ForEach(c => {
-                if (count != supportedGrantTypes.Count)
+            grantTypesToBeSupported.ForEach(c => {
+                if (count != grantTypesToBeSupported.Count)
+                {
+                    body = body + "\"" + c + "\",";
+                    count = count + 1;
+                }
+                else
+                {
+                    body = body + "\"" + c + "\"";
+                }
+
+            });
+            body = body + "],";
+            body = body + "\"scopes\": [";
+            scopes.ForEach(c => {
+                if (count != scopes.Count)
                 {
                     body = body + "\"" + c + "\",";
                     count = count + 1;
@@ -241,12 +254,15 @@ namespace APIPortalLibrary.Services.Applications
 
             });
             body = body + "]}";
-            
+
             try
             {
                 IApplication _restApiService = RestService.For<IApplication>(_client);
 
                 var applicationKeys = await _restApiService.GenerateApplicationKeys(applicationId, authorization, body);
+                var json = JsonSerializer.Serialize(applicationKeys);
+                Console.WriteLine(json);
+                Console.ReadLine();
 
                 return applicationKeys;
             }

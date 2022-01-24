@@ -125,13 +125,13 @@ namespace APIPortalConsole
 
             //***APPLICATIONS
             //GetAllApplications(accesstoken);
-            //GetApplicationDetails();
+            //GetApplicationDetails(accesstoken);
             //GetApplicationKeyDetailsOfAGivenType();
-            AddApplication(accesstoken);
-            //UpdateApplication();
+            //AddApplication(accesstoken);
+            //UpdateApplication(accesstoken);
             //UpdateGrantTypesAndCallbackUrl();
-            //DeleteApplication();
-            //GenerateApplicationKeys();
+            //DeleteApplication(accesstoken);
+            GenerateApplicationKeys(accesstoken);
 
             //***APIS
             //GetAllAPIs();
@@ -181,12 +181,12 @@ namespace APIPortalConsole
             //GET APPLICATION DETAILS
             void GetApplicationDetails(ApiResponse<AccessToken> accessToken)
             {
-                var taskApplicationDetails = _serviceApplication.ApplicationDetails(accesstoken.Content.access_token, accesstoken.Content.token_type, "cb76761d-4d45-4231-8578-6f5592571c11");
+                var taskApplicationDetails = _serviceApplication.ApplicationDetails(accesstoken.Content.access_token, accesstoken.Content.token_type, "f8756046-dd42-4406-8b4d-bef8721baf6b");
                 ApiResponse<Application> applicationDetails = taskApplicationDetails.Result;
 
                 Console.WriteLine("Status code: " + applicationDetails.StatusCode);
                 Console.WriteLine("Application ID : " + applicationDetails.Content.applicationId);
-                //Console.WriteLine("Description : " + applicationDetails.Content.description);
+                Console.WriteLine("Description : " + applicationDetails.Content.description);
             }
 
 
@@ -224,12 +224,12 @@ namespace APIPortalConsole
             //UPDATE APPLICATION
             void UpdateApplication(ApiResponse<AccessToken> accessToken)
             {
-                var throttlingTier = "Unlimited";
+                var applicationId = "f8756046-dd42-4406-8b4d-bef8721baf6b";
+                var throttlingPolicy = "Unlimited";
                 var description = "sample app description";
-                var name = "sampleappUpdated";
-                var callbackUrl = "";
-                var groupId = "";
-                var taskAddApplication = _serviceApplication.UpdateApplication(accesstoken.Content.access_token, accesstoken.Content.token_type, "4da09cfb-c05c-400e-bc53-343f76727ad6", throttlingTier, description, name, callbackUrl, groupId);
+                var name = "sampleapp";
+                var tokenType = "JWT";
+                var taskAddApplication = _serviceApplication.UpdateApplication(accesstoken.Content.access_token, accesstoken.Content.token_type, applicationId, tokenType, throttlingPolicy, description, name);
                 ApiResponse<Application> updateApplication;
                 updateApplication = taskAddApplication.Result;
 
@@ -267,7 +267,7 @@ namespace APIPortalConsole
             //DELETE APPLICATION
             void DeleteApplication(ApiResponse<AccessToken> accessToken)
             {
-                var taskDeleteApplication = _serviceApplication.DeleteApplication(accesstoken.Content.access_token, accesstoken.Content.token_type, "4da09cfb-c05c-400e-bc53-343f76727ad6");
+                var taskDeleteApplication = _serviceApplication.DeleteApplication(accesstoken.Content.access_token, accesstoken.Content.token_type, "de1c0da0-a26a-47e1-bca5-b0f849be997f");
                 ApiResponse<Application> deleteApplication;
                 deleteApplication = taskDeleteApplication.Result;
 
@@ -278,28 +278,26 @@ namespace APIPortalConsole
             //GENERATE APPLICATION KEYS 
             void GenerateApplicationKeys(ApiResponse<AccessToken> accessToken)
             {
-                var validityTime = 3600;
                 var keyType = "PRODUCTION";
-                var refresh_token = "refresh_token";
-                var oauth = "urn:ietf:params:oauth:grant-type:saml2-bearer";
-                var password = "password";
-                var client_credentials = "client_credentials";
-                var iwa = "iwa:ntlm";
-                List<string> supportedGrantTypes = new List<string>();
-                supportedGrantTypes.Add(refresh_token);
-                supportedGrantTypes.Add(oauth);
-                supportedGrantTypes.Add(password);
-                supportedGrantTypes.Add(client_credentials);
-                supportedGrantTypes.Add(iwa);
-                var taskApplicationKeys = _serviceApplication.GenerateApplicationKeys(accesstoken.Content.access_token, accesstoken.Content.token_type, "a135e363-10b6-4171-8d18-0e8c89614692", validityTime, keyType, supportedGrantTypes);
+                var keyManager = "Resident Key Manager";
+                List<string> grantTypesToBeSupported = new List<string>();
+                grantTypesToBeSupported.Add("password");
+                grantTypesToBeSupported.Add("client_credentials");
+                var callbackUrl = "http://sample.com/callback/url";
+                List<string> scopes = new List<string>();
+                scopes.Add("am_application_scope");
+                scopes.Add("default");
+                var validityTime = "3600";
+                
+                var taskApplicationKeys = _serviceApplication.GenerateApplicationKeys(accesstoken.Content.access_token, accesstoken.Content.token_type, "fdbb0c13-08b2-4350-b3d8-8180cecc0566", keyType, keyManager, grantTypesToBeSupported, callbackUrl, scopes, validityTime);
 
                 ApiResponse<GenerateApplicationKeys> applicationKeys;
                 applicationKeys = taskApplicationKeys.Result;
 
                 Console.WriteLine("Status code : " + applicationKeys.StatusCode);
-                Console.WriteLine("Consumer Key : " + applicationKeys.Content.consumerKey);
-                Console.WriteLine("Consumer Secret : " + applicationKeys.Content.consumerSecret);
-                Console.WriteLine("Access Token : " + applicationKeys.Content.token.accessToken);
+                Console.WriteLine("Consumer Key : " + applicationKeys.Content.consumerSecret);
+                //Console.WriteLine("Consumer Secret : " + applicationKeys.Content.consumerSecret);
+                //Console.WriteLine("Access Token : " + applicationKeys.Content.token.accessToken);
             }
 
             //GET ALL APIS

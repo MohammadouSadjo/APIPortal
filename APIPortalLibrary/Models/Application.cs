@@ -44,12 +44,17 @@ namespace APIPortalLibrary.Models
 
     public class GenerateApplicationKeys
     {
+        //public string keyMappingId { get; set; }
+        //public string keyManager { get; set; }
+        //public string callbackUrl { get; set; }
+        //public string mode { get; set; }
         public string consumerSecret { get; set; }
-        public string consumerKey { get; set; }
-        public string keystate { get; set; }
-        public string keyType { get; set; }
-        public List<string> supportedGrantTypes { get; set; }
-        public AToken token { get; set; }
+        //public string consumerKey { get; set; }
+        //public string keyState { get; set; }
+        //public string keyType { get; set; }
+        //public List<string> supportedGrantTypes { get; set; }*/
+        //public AToken token { get; set; }
+        //public AdditionnalProperties additionnalProperties { get; set; }
     }
 
     public class AToken
@@ -57,5 +62,13 @@ namespace APIPortalLibrary.Models
         public int validityTime { get; set; }
         public string accessToken { get; set; }
         public List<string> tokenScopes { get; set; }
+    }
+
+    public class AdditionnalProperties
+    {
+        public int id_token_expiry_time { get; set; }
+        public int application_access_token_expiry_time { get; set; }
+        public int refresh_token_expiry_time { get; set; }
+        public int user_access_token_expiry_time { get; set; }
     }
 }

@@ -47,7 +47,7 @@ namespace APIPortalLibrary.Interfaces
 
         //Update an application
         [Headers("Content-Type: application/json")]
-        [Put("/api/am/store/v0.14/applications/{applicationId}")]
+        [Put("/api/am/devportal/v2/applications/{applicationId}")]
         Task<ApiResponse<Application>> UpdateApplication(
             [AliasAs("applicationId")] string applicationId,
             [Header("Authorization")] string authorization,
@@ -55,7 +55,7 @@ namespace APIPortalLibrary.Interfaces
             );
 
         //Delete an application
-        [Delete("/api/am/store/v0.14/applications/{applicationId}")]
+        [Delete("/api/am/devportal/v2/applications/{applicationId}")]
         Task<ApiResponse<Application>> DeleteApplication(
             [AliasAs("applicationId")] string applicationId,
             [Header("Authorization")] string authorization
