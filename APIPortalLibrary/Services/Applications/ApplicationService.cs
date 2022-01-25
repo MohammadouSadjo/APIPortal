@@ -65,7 +65,7 @@ namespace APIPortalLibrary.Services.Applications
 
         }
 
-        public async Task<ApiResponse<Key>> ApplicationKeyDetailsOfGivenType(string accessToken, string tokenType, string applicationId, string keyType, string groupId = "")//Get application key detals of a given type(Type of key: PRODUCTION or SANDBOX)
+        public async Task<ApiResponse<Key>> ApplicationKeyDetailsOfGivenType(string accessToken, string tokenType, string applicationId, string keyMappingId, string groupId = "")//Get application key detals of a given type(Type of key: PRODUCTION or SANDBOX)
         {
             //Set user's authorization
             var authorization = tokenType + " " + accessToken;
@@ -74,7 +74,7 @@ namespace APIPortalLibrary.Services.Applications
             {
                 IApplication _restApiService = RestService.For<IApplication>(_client);
 
-                var applicationKeyDetailsOfGivenType = await _restApiService.GetApplicationKeyDetailsOfGivenType(applicationId, keyType, authorization, groupId);
+                var applicationKeyDetailsOfGivenType = await _restApiService.GetApplicationKeyDetailsOfGivenType(applicationId, keyMappingId, authorization, groupId);
 
                 return applicationKeyDetailsOfGivenType;
             }
@@ -150,13 +150,36 @@ namespace APIPortalLibrary.Services.Applications
 
         }
 
-        public async Task<ApiResponse<Key>> UpdateGrantTypesAndCallbackUrl(string accessToken, string tokenType, string applicationId, string keyType, List<string> supportedGrantTypes, string callbackUrl)//Update grantTypes and callback url of an application
+        public async Task<ApiResponse<Key>> UpdateGrantTypesAndCallbackUrl(string accessToken, string tokenType, string applicationId, string keyMappingId, List<string> supportedGrantTypes, string callbackUrl, string keyManager, string keyState, string keyType, string mode, AToken aToken, string groupId = "")//Update grantTypes and callback url of an application
         {
             //set user's authorization
             var authorization = tokenType + " " + accessToken;
             //set body request
-            var body = "{ \"supportedGrantTypes\" : [";
-            var count = 1;
+            var body = "{" +
+                "\"keyManager\" : \"" + keyManager + "\"," +
+                "\"keyState\" : \"" + keyState + "\"," +
+                "\"keyType\" : \"" + keyType + "\"," +
+                "\"mode\" : \"" + mode + "\"," +
+                "\"groupId\" : \"" + groupId + "\"," +
+                "\"token\" : {" +
+                "\"accessToken\" : \"" + aToken.accessToken + "\"," +
+                "\"tokenScopes\" : [";
+                var count = 1;
+                aToken.tokenScopes.ForEach(c => {
+                if (count != aToken.tokenScopes.Count)
+                {
+                    body = body + "\"" + c + "\",";
+                    count = count + 1;
+                }
+                else
+                {
+                    body = body + "\"" + c + "\"";
+                }
+
+            });
+            body = body + "], \"validityTime\" : " + aToken.validityTime + "},";
+            body = body + "\"supportedGrantTypes\" : [";
+            count = 1;
             supportedGrantTypes.ForEach(c => {
                 if (count != supportedGrantTypes.Count)
                 {
@@ -175,7 +198,7 @@ namespace APIPortalLibrary.Services.Applications
             {
                 IApplication _restApiService = RestService.For<IApplication>(_client);
 
-                var updateGrantTypesAndCallbackUrl = await _restApiService.UpdateGrantTypesAndCallbackUrl(applicationId, keyType, body, authorization);
+                var updateGrantTypesAndCallbackUrl = await _restApiService.UpdateGrantTypesAndCallbackUrl(applicationId, keyMappingId, body, authorization);
 
                 return updateGrantTypesAndCallbackUrl;
             }
@@ -241,6 +264,7 @@ namespace APIPortalLibrary.Services.Applications
             });
             body = body + "],";
             body = body + "\"scopes\": [";
+            count = 1;
             scopes.ForEach(c => {
                 if (count != scopes.Count)
                 {
@@ -260,10 +284,7 @@ namespace APIPortalLibrary.Services.Applications
                 IApplication _restApiService = RestService.For<IApplication>(_client);
 
                 var applicationKeys = await _restApiService.GenerateApplicationKeys(applicationId, authorization, body);
-                var json = JsonSerializer.Serialize(applicationKeys);
-                Console.WriteLine(json);
-                Console.ReadLine();
-
+                
                 return applicationKeys;
             }
             catch (ApiException ex)

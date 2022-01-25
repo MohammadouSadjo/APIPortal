@@ -25,12 +25,15 @@ namespace APIPortalLibrary.Models
 
     public class Key
     {
+        public string keyMappingId { get; set; }
+        public string keyManager { get; set; }
         public string consumerKey { get; set; }
         public string consumerSecret { get; set; }
         public string keyState { get; set; }
         public string keyType { get; set; }
         public List<string> supportedGrantTypes { get; set; }
         public string callbackUrl { get; set; }
+        public string mode { get; set; }
         public string groupId { get; set; }
         public Token token { get; set; }
     }
@@ -44,17 +47,17 @@ namespace APIPortalLibrary.Models
 
     public class GenerateApplicationKeys
     {
-        //public string keyMappingId { get; set; }
-        //public string keyManager { get; set; }
-        //public string callbackUrl { get; set; }
-        //public string mode { get; set; }
+        public string keyMappingId { get; set; }
+        public string keyManager { get; set; }
+        public string callbackUrl { get; set; }
+        public string mode { get; set; }
         public string consumerSecret { get; set; }
-        //public string consumerKey { get; set; }
-        //public string keyState { get; set; }
-        //public string keyType { get; set; }
-        //public List<string> supportedGrantTypes { get; set; }*/
-        //public AToken token { get; set; }
-        //public AdditionnalProperties additionnalProperties { get; set; }
+        public string consumerKey { get; set; }
+        public string keyState { get; set; }
+        public string keyType { get; set; }
+        public List<string> supportedGrantTypes { get; set; }
+        public AToken token { get; set; }
+        public AdditionnalProperties additionnalProperties { get; set; }
     }
 
     public class AToken

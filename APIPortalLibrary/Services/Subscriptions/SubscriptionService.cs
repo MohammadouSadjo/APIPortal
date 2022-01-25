@@ -17,7 +17,7 @@ namespace APIPortalLibrary.Services.Subscriptions
         {
             _client = client;
         }
-        public async Task<ApiResponse<AllSubscriptions>> AllSubscriptions(string accessToken, string tokenType, string applicationId, int offset = 0, int limit = 0)//Get list of all subscription of an application
+        public async Task<ApiResponse<AllSubscriptions>> AllSubscriptions(string accessToken, string tokenType, string applicationId, int offset = 0, int limit = 0, string groupId="")//Get list of all subscription of an application
         {
             //Set user's authorization
             var authorization = tokenType + " " + accessToken;
@@ -26,7 +26,7 @@ namespace APIPortalLibrary.Services.Subscriptions
             {
                 ISubscription _restApiService = RestService.For<ISubscription>(_client);
 
-                var allSubscriptions = await _restApiService.GetAllSubscriptions(applicationId, authorization, limit, offset);
+                var allSubscriptions = await _restApiService.GetAllSubscriptions(applicationId, authorization, limit, offset, groupId);
 
                 return allSubscriptions;
             }
@@ -67,11 +67,11 @@ namespace APIPortalLibrary.Services.Subscriptions
 
         }
 
-        public async Task<ApiResponse<Subscription>> AddSubscription(string accessToken, string tokenType, string tier, string apiIdentifier, string applicationId) //Add a new subscription
+        public async Task<ApiResponse<Subscription>> AddSubscription(string accessToken, string tokenType, string throttlingPolicy, string apiId, string applicationId) //Add a new subscription
         {
             //body request
-            var body = "{\"tier\": \"" + tier + "\"," +
-                       "\"apiIdentifier\": \"" + apiIdentifier + "\"," +
+            var body = "{\"throttlingPolicy\": \"" + throttlingPolicy + "\"," +
+                       "\"apiId\": \"" + apiId + "\"," +
                        "\"applicationId\": \"" + applicationId + "\"}";
             //Set user's authorization
             var authorization = tokenType + " " + accessToken;

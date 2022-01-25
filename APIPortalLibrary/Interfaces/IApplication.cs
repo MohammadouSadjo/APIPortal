@@ -29,10 +29,10 @@ namespace APIPortalLibrary.Interfaces
 
         //Get application key details of a given type(key type)
         [Headers("Accept:application/json")]
-        [Get("/api/am/store/v0.14/applications/{applicationId}/keys/{keyType}")]
+        [Get("/api/am/devportal/v2/applications/{applicationId}/oauth-keys/{keyMappingId}")]
         Task<ApiResponse<Key>> GetApplicationKeyDetailsOfGivenType(
             [AliasAs("applicationId")] string applicationId,
-            [AliasAs("keyType")] string keyType,
+            [AliasAs("keyMappingId")] string keyMappingId,
             [Header("Authorization")] string authorization,
             [AliasAs("groupId")] string group_id = ""
             );
@@ -63,7 +63,7 @@ namespace APIPortalLibrary.Interfaces
 
         //Generate application keys
         [Headers("Content-Type: application/json")]
-        [Post("/api/am/store/v0.14/applications/generate-keys")]
+        [Post("/api/am/devportal/v2/applications/{applicationId}/generate-keys")]
         Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(
             [AliasAs("applicationId")] string applicationId,
             [Header("Authorization")] string authorization,
@@ -72,10 +72,10 @@ namespace APIPortalLibrary.Interfaces
 
         //Update grantTypes and call back url of an application
         [Headers("Content-Type: application/json")]
-        [Put("/api/am/store/v0.14/applications/{applicationId}/keys/{keyType}")]
+        [Put("/api/am/devportal/v2/applications/{applicationId}/oauth-keys/{keyMappingId}")]
         Task<ApiResponse<Key>> UpdateGrantTypesAndCallbackUrl(
             [AliasAs("applicationId")] string applicationId,
-            [AliasAs("keyType")] string keyType,
+            [AliasAs("keyMappingId")] string keyMappingId,
             [Body] string body,
             [Header("Authorization")] string authorization
             );

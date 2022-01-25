@@ -126,12 +126,12 @@ namespace APIPortalConsole
             //***APPLICATIONS
             //GetAllApplications(accesstoken);
             //GetApplicationDetails(accesstoken);
-            //GetApplicationKeyDetailsOfAGivenType();
+            //GetApplicationKeyDetailsOfAGivenType(accesstoken);
             //AddApplication(accesstoken);
             //UpdateApplication(accesstoken);
-            //UpdateGrantTypesAndCallbackUrl();
+            //UpdateGrantTypesAndCallbackUrl(accesstoken);
             //DeleteApplication(accesstoken);
-            GenerateApplicationKeys(accesstoken);
+            //GenerateApplicationKeys(accesstoken);
 
             //***APIS
             //GetAllAPIs();
@@ -148,7 +148,7 @@ namespace APIPortalConsole
             //GetSubscriptionDetails(accesstoken);
             //AddSubscription(accesstoken);
             //AddSubscriptionMultiple(accesstoken);
-            //DeleteSubscription(accesstoken);
+            DeleteSubscription(accesstoken);
 
 
             //GET ALL APPLICATIONS
@@ -193,7 +193,7 @@ namespace APIPortalConsole
             //GET APPLICATION KEY DETAILS OF A GIVEN TYPE
             void GetApplicationKeyDetailsOfAGivenType(ApiResponse<AccessToken> accessToken)
             {
-                var taskApplicationKeyDetailsOfGivenType = _serviceApplication.ApplicationKeyDetailsOfGivenType(accesstoken.Content.access_token, accesstoken.Content.token_type, "cb76761d-4d45-4231-8578-6f5592571c11", "PRODUCTION");
+                var taskApplicationKeyDetailsOfGivenType = _serviceApplication.ApplicationKeyDetailsOfGivenType(accesstoken.Content.access_token, accesstoken.Content.token_type, "6dee7791-02e9-415c-907d-882839e38537", "411597d6-da15-446e-96a9-d179313e2c8c");
 
                 ApiResponse<Key> applicationKeyDetailsOfGivenType;
                 applicationKeyDetailsOfGivenType = taskApplicationKeyDetailsOfGivenType.Result;
@@ -254,7 +254,21 @@ namespace APIPortalConsole
                 supportedGrantTypes.Add(client_credentials);
                 supportedGrantTypes.Add(iwa);
                 var callbackUrl = "http://sample/com/callback";
-                var taskUpdateGrantTypesAndCallbackUrl = _serviceApplication.UpdateGrantTypesAndCallbackUrl(accesstoken.Content.access_token, accesstoken.Content.token_type, "cb76761d-4d45-4231-8578-6f5592571c11", "SANDBOX", supportedGrantTypes, callbackUrl);
+                var keyManager = "Resident Key Manager";
+                var keyState = "APPROVED";
+                var keyType = "PRODUCTION";
+                var mode = "CREATED";
+                AToken aToken = new AToken();
+                aToken.accessToken = "1.2345678901234568e+30";
+                aToken.validityTime = 3600;
+                List<string> list = new List<string>();
+                list.Add("default");
+                list.Add("read_api");
+                list.Add("write_api");
+
+                aToken.tokenScopes = list;
+                
+                var taskUpdateGrantTypesAndCallbackUrl = _serviceApplication.UpdateGrantTypesAndCallbackUrl(accesstoken.Content.access_token, accesstoken.Content.token_type, "6dee7791-02e9-415c-907d-882839e38537", "411597d6-da15-446e-96a9-d179313e2c8c", supportedGrantTypes, callbackUrl, keyManager, keyState, keyType, mode, aToken);
                 ApiResponse<Key> updateGrantTypesAndUrl;
                 updateGrantTypesAndUrl = taskUpdateGrantTypesAndCallbackUrl.Result;
 
@@ -289,7 +303,7 @@ namespace APIPortalConsole
                 scopes.Add("default");
                 var validityTime = "3600";
                 
-                var taskApplicationKeys = _serviceApplication.GenerateApplicationKeys(accesstoken.Content.access_token, accesstoken.Content.token_type, "fdbb0c13-08b2-4350-b3d8-8180cecc0566", keyType, keyManager, grantTypesToBeSupported, callbackUrl, scopes, validityTime);
+                var taskApplicationKeys = _serviceApplication.GenerateApplicationKeys(accesstoken.Content.access_token, accesstoken.Content.token_type, "c4b3c60c-9e0c-4b75-8337-19074c734bcc", keyType, keyManager, grantTypesToBeSupported, callbackUrl, scopes, validityTime);
 
                 ApiResponse<GenerateApplicationKeys> applicationKeys;
                 applicationKeys = taskApplicationKeys.Result;
@@ -370,19 +384,18 @@ namespace APIPortalConsole
             //** GET ALL SUBSCRIPTIONS
             void GetAllSubscriptions(ApiResponse<AccessToken> accessToken)
             {
-                var taskAllSubscriptions = _serviceSubscription.AllSubscriptions(accesstoken.Content.access_token, accesstoken.Content.token_type, "aa2a068c-a007-498a-93a9-036d73c04281", 25, 0);
+                var taskAllSubscriptions = _serviceSubscription.AllSubscriptions(accesstoken.Content.access_token, accesstoken.Content.token_type, "6dee7791-02e9-415c-907d-882839e38537", 25, 0);
 
                 ApiResponse<AllSubscriptions> allSubscriptions;
 
                 allSubscriptions = taskAllSubscriptions.Result;
 
+                Console.WriteLine("Status code : " + allSubscriptions.StatusCode);
                 Console.WriteLine("Count : " + allSubscriptions.Content.count);
-                Console.WriteLine("next : " + allSubscriptions.Content.next);
-                Console.WriteLine("previous : " + allSubscriptions.Content.previous);
                 allSubscriptions.Content.list.ForEach(c => Console.WriteLine(
-                    "API Identifier : " + c.apiIdentifier +
+                    "API Identifier : " + c.subscriptionId +
                     "Application Id : " + c.applicationId +
-                    "tier : " + c.tier +
+                    "tier : " + c.apiId +
                     "Status : " + c.status
                     ));
             }
@@ -390,33 +403,32 @@ namespace APIPortalConsole
             //** GET SUBSCRIPTION DETAILS 
             void GetSubscriptionDetails(ApiResponse<AccessToken> accessToken)
             {
-                var taskSubscriptionDetails = _serviceSubscription.SubscriptionDetails(accesstoken.Content.access_token, accesstoken.Content.token_type, "a60d695c-0251-48dc-8417-710ab304fcdb");
+                var taskSubscriptionDetails = _serviceSubscription.SubscriptionDetails(accesstoken.Content.access_token, accesstoken.Content.token_type, "11332a11-8b90-4dbf-a5da-704da67578ea");
 
                 ApiResponse<Subscription> subscriptionDetails;
 
                 subscriptionDetails = taskSubscriptionDetails.Result;
                 Console.WriteLine("Subs Details : ");
                 Console.WriteLine("Status code: " + subscriptionDetails.StatusCode);
-                Console.WriteLine("API identifier : " + subscriptionDetails.Content.apiIdentifier);
+                Console.WriteLine("API identifier : " + subscriptionDetails.Content.apiId);
                 Console.WriteLine("App ID : " + subscriptionDetails.Content.applicationId);
                 Console.WriteLine("SubscriptionId : " + subscriptionDetails.Content.subscriptionId);
-                Console.WriteLine("tier : " + subscriptionDetails.Content.tier);
+                Console.WriteLine("tier : " + subscriptionDetails.Content.throttlingPolicy);
                 Console.WriteLine("Status : " + subscriptionDetails.Content.status);
             }
 
             //** ADD SUBSCRIPTION
             void AddSubscription(ApiResponse<AccessToken> accessToken)
             {
-                var tier = "Gold";
-                var apiIdentifier = "7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071";
-                var applicationId = "aa2a068c-a007-498a-93a9-036d73c04281";
-                var taskAddSubscription = _serviceSubscription.AddSubscription(accesstoken.Content.access_token, accesstoken.Content.token_type, tier, apiIdentifier, applicationId);
+                var throttlingPolicy = "Unlimited";
+                var apiId = "471a098b-fa90-416e-b194-51c5855e04f7";
+                var applicationId = "6dee7791-02e9-415c-907d-882839e38537";
+                var taskAddSubscription = _serviceSubscription.AddSubscription(accesstoken.Content.access_token, accesstoken.Content.token_type, throttlingPolicy, apiId, applicationId);
 
                 ApiResponse<Subscription> addSubscription;
                 addSubscription = taskAddSubscription.Result;
                 Console.WriteLine("ADD SUBSCRIPTION");
-                Console.WriteLine("Status code: " + addSubscription.StatusCode);
-                Console.ReadLine();
+                Console.WriteLine("Status code: " + addSubscription.StatusCode);Console.ReadLine();
                 Console.WriteLine("Subscription ID : " + addSubscription.Content.subscriptionId);
                 Console.WriteLine("application ID : " + addSubscription.Content.subscriptionId);
                 Console.WriteLine("application identifier : " + addSubscription.Content.subscriptionId);
@@ -430,9 +442,9 @@ namespace APIPortalConsole
             {
                 Subscription sub = new Subscription();
                 List<Subscription> listSub = new List<Subscription>();
-                sub.apiIdentifier = "7c4c14bf-a7fc-48b4-84b3-b0a8b76c0071";
-                sub.applicationId = "aa2a068c-a007-498a-93a9-036d73c04281";
-                sub.tier = "Gold";
+                sub.apiId = "471a098b-fa90-416e-b194-51c5855e04f7";
+                sub.applicationId = "6dee7791-02e9-415c-907d-882839e38537";
+                sub.throttlingPolicy = "Unlimited";
                 listSub.Add(sub);
 
                 var taskAddSubscriptionMultiple = _serviceSubscription.AddSubscriptionMultiple(accesstoken.Content.access_token, accesstoken.Content.token_type, listSub);
@@ -443,9 +455,9 @@ namespace APIPortalConsole
                 Console.WriteLine("StatusCode : " + addSubscriptionMultiple.StatusCode);
                 addSubscriptionMultiple.Content.ForEach(c =>
                 {
-                    Console.WriteLine("subsId : " + c.apiIdentifier);
+                    Console.WriteLine("subsId : " + c.apiId);
                     Console.WriteLine("appId : " + c.applicationId);
-                    Console.WriteLine("appIden : " + c.apiIdentifier);
+                    Console.WriteLine("appIden : " + c.throttlingPolicy);
                 }
                 );
             }
@@ -453,7 +465,7 @@ namespace APIPortalConsole
             //** DELETE SUBSCRIPTION
             void DeleteSubscription(ApiResponse<AccessToken> accessToken)
             {
-                var taskDeleteSubscription = _serviceSubscription.DeleteSubscription(accesstoken.Content.access_token, accesstoken.Content.token_type, "fd28dc40-cb7c-4035-a44c-5b5cec8b49d3");
+                var taskDeleteSubscription = _serviceSubscription.DeleteSubscription(accesstoken.Content.access_token, accesstoken.Content.token_type, "11332a11-8b90-4dbf-a5da-704da67578ea");
 
                 ApiResponse<Subscription> deleteSubscription;
                 deleteSubscription = taskDeleteSubscription.Result;
