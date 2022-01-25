@@ -148,7 +148,7 @@ namespace APIPortalConsole
             //GetSubscriptionDetails(accesstoken);
             //AddSubscription(accesstoken);
             //AddSubscriptionMultiple(accesstoken);
-            DeleteSubscription(accesstoken);
+            //DeleteSubscription(accesstoken);
 
 
             //GET ALL APPLICATIONS
