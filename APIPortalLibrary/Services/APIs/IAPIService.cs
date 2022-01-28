@@ -12,5 +12,6 @@ namespace APIPortalLibrary.Services.APIs
         Task<ApiResponse<AllApis>> AllApis(int limit = 25, int offset = 0, string query = "");//Get all APIs
         Task<ApiResponse<API>> APIDetails(string apiId);//Get API Details
         Task<ApiResponse<string>> SwaggerDefinition(string apiId);//Get Swagger definition of an API
+        void SetBaseAdress(Uri uri);
     }
 }

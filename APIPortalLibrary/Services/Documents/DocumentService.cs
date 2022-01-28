@@ -17,6 +17,10 @@ namespace APIPortalLibrary.Services.Documents
         {
             _client = client;
         }
+        public void SetBaseAdress(Uri uri)
+        {
+            _client.BaseAddress = uri;
+        }
         public async Task<ApiResponse<AllDocuments>> AllDocuments(string apiId, int limit = 25, int offset = 0, string tenant = "")//Get all documents of a given API
         {
             try

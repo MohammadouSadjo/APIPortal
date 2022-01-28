@@ -14,5 +14,6 @@ namespace APIPortalLibrary.Services.Subscriptions
         Task<ApiResponse<Subscription>> AddSubscription(string accessToken, string tokenType, string tier, string apiIdentifier, string applicationId);//Add subscription
         Task<ApiResponse<List<Subscription>>> AddSubscriptionMultiple(string accessToken, string tokenType, List<Subscription> Subscriptions);//Add multiple subscriptions
         Task<ApiResponse<Subscription>> DeleteSubscription(string accessToken, string tokenType, string subscriptionId);//Delete subscription
+        void SetBaseAdress(Uri uri);
     }
 }

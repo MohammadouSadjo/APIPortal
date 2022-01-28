@@ -18,6 +18,11 @@ namespace APIPortalLibrary.Services.Tags
             _client = client;
         }
 
+        public void SetBaseAdress(Uri uri)
+        {
+            _client.BaseAddress = uri;
+        }
+
         public async Task<ApiResponse<AllTags>> Alltags(int limit = 25, int offset = 0)//Get List of all Tags
         {
             try

@@ -17,5 +17,6 @@ namespace APIPortalLibrary.Services.Applications
         Task<ApiResponse<Key>> UpdateGrantTypesAndCallbackUrl(string accessToken, string tokenType, string applicationId, string keyType, List<string> supportedGrantTypes, string callbackUrl);//Update grantTypes and Callback url of an application
         Task<ApiResponse<Application>> DeleteApplication(string accessToken, string tokenType, string applicationId);//Delete an application
         Task<ApiResponse<GenerateApplicationKeys>> GenerateApplicationKeys(string accessToken, string tokenType, string applicationId, int validityTime, string keyType, List<string> supportedGrantTypes);//Generate application keys
+        void SetBaseAdress(Uri uri);
     }
 }

@@ -17,6 +17,11 @@ namespace APIPortalLibrary.Services.Login
         {
             _client = client;
         }
+
+        public void SetBaseAdress(Uri uri)
+        {
+            _client.BaseAddress = uri;
+        }
         public async Task<ApiResponse<AccessToken>> AccessToken(string username, string password, string clientId, string clientSecret)//Get access token ofa user by passing his clientId and SecretId
         {
             ILogin _restApiService = RestService.For<ILogin>(_client);

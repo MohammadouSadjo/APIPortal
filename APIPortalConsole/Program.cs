@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
+using APIPortalLibrary.Services;
 using APIPortalLibrary.Services.Applications;
 using APIPortalLibrary.Services.Login;
 using APIPortalLibrary.Services.APIs;
@@ -110,6 +111,8 @@ namespace APIPortalConsole
                 string owner = "admin";
                 string grantType = "password refresh_token";
                 bool saasApp = true;
+
+                _serviceClientIdAndSecret.SetBaseAdress(new Uri("https://test"));
                 var taskClientIDSecret = _serviceClientIdAndSecret.ClientIDSecret(username, password, callbackUrl,clientName,owner,grantType,saasApp);
 
                 ApiResponse<ClientIDAndSecret> clientIDSecret;
@@ -147,7 +150,7 @@ namespace APIPortalConsole
 
             //***APIS
             //GetAllAPIs();
-            GetAPIDetails();
+            //GetAPIDetails();
             //GetSwaggerDefinition();
 
             //***DOCUMENTS

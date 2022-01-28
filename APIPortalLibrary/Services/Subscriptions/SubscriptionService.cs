@@ -17,6 +17,11 @@ namespace APIPortalLibrary.Services.Subscriptions
         {
             _client = client;
         }
+
+        public void SetBaseAdress(Uri uri)
+        {
+            _client.BaseAddress = uri;
+        }
         public async Task<ApiResponse<AllSubscriptions>> AllSubscriptions(string accessToken, string tokenType, string applicationId, int offset = 0, int limit = 0)//Get list of all subscription of an application
         {
             //Set user's authorization

@@ -17,6 +17,10 @@ namespace APIPortalLibrary.Services.APIs
         {
             _client = client;
         }
+        public void SetBaseAdress(Uri uri)
+        {
+            _client.BaseAddress = uri;
+        }
         public async Task<ApiResponse<AllApis>> AllApis(int limit = 25, int offset = 0, string query = "")//Get List of all APIs
         {
             try
